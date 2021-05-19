@@ -1,0 +1,29 @@
+﻿<Page
+    x:Class="SpeechTrainer.UWP.Training.TrainingStart.View.TrainingStart"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:iCore="using:Microsoft.Xaml.Interactions.Core"
+    
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Margin="20,60,0,0" Text="Отработка регламента переговоров" Style="{StaticResource HeaderTextBlockStyle}" Visibility="Collapsed"/>
+        <ScrollViewer Grid.Row="1">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button Content="Начать тренировку" Style="{StaticResource AccentButtonStyle}" HorizontalAlignment="Center" Width="300" Height="74" FontSize="24"
+                        Click="TrainingRun_OnClick"
+                        Command="{Binding DialogCommand}"/>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+
+</Page>

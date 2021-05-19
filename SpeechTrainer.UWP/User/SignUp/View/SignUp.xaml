@@ -1,0 +1,46 @@
+﻿<Page
+    x:Class="SpeechTrainer.UWP.User.SignUp.View.SignUp"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    
+    
+    
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <ScrollViewer>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,40">
+                <TextBlock Text="Создание профиля" Style="{StaticResource HeaderTextBlockStyle}"/>
+                <TextBlock Foreground="Red" Text="Заполните все поля"/>
+                           <!--Visibility="{x:Bind ViewModel.ShowError, Mode=OneWay, 
+                Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}}"-->
+                           
+                <TextBox Margin="0,20,0,0" Header="Введите свое имя:" PlaceholderText="Иван" /><!--Text="{x:Bind ViewModel.FirstName, Mode=TwoWay}"-->
+                <TextBox Margin="0,16,0,0" Header="Введите свою фамилию:" PlaceholderText="Диденко" /><!--Text="{x:Bind ViewModel.SecondName, Mode=TwoWay}"-->
+                <TextBox Margin="0,16,0,0" Header="Введите название учебной группы:" PlaceholderText="БПИ-411" /><!--Text="{x:Bind ViewModel.SecondName, Mode=TwoWay}"-->
+
+                <Button Content="Создать и войти" 
+                        Height="40"
+                        Margin="0,16,0,0"
+                        HorizontalAlignment="Right"
+                        Click="ToNavigationPage_OnClick"/>
+                        <!--Command="{x:Bind ViewModel.CreateProfileCommand}"-->
+                
+            </StackPanel>
+        </ScrollViewer>
+
+        <StackPanel Orientation="Horizontal"
+                    VerticalAlignment="Bottom"
+                    HorizontalAlignment="Center">
+            <TextBlock Text="Уже есть профиль?" TextAlignment="Center" 
+                       VerticalAlignment="Center"
+                       Margin="0,0,12,0"/>
+            <HyperlinkButton Content="Вернуться на экран входа"
+                             Click="ToSignIn_OnClick"/>
+
+        </StackPanel>
+    </Grid>
+</Page>
