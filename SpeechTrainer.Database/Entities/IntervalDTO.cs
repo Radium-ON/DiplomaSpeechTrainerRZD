@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SpeechTrainer.Database.Entityes
+namespace SpeechTrainer.Database.Entities
 {
     public class IntervalDTO
     {

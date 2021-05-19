@@ -4,7 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using SpeechTrainer.Database.Entityes;
+using SpeechTrainer.Database.Entities;
 
 namespace SpeechTrainer.Database.Database
 {

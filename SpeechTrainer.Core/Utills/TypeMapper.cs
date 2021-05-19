@@ -1,7 +1,7 @@
 ﻿using SpeechTrainer.Core.Model;
 using System.Collections.Generic;
 using System.Linq;
-using SpeechTrainer.Database.Entityes;
+using SpeechTrainer.Database.Entities;
 
 namespace SpeechTrainer.Core.Utills
 {

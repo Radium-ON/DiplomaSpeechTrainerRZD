@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SpeechTrainer.Database.Entityes
+namespace SpeechTrainer.Database.Entities
 {
     public class ProfileDTO
     {
