@@ -3,12 +3,12 @@ using System.Threading.Tasks;
 
 namespace SpeechTrainer.Database.Database
 {
-    public interface IDataBaseTask<T, V> : IDatabase<T, V>
+    public interface IDataBaseTask<T, TV> : IDatabase<T, TV>
     {
         Task<List<T>> GetTaskByProfile(int idProfile);
-        Task<V> Create(int idProfile, T newObject);
+        Task<TV> Create(int idProfile, T newObject);
 
-        Task<V> CloseTask(int idTask, bool isClosed);
+        Task<TV> CloseTask(int idTask, bool isClosed);
 
     }
 }

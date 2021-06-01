@@ -16,22 +16,22 @@ namespace SpeechTrainer.Database.Database
         {
             client = DatabaseConnection.Source;
         }
-        public Task<List<IntervalDTO>> SelectAll()
+        public Task<List<IntervalDTO>> SelectAllAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<IntervalDTO> SelectById(int id)
+        public Task<IntervalDTO> SelectByIdAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> Update(IntervalDTO newObject)
+        public Task<bool> UpdateAsync(IntervalDTO newObject)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
             var command = $"DELETE [Task_Interval] WHERE ID = @ID";
             try

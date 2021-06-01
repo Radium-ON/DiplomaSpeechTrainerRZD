@@ -17,7 +17,7 @@ namespace SpeechTrainer.Database.Database
             client = DatabaseConnection.Source;
         }
 
-        public async Task<List<ProfileDTO>> SelectAll()
+        public async Task<List<ProfileDTO>> SelectAllAsync()
         {
             var command = "SELECT * FROM Profile";
             List<ProfileDTO> profiles = new List<ProfileDTO>();
@@ -51,7 +51,7 @@ namespace SpeechTrainer.Database.Database
             }
         }
 
-        public async Task<ProfileDTO> SelectById(int idObject)
+        public async Task<ProfileDTO> SelectByIdAsync(int idObject)
         {
             string commandSelectById = "SELECT * FROM Profile WHERE ID = @ID";
             ProfileDTO profile = new ProfileDTO();
@@ -91,7 +91,7 @@ namespace SpeechTrainer.Database.Database
             }
         }
 
-        public async Task<bool> Update(ProfileDTO newObject)
+        public async Task<bool> UpdateAsync(ProfileDTO newObject)
         {
             string updateCommand =
                 "UPDATE Profile SET FirstName='@FirstName', SecondName='@SecondName' " +
@@ -128,7 +128,7 @@ namespace SpeechTrainer.Database.Database
             }
         }
 
-        public Task<bool> Delete(int id)
+        public Task<bool> DeleteAsync(int id)
         {
             throw new NotImplementedException();
         }

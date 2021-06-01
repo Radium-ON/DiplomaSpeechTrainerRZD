@@ -3,11 +3,11 @@ using System.Threading.Tasks;
 
 namespace SpeechTrainer.Database.Database
 {
-    public interface IDatabase<T, V>
+    public interface IDatabase<T, TV>
     {
-        Task<List<T>> SelectAll();
-        Task<T> SelectById(int id);
-        Task<V> Update(T newObject);
-        Task<V> Delete(int id);
+        Task<List<T>> SelectAllAsync();
+        Task<T> SelectByIdAsync(int id);
+        Task<TV> UpdateAsync(T newObject);
+        Task<TV> DeleteAsync(int id);
     }
 }

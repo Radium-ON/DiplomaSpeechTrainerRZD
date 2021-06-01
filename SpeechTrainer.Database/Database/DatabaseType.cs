@@ -16,7 +16,7 @@ namespace SpeechTrainer.Database.Database
             client = DatabaseConnection.Source;
         }
 
-        public async Task<List<TypeDTO>> SelectAll()
+        public async Task<List<TypeDTO>> SelectAllAsync()
         {
             var command = "SELECT * FROM [Type]";
 
@@ -47,7 +47,7 @@ namespace SpeechTrainer.Database.Database
             }
         }
 
-        public async Task<TypeDTO> SelectById(int idObject)
+        public async Task<TypeDTO> SelectByIdAsync(int idObject)
         {
             string commandSelectById = $"SELECT * FROM [Type] WHERE [Type].ID = @ID"; 
             var type = new TypeDTO();
@@ -79,7 +79,7 @@ namespace SpeechTrainer.Database.Database
             }
         }
 
-        public async Task<bool> Update(TypeDTO newObject)
+        public async Task<bool> UpdateAsync(TypeDTO newObject)
         {
             string updateCommand =
                 $"UPDATE [Type] SET Title='{newObject.Title}' " +
@@ -112,7 +112,7 @@ namespace SpeechTrainer.Database.Database
             }
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
             string commandDelete = $"DELETE Type_Task WHERE IDType = @ID; DELETE [Type] WHERE ID = @ID";
             try

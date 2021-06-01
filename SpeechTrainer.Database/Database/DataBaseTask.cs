@@ -16,7 +16,7 @@ namespace SpeechTrainer.Database.Database
             client = DatabaseConnection.Source;
         }
 
-        public async Task<List<TaskEntityDTO>> SelectAll()
+        public async Task<List<TaskEntityDTO>> SelectAllAsync()
         {
             var command = "SELECT * FROM Task WHERE IsClosed = 0";
             var tasks = new List<TaskEntityDTO>();
@@ -62,7 +62,7 @@ namespace SpeechTrainer.Database.Database
             }
         }
 
-        public async Task<TaskEntityDTO> SelectById(int idObject)
+        public async Task<TaskEntityDTO> SelectByIdAsync(int idObject)
         {
             string commandSelect = $"SELECT * FROM Task WHERE ID = @ID";
             var task = new TaskEntityDTO();
@@ -153,7 +153,7 @@ namespace SpeechTrainer.Database.Database
             }
         }
 
-        public async Task<bool> Update(TaskEntityDTO newObject)
+        public async Task<bool> UpdateAsync(TaskEntityDTO newObject)
         {
             var isClosed = newObject.IsClosed ? 1 : 0;
             string updateCommand = "UPDATE Task " +
@@ -204,7 +204,7 @@ namespace SpeechTrainer.Database.Database
             }
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
             string commandDelete = $"DELETE Type_Task WHERE IDTask = @ID; DELETE Task WHERE Task.ID = @ID";
             try
