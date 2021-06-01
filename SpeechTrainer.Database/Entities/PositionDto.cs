@@ -20,7 +20,7 @@ namespace SpeechTrainer.Database.Entities
             Responsibilities = responsibilities;
         }
         
-        public PositionDto(int id, string startTime, string finishTime, string responsibilities): this(startTime, finishTime, responsibilities)
+        public PositionDto(int id, string shortName, string fullPosition, string responsibilities): this(shortName, fullPosition, responsibilities)
         {
             Id = id;
         }
