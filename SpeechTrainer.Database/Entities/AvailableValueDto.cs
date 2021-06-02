@@ -7,23 +7,25 @@ namespace SpeechTrainer.Database.Entities
     public class AvailableValueDto
     {
         public int Id { get; private set; }
-        public ParameterTypeDto ParameterType{ get; private set; }
+        public int ParmTypeId { get; private set; }
+        public ParameterTypeDto ParameterType { get; private set; }
         public string Value { get; private set; }
 
-        public AvailableValueDto(int id)
+        public AvailableValueDto(int id, int parmTypeIdId)
         {
             Id = id;
+            ParmTypeId = parmTypeIdId;
         }
 
-        public AvailableValueDto(int id, ParameterTypeDto parameterType, string value): this(id)
+        public AvailableValueDto(int id, int parameterTypeId, string value) : this(parameterTypeId, value)
         {
-            ParameterType = parameterType;
+            ParmTypeId = parameterTypeId;
             Value = value;
         }
-        
-        public AvailableValueDto(ParameterTypeDto parameterType, string value)
+
+        public AvailableValueDto(int parameterType, string value)
         {
-            ParameterType = parameterType;
+            ParmTypeId = parameterType;
             Value = value;
         }
 
