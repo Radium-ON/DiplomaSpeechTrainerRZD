@@ -29,6 +29,10 @@ namespace SpeechTrainer.Database.Entities
             Value = value;
         }
 
+        public AvailableValueDto()
+        {
+        }
+
         public void SetParameterType(ParameterTypeDto parameterType)
         {
             ParameterType = parameterType;

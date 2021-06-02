@@ -51,7 +51,7 @@ namespace SpeechTrainer.Database.Database
             }
             catch (Exception exception)
             {
-                Debug.WriteLine("[DatabaseParameterType.SelectAllAsync()] Error: " + exception.Message);
+                Debug.WriteLine("[DatabaseAvailableValue.SelectAllAsync()] Error: " + exception.Message);
                 _client.CloseConnection();
                 return null;
             }
@@ -61,9 +61,41 @@ namespace SpeechTrainer.Database.Database
             }
         }
 
-        public async Task<AvailableValueDto> SelectByIdAsync(int id)
+        public async Task<AvailableValueDto> SelectByIdAsync(int idObject)
         {
-            return null;
+            var command = "SELECT * FROM AvailableValue WHERE Id = @ID";
+            var availValue = new AvailableValueDto();
+            try
+            {
+                using (var cmd = new SqlCommand(command, _client.OpenConnection()))
+                {
+                    cmd.Parameters.AddWithValue("@ID", idObject);
+                    var dataReader = await cmd.ExecuteReaderAsync();
+                    while (dataReader.Read())
+                    {
+                        var id = dataReader.GetInt32(0);
+                        var value = dataReader.GetString(1);
+                        var parmTypeId = dataReader.GetInt32(2);
+
+                        availValue = new AvailableValueDto(id, parmTypeId, value);
+                    }
+                }
+
+                availValue.SetParameterType(await GetTypeForValueAsync(availValue.ParmTypeId));
+
+                _client.CloseConnection();
+                return availValue;
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine("[DatabaseAvailableValue.SelectByIdAsync()] Error: " + exception.Message);
+                _client.CloseConnection();
+                return null;
+            }
+            finally
+            {
+                _client.CloseConnection();
+            }
         }
 
         public async Task<bool> UpdateAsync(AvailableValueDto newObject)
@@ -98,7 +130,7 @@ namespace SpeechTrainer.Database.Database
                         var id = dataReader.GetInt32(0);
                         var value = dataReader.GetString(1);
 
-                        var availValue = new AvailableValueDto(id, null, value);
+                        var availValue = new AvailableValueDto(id, idParameterType, value);
                         values.Add(availValue);
                     }
                 }
