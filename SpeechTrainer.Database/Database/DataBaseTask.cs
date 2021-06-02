@@ -11,10 +11,10 @@ namespace SpeechTrainer.Database.Database
 {
     public class DatabaseTask : IDataBaseTask<TaskEntityDTO, bool>
     {
-        private readonly DatabaseConnection client;
+        private readonly DatabaseConnection _client;
         public DatabaseTask()
         {
-            client = DatabaseConnection.Source;
+            _client = DatabaseConnection.Source;
         }
 
         public async Task<List<TaskEntityDTO>> SelectAllAsync()
@@ -23,7 +23,7 @@ namespace SpeechTrainer.Database.Database
             var tasks = new List<TaskEntityDTO>();
             try
             {
-                using (SqlCommand cmd = new SqlCommand(command, client.OpenConnection()))
+                using (SqlCommand cmd = new SqlCommand(command, _client.OpenConnection()))
                 {
                     SqlDataReader dataReader = await cmd.ExecuteReaderAsync();
                     while (dataReader.Read())
@@ -48,18 +48,18 @@ namespace SpeechTrainer.Database.Database
                     task.SetIntervals(await GetIntervalsTask(task.Id));
                 }
 
-                client.CloseConnection();
+                _client.CloseConnection();
                 return tasks;
             }
             catch (Exception exception)
             {
                 Debug.WriteLine("[DatabaseTask.SelectAll()] Error: " + exception.Message);
-                client.CloseConnection();
+                _client.CloseConnection();
                 return null;
             }
             finally
             {
-                client.CloseConnection();
+                _client.CloseConnection();
             }
         }
 
@@ -69,7 +69,7 @@ namespace SpeechTrainer.Database.Database
             var task = new TaskEntityDTO();
             try
             {
-                using (SqlCommand cmd = new SqlCommand(commandSelect, client.OpenConnection()))
+                using (SqlCommand cmd = new SqlCommand(commandSelect, _client.OpenConnection()))
                 {
                     cmd.Parameters.AddWithValue("@ID", idObject);
                     SqlDataReader dataReader = await cmd.ExecuteReaderAsync();
@@ -88,24 +88,24 @@ namespace SpeechTrainer.Database.Database
                 }
                 task.SetTypes(await GetTypesTask(task.Id));
                 task.SetIntervals(await GetIntervalsTask(task.Id));
-                client.CloseConnection();
+                _client.CloseConnection();
                 return task;
             }
             catch (Exception exception)
             {
                 Debug.WriteLine("[DatabaseTask.SelectById()] Error: " + exception.Message);
-                client.CloseConnection();
+                _client.CloseConnection();
                 return null;
             }
             finally
             {
-                client.CloseConnection();
+                _client.CloseConnection();
             }
         }
 
         public async Task<List<TaskEntityDTO>> GetTaskByProfile(int idProfile)
         {
-            client.CloseConnection();
+            _client.CloseConnection();
             string command = "SELECT Task.ID, Task.Title, Task.Subtitle, Task.[Description], Task.AddTime, Task.LastChangeTime, Task.IsClosed " +
                                              "FROM [Profile_Task], Task " +
                                              $"WHERE Profile_Task.IDProfile = @IDProfile AND Profile_Task.IDTask = Task.ID AND Task.IsClosed = 0";
@@ -113,7 +113,7 @@ namespace SpeechTrainer.Database.Database
             var tasks = new List<TaskEntityDTO>();
             try
             {
-                using (SqlCommand cmd = new SqlCommand(command, client.OpenConnection()))
+                using (SqlCommand cmd = new SqlCommand(command, _client.OpenConnection()))
                 {
                     cmd.Parameters.Add("@IDProfile", SqlDbType.Int);
                     cmd.Parameters["@IDProfile"].Value = idProfile;
@@ -139,18 +139,18 @@ namespace SpeechTrainer.Database.Database
                     task.SetTypes(await GetTypesTask(task.Id));
                     task.SetIntervals(await GetIntervalsTask(task.Id));
                 }
-                client.CloseConnection();
+                _client.CloseConnection();
                 return tasks;
             }
             catch (Exception exception)
             {
                 Debug.WriteLine("[DatabaseTask.SelectAll()] Error: " + exception.Message);
-                client.CloseConnection();
+                _client.CloseConnection();
                 return null;
             }
             finally
             {
-                client.CloseConnection();
+                _client.CloseConnection();
             }
         }
 
@@ -167,7 +167,7 @@ namespace SpeechTrainer.Database.Database
 
             try
             {
-                using (SqlCommand cmd = new SqlCommand(updateCommand, client.OpenConnection()))
+                using (SqlCommand cmd = new SqlCommand(updateCommand, _client.OpenConnection()))
                 {
 
                     cmd.Parameters.Add("@Title", SqlDbType.VarChar);
@@ -190,18 +190,18 @@ namespace SpeechTrainer.Database.Database
 
                     var row = await cmd.ExecuteNonQueryAsync();
                 }
-                client.CloseConnection();
+                _client.CloseConnection();
                 return true;
             }
             catch (Exception exception)
             {
                 Debug.WriteLine("[DatabaseTask.Update()] Error: " + exception.Message);
-                client.CloseConnection();
+                _client.CloseConnection();
                 return false;
             }
             finally
             {
-                client.CloseConnection();
+                _client.CloseConnection();
             }
         }
 
@@ -210,25 +210,25 @@ namespace SpeechTrainer.Database.Database
             string commandDelete = $"DELETE Type_Task WHERE IDTask = @ID; DELETE Task WHERE Task.ID = @ID";
             try
             {
-                using (SqlCommand cmd = new SqlCommand(commandDelete, client.OpenConnection()))
+                using (SqlCommand cmd = new SqlCommand(commandDelete, _client.OpenConnection()))
                 {
                     cmd.Parameters.Add("@ID", SqlDbType.Int);
                     cmd.Parameters["@ID"].Value =id;
 
                     var row = await cmd.ExecuteNonQueryAsync();
                 }
-                client.CloseConnection();
+                _client.CloseConnection();
                 return true;
             }
             catch (Exception exception)
             {
                 Debug.WriteLine("[DatabaseTask.Delete()] Error: " + exception.Message);
-                client.CloseConnection();
+                _client.CloseConnection();
                 return false;
             }
             finally
             {
-                client.CloseConnection();
+                _client.CloseConnection();
             }
         }
 
@@ -246,7 +246,7 @@ namespace SpeechTrainer.Database.Database
 
             try
             {
-                using (SqlCommand cmd = new SqlCommand(commandCreateTask, client.OpenConnection()))
+                using (SqlCommand cmd = new SqlCommand(commandCreateTask, _client.OpenConnection()))
                 {
                     cmd.Parameters.Add("@Title", SqlDbType.VarChar);
                     cmd.Parameters["@Title"].Value = newObject.Title;
@@ -265,8 +265,8 @@ namespace SpeechTrainer.Database.Database
 
                     cmd.ExecuteNonQuery();
                 }
-                client.CloseConnection();
-                using (SqlCommand cmd = new SqlCommand(commandGetLastAddIndex, client.OpenConnection()))
+                _client.CloseConnection();
+                using (SqlCommand cmd = new SqlCommand(commandGetLastAddIndex, _client.OpenConnection()))
                 {
 
                     
@@ -277,7 +277,7 @@ namespace SpeechTrainer.Database.Database
                         lastIndex = dataReader.GetDecimal(0);
                     }
                 }
-                client.CloseConnection();
+                _client.CloseConnection();
                 var insertTypeTask = InsertTypeTask((int?)lastIndex, newObject.Types);
                 var insertProfileTask = InsertProfileTask(idProfile, (int?)lastIndex);
 
@@ -286,12 +286,12 @@ namespace SpeechTrainer.Database.Database
             catch (Exception e)
             {
                 Debug.WriteLine("Error: " + e.Message);
-                client.CloseConnection();
+                _client.CloseConnection();
                 return false;
             }
             finally
             {
-                client.CloseConnection();
+                _client.CloseConnection();
             }
         }
 
@@ -302,22 +302,22 @@ namespace SpeechTrainer.Database.Database
                           $" FROM (SELECT * FROM Task WHERE ID = {idTask}) AS Selected WHERE Task.ID = Selected.ID";
             try
             {
-                using (SqlCommand cmd = new SqlCommand(command, client.OpenConnection()))
+                using (SqlCommand cmd = new SqlCommand(command, _client.OpenConnection()))
                 {
                     var row = await cmd.ExecuteNonQueryAsync();
                 }
-                client.CloseConnection();
+                _client.CloseConnection();
                 return true;
             }
             catch (Exception exception)
             {
                 Debug.WriteLine("[DatabaseTask.CloseTask()] Error: " + exception.Message);
-                client.CloseConnection();
+                _client.CloseConnection();
                 return false;
             }
             finally
             {
-                client.CloseConnection();
+                _client.CloseConnection();
             }
         }
 
@@ -330,13 +330,13 @@ namespace SpeechTrainer.Database.Database
 
         private async Task<List<IntervalDTO>> GetIntervalsTask(int id)
         {
-            client.CloseConnection();
+            _client.CloseConnection();
             string commandGetIntervalsTask = "SELECT [Task_Interval].ID, [Task_Interval].StartTime, [Task_Interval].FinishTime, [Task_Interval].Rating FROM Task_Interval " +
                                              $"WHERE [Task_Interval].IDTask = {id}";
             var intervals = new List<IntervalDTO>();
             try
             {
-                using (SqlCommand cmd = new SqlCommand(commandGetIntervalsTask, client.OpenConnection()))
+                using (SqlCommand cmd = new SqlCommand(commandGetIntervalsTask, _client.OpenConnection()))
                 {
                     SqlDataReader dataReader = await cmd.ExecuteReaderAsync();
                     while (dataReader.Read())
@@ -345,18 +345,18 @@ namespace SpeechTrainer.Database.Database
                         intervals.Add(type);
                     }
                 }
-                client.CloseConnection();
+                _client.CloseConnection();
                 return intervals;
             }
             catch (Exception exception)
             {
                 Debug.WriteLine("[DataBaseTask.GetIntervalsTask()] Error: " + exception.Message);
-                client.CloseConnection();
+                _client.CloseConnection();
                 return null;
             }
             finally
             {
-                client.CloseConnection();
+                _client.CloseConnection();
             }
         }
 
@@ -369,7 +369,7 @@ namespace SpeechTrainer.Database.Database
                     foreach (var type in types)
                     {
                         string commandInsertTypeTask = $"INSERT Type_Task VALUES (@IDTask, @IDType)";
-                        using (SqlCommand cmd = new SqlCommand(commandInsertTypeTask, client.OpenConnection()))
+                        using (SqlCommand cmd = new SqlCommand(commandInsertTypeTask, _client.OpenConnection()))
                         {
                             cmd.Parameters.Add("@IDTask", SqlDbType.Int);
                             cmd.Parameters["@IDTask"].Value = lastIndexTask;
@@ -379,7 +379,7 @@ namespace SpeechTrainer.Database.Database
 
                             cmd.ExecuteNonQuery();
                         }
-                        client.CloseConnection();
+                        _client.CloseConnection();
                     }
                     return true;
                 }
@@ -391,23 +391,23 @@ namespace SpeechTrainer.Database.Database
             catch (Exception e)
             {
                 Debug.WriteLine("Error: " + e.Message);
-                client.CloseConnection();
+                _client.CloseConnection();
                 return false;
             }
             finally
             {
-                client.CloseConnection();
+                _client.CloseConnection();
             }
         }
 
         private async Task<bool> InsertProfileTask(int idProfile, int? idTask)
         {
-            client.CloseConnection();
+            _client.CloseConnection();
             string commandInsertProfileTask = $"INSERT Profile_Task VALUES ( @IDProfile, @IDTask )";
 
             try
             {
-                using (SqlCommand cmd = new SqlCommand(commandInsertProfileTask, client.OpenConnection()))
+                using (SqlCommand cmd = new SqlCommand(commandInsertProfileTask, _client.OpenConnection()))
                 {
                     cmd.Parameters.Add("@IDProfile", SqlDbType.Int);
                     cmd.Parameters["@IDProfile"].Value = idProfile;
@@ -416,18 +416,18 @@ namespace SpeechTrainer.Database.Database
                     cmd.Parameters["@IDTask"].Value = idTask;
                     var row = await cmd.ExecuteNonQueryAsync();
                 }
-                client.CloseConnection();
+                _client.CloseConnection();
                 return true;
             }
             catch (Exception e)
             {
                 Debug.WriteLine("Error: " + e.Message);
-                client.CloseConnection();
+                _client.CloseConnection();
                 return false;
             }
             finally
             {
-                client.CloseConnection();
+                _client.CloseConnection();
             }
         }
     }
