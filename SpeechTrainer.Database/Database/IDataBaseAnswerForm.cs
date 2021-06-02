@@ -5,8 +5,8 @@ namespace SpeechTrainer.Database.Database
 {
     public interface IDataBaseAnswerForm<T, TV> : IDatabase<T, TV>
     {
-        Task<List<T>> GetFormsByParticipantAsync(int idParticipant);
-        Task<List<T>> GetFormsBySituationAsync(string situationName);
+        Task<List<T>> GetFormsByPositionAsync(int idPosition);
+        Task<List<T>> GetFormsBySituationAsync(int idSituation);
         Task<TV> CreateAsync(int idParticipant, T newObject);
     }
 }
