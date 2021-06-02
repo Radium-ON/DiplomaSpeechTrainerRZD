@@ -10,23 +10,23 @@ namespace SpeechTrainer.Database.Entities
         public int ScoresNumber { get; private set; }
         public DateTime TrainingDate { get; private set; }
         public StudentDto Student { get; private set; }
-        public ParticipantDto Participant { get; private set; }
+        public SituationDto Situation { get; private set; }
         public List<TrainingLineDto> TrainingLines { get; private set; }
 
-        public TrainingDto(int scores, DateTime date, StudentDto student, ParticipantDto participant)
+        public TrainingDto(int scores, DateTime date, StudentDto student, SituationDto situation)
         {
             ScoresNumber = scores;
             TrainingDate = date;
             Student = student;
-            Participant = participant;
+            Situation = situation;
         }
 
-        public TrainingDto(int id, int scores, DateTime date, StudentDto student, ParticipantDto participant) : this(scores, date, student, participant)
+        public TrainingDto(int id, int scores, DateTime date, StudentDto student, SituationDto situation) : this(scores, date, student, situation)
         {
             Id = id;
         }
 
-        public TrainingDto(int id, int scores, DateTime date, StudentDto student, ParticipantDto participant, List<TrainingLineDto> lines) : this(id, scores, date, student, participant)
+        public TrainingDto(int id, int scores, DateTime date, StudentDto student, SituationDto situation, List<TrainingLineDto> lines) : this(id, scores, date, student, situation)
         {
             TrainingLines = lines;
         }

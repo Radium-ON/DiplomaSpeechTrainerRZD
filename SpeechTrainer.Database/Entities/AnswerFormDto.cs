@@ -8,25 +8,31 @@ namespace SpeechTrainer.Database.Entities
     {
         public int Id { get; private set; }
         public int OrderNum { get; private set; }
-        public string Text { get; private set; }
-        public ParticipantDto Participant { get; private set; }
+        public PhraseDto Phrase { get; private set; }
+        public SituationDto Situation { get; private set; }
+        public PositionDto Position { get; private set; }
         public List<ParameterDto> Parameters { get; private set; }
 
-        public AnswerFormDto(int orderNum, string text, ParticipantDto participant)
+        public AnswerFormDto(int orderNum, PhraseDto text, SituationDto situation)
         {
-            Participant = participant;
+            Situation = situation;
             OrderNum = orderNum;
-            Text = text;
+            Phrase = text;
         }
 
-        public AnswerFormDto(int id, int orderNum, string text, ParticipantDto participant) : this(orderNum,text, participant)
+        public AnswerFormDto(int id, int orderNum, PhraseDto text, SituationDto situation) : this(orderNum, text, situation)
         {
             Id = id;
         }
 
-        public AnswerFormDto(int id, int orderNum, string text, ParticipantDto participant, List<ParameterDto> parms): this(id,orderNum,text,participant)
+        public AnswerFormDto(int id, int orderNum, PhraseDto text, SituationDto situation, List<ParameterDto> parms) : this(id, orderNum, text, situation)
         {
             Parameters = parms;
+        }
+
+        public AnswerFormDto(int id, int orderNum, PhraseDto text, SituationDto situation, List<ParameterDto> parms, PositionDto position) : this(id, orderNum, text, situation, parms)
+        {
+            Position = position;
         }
 
         public void SetParameters(List<ParameterDto> parms)
@@ -34,14 +40,19 @@ namespace SpeechTrainer.Database.Entities
             Parameters = parms;
         }
 
-        public void SetParticipant(ParticipantDto participant)
+        public void SetSituation(SituationDto situation)
         {
-            Participant = participant;
+            Situation = situation;
+        }
+
+        public void SetPosition(PositionDto position)
+        {
+            Position = position;
         }
 
         public override string ToString()
         {
-            return OrderNum + " " + Text + " " + Participant.Position.ShortName;
+            return OrderNum + " " + Phrase;
         }
     }
 }
