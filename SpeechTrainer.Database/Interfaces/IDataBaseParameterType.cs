@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
-namespace SpeechTrainer.Database.Database
+namespace SpeechTrainer.Database.Interfaces
 {
     public interface IDataBaseParameterType<T, TV> : IDatabase<T, TV>
     {

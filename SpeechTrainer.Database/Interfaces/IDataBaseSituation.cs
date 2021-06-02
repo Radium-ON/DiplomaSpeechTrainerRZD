@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace SpeechTrainer.Database.Database
+namespace SpeechTrainer.Database.Interfaces
 {
     public interface IDataBaseSituation<T, TV> : IDatabase<T, TV>
     {

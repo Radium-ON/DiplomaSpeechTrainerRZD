@@ -5,10 +5,11 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using SpeechTrainer.Database.Entities;
+using SpeechTrainer.Database.Interfaces;
 
 namespace SpeechTrainer.Database.Database
 {
-    public class DatabaseType : Database.IDatabaseType<TypeDTO, bool>
+    public class DatabaseType : IDatabaseType<TypeDTO, bool>
     {
         private readonly DatabaseConnection client;
         public DatabaseType()

@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using SpeechTrainer.Database.Entities;
+using SpeechTrainer.Database.Interfaces;
 
 namespace SpeechTrainer.Database.Database
 {
