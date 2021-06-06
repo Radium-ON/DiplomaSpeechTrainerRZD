@@ -1,36 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SpeechTrainer.Database.Entities
+﻿namespace SpeechTrainer.Database.Entities
 {
     public class TrainingLineDto
     {
-        public int Id { get; private set; }
-        public string StudentAnswer { get; private set; }
-        public string CompleteForm { get; private set; }
-        public TrainingDto Training { get; private set; }
+        public int Id { get; }
+        public string StudentAnswer { get; }
+        public string CompleteForm { get; }
+        public int TrainingId { get; }
 
-        public TrainingLineDto(string studentAnswer, string completeForm, TrainingDto training)
+        public TrainingLineDto(string studentAnswer, string completeForm, int trainingId)
         {
             StudentAnswer = studentAnswer;
             CompleteForm = completeForm;
-            Training = training;
+            TrainingId = trainingId;
         }
 
-        public TrainingLineDto(int id, string studentAnswer, string completeForm, TrainingDto training) : this(studentAnswer, completeForm, training)
+        public TrainingLineDto(int id, string studentAnswer, string completeForm, int trainingId) : this(studentAnswer, completeForm, trainingId)
         {
             Id = id;
         }
 
-        public void SetTraining(TrainingDto training)
+        public TrainingLineDto()
         {
-            Training = training;
         }
 
         public override string ToString()
         {
-            return Training.ToString() + StudentAnswer + " " + CompleteForm;
+            return StudentAnswer + " " + CompleteForm;
         }
     }
 }

@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SpeechTrainer.Database.Entities
+﻿namespace SpeechTrainer.Database.Entities
 {
     public class PositionDto
     {
-        public int Id { get; private set; }
-        public string ShortName { get; private set; }
-        public string FullPosition { get; private set; }
-        public string Responsibilities { get; private set; }
+        public int Id { get; }
+        public string ShortName { get; }
+        public string FullPosition { get; }
+        public string Responsibilities { get; }
 
         public PositionDto() { }
 

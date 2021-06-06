@@ -1,34 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace SpeechTrainer.Database.Entities
 {
     public class StudentDto
     {
-        public int Id { get; private set; }
-        public string FirstName { get; private set; }
-        public string LastName { get; private set; }
-        public string StudentCode { get; private set; }
-        public string Group { get; private set; }
+        public int Id { get; }
+        public string FirstName { get; }
+        public string LastName { get; }
+        public string StudentCode { get; }
+        public GroupDto Group { get; private set; }
         public List<TrainingDto> Trainings { get; private set; }
 
-        public StudentDto(string firstName, string lastName, string group, string studentCode)
+        public StudentDto(string firstName, string lastName, string studentCode, GroupDto group)
         {
             FirstName = firstName;
             LastName = lastName;
-            StudentCode = studentCode;
             Group = group;
+            StudentCode = studentCode;
         }
 
-        public StudentDto(int id, string firstName, string lastName, string group, string studentCode) : this(firstName, lastName, group, studentCode)
+        public StudentDto(int id, string firstName, string lastName, string studentCode, GroupDto group) : this(firstName, lastName, studentCode, group)
         {
             Id = id;
         }
 
-        public StudentDto(int id, string firstName, string lastName, string group, string studentCode, List<TrainingDto> trainings) : this(id, firstName, lastName, group, studentCode)
+        public StudentDto(int id, string firstName, string lastName, string studentCode, GroupDto group, List<TrainingDto> trainings) : this(id, firstName, lastName, studentCode, group)
         {
             Trainings = trainings;
+        }
+
+        public StudentDto()
+        {
         }
 
         public void SetTrainings(List<TrainingDto> trainings)
@@ -36,9 +38,14 @@ namespace SpeechTrainer.Database.Entities
             Trainings = trainings;
         }
 
+        public void SetGroup(GroupDto group)
+        {
+            Group = group;
+        }
+
         public override string ToString()
         {
-            return FirstName + " " + LastName;
+            return FirstName + " " + LastName + " " + Group;
         }
     }
 }

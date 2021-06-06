@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace SpeechTrainer.Database.Entities
 {
     public class SituationDto
     {
-        public int Id { get; private set; }
+        public int Id { get; }
         public List<PositionDto> Positions { get; private set; }
         public List<AnswerFormDto> AnswerForms { get; private set; }
-        public string Name { get; private set; }
-        public string Description { get; private set; }
+        public string Name { get; }
+        public string Description { get; }
 
         public SituationDto(string name, string description)
         {
@@ -31,6 +29,10 @@ namespace SpeechTrainer.Database.Entities
         public SituationDto(int id, string situationName, string situationDescription, List<PositionDto> positions, List<AnswerFormDto> forms) : this(id, situationName, situationDescription, positions)
         {
             AnswerForms = forms;
+        }
+
+        public SituationDto()
+        {
         }
 
         public void SetPositions(List<PositionDto> positions)

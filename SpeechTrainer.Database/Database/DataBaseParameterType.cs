@@ -90,12 +90,12 @@ namespace SpeechTrainer.Database.Database
 
         public async Task<bool> UpdateAsync(ParameterTypeDto newObject)
         {
-            return false;//todo
+            throw new NotImplementedException();//todo
         }
 
         public async Task<bool> DeleteAsync(int id)
         {
-            return false;//todo
+            throw new NotImplementedException();//todo
         }
 
         #endregion
@@ -104,8 +104,7 @@ namespace SpeechTrainer.Database.Database
 
         public async Task<bool> CreateAsync(ParameterTypeDto newObject)
         {
-            var commandCreateParameterType = "INSERT ParameterType VALUES" +
-                                             $"(@Type";
+            var commandCreateParameterType = "INSERT ParameterType VALUES (@Type)";
             try
             {
                 using (var cmd = new SqlCommand(commandCreateParameterType, _client.OpenConnection()))

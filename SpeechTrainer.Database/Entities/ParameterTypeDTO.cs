@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SpeechTrainer.Database.Entities
+﻿namespace SpeechTrainer.Database.Entities
 {
     public class ParameterTypeDto
     {
-        public int Id { get; private set; }
-        public string TypeName { get; private set; }
+        public int Id { get; }
+        public string TypeName { get; }
 
         public ParameterTypeDto()
         {

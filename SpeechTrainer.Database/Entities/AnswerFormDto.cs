@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace SpeechTrainer.Database.Entities
 {
     public class AnswerFormDto
     {
-        public int Id { get; private set; }
-        public int OrderNum { get; private set; }
+        public int Id { get; }
+        public int OrderNum { get; }
         public PhraseDto Phrase { get; private set; }
         public SituationDto Situation { get; private set; }
         public PositionDto Position { get; private set; }
@@ -35,6 +33,10 @@ namespace SpeechTrainer.Database.Entities
             Position = position;
         }
 
+        public AnswerFormDto()
+        {
+        }
+
         public void SetParameters(List<ParameterDto> parms)
         {
             Parameters = parms;
@@ -48,6 +50,11 @@ namespace SpeechTrainer.Database.Entities
         public void SetPosition(PositionDto position)
         {
             Position = position;
+        }
+
+        public void SetPhrase(PhraseDto phrase)
+        {
+            Phrase = phrase;
         }
 
         public override string ToString()

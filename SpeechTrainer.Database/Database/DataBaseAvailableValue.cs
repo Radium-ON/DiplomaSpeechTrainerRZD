@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -22,9 +21,9 @@ namespace SpeechTrainer.Database.Database
 
         public async Task<List<AvailableValueDto>> SelectAllAsync()
         {
-            var command = "SELECT * FROM AvailableValue";
+            const string command = "SELECT * FROM AvailableValue";
             var availValues = new List<AvailableValueDto>();
-            var parmTypeIds = new List<int>();
+
             try
             {
                 using (var cmd = new SqlCommand(command, _client.OpenConnection()))
@@ -34,16 +33,15 @@ namespace SpeechTrainer.Database.Database
                     {
                         var id = dataReader.GetInt32(0);
                         var value = dataReader.GetString(1);
-                        var parmTypeId = dataReader.GetInt32(2);
 
-                        var valueDto = new AvailableValueDto(id, parmTypeId, value);
+                        var valueDto = new AvailableValueDto(id, value);
                         availValues.Add(valueDto);
                     }
                 }
 
                 foreach (var value in availValues)
                 {
-                    value.SetParameterType(await GetTypeForValueAsync(value.ParmTypeId));
+                    value.SetParameterType(await GetTypeForValueAsync(value.Id));
                 }
 
                 _client.CloseConnection();
@@ -75,13 +73,12 @@ namespace SpeechTrainer.Database.Database
                     {
                         var id = dataReader.GetInt32(0);
                         var value = dataReader.GetString(1);
-                        var parmTypeId = dataReader.GetInt32(2);
 
-                        availValue = new AvailableValueDto(id, parmTypeId, value);
+                        availValue = new AvailableValueDto(id, value);
                     }
                 }
 
-                availValue.SetParameterType(await GetTypeForValueAsync(availValue.ParmTypeId));
+                availValue.SetParameterType(await GetTypeForValueAsync(availValue.Id));
 
                 _client.CloseConnection();
                 return availValue;
@@ -100,12 +97,12 @@ namespace SpeechTrainer.Database.Database
 
         public async Task<bool> UpdateAsync(AvailableValueDto newObject)
         {
-            return false;//todo
+            throw new NotImplementedException();
         }
 
         public async Task<bool> DeleteAsync(int id)
         {
-            return false;//todo
+            throw new NotImplementedException();//todo
         }
 
         #endregion
@@ -114,15 +111,14 @@ namespace SpeechTrainer.Database.Database
 
         public async Task<List<AvailableValueDto>> GetAvailableValuesByParameterTypeAsync(int idParameterType)
         {
-            var command = "SELECT Id, Value FROM AvailableValue WHERE ParameterType.Id = @IDParameterType";
+            var command = "SELECT Id, Value FROM AvailableValue WHERE ParameterType.Id = @ID";
             var values = new List<AvailableValueDto>();
 
             try
             {
                 using (var cmd = new SqlCommand(command, _client.OpenConnection()))
                 {
-                    cmd.Parameters.Add("@IDParameterType", SqlDbType.Int);
-                    cmd.Parameters["@IDParameterType"].Value = idParameterType;
+                    cmd.Parameters.AddWithValue("@ID", idParameterType);
 
                     var dataReader = await cmd.ExecuteReaderAsync();
                     while (dataReader.Read())
@@ -130,7 +126,7 @@ namespace SpeechTrainer.Database.Database
                         var id = dataReader.GetInt32(0);
                         var value = dataReader.GetString(1);
 
-                        var availValue = new AvailableValueDto(id, idParameterType, value);
+                        var availValue = new AvailableValueDto(id, value);
                         values.Add(availValue);
                     }
                 }
@@ -153,15 +149,84 @@ namespace SpeechTrainer.Database.Database
             }
         }
 
-        private async Task<ParameterTypeDto> GetTypeForValueAsync(int parmTypeId)
+        public async Task<AvailableValueDto> GetAvailableValueByParameterAsync(int idParameter)
         {
-            var dbParmType = new DataBaseParameterType();
-            return await dbParmType.SelectByIdAsync(parmTypeId);
+            const string command = "SELECT AvailableValue.Id, AvailableValue.Value FROM AvailableValue, Parameter_Value" +
+                                   "WHERE Parameter_Value.ParameterId = @ID" +
+                                   "AND Parameter_Value.ValueId = AvailableValue.Id";
+
+            var value = new AvailableValueDto();
+
+            try
+            {
+                using (var cmd = new SqlCommand(command, _client.OpenConnection()))
+                {
+                    cmd.Parameters.AddWithValue("@ID", idParameter);
+
+                    var dataReader = await cmd.ExecuteReaderAsync();
+                    while (dataReader.Read())
+                    {
+                        var id = dataReader.GetInt32(0);
+                        var val = dataReader.GetString(1);
+
+                        value = new AvailableValueDto(id, val);
+                    }
+                }
+
+                value.SetParameterType(await GetTypeForValueAsync(value.Id));
+
+                _client.CloseConnection();
+                return value;
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine("[DatabaseAvailableValue.GetAvailableValueByParameterAsync()] Error: " + exception.Message);
+                _client.CloseConnection();
+                return null;
+            }
+            finally
+            {
+                _client.CloseConnection();
+            }
+        }
+
+        private async Task<ParameterTypeDto> GetTypeForValueAsync(int valueId)
+        {
+            const string command = "SELECT ParameterTypeId FROM ParameterType_AvailValue" +
+                                   "WHERE ParameterType_AvailValue.ValueId = @ID";
+            var parmTypeId = 0;
+
+            try
+            {
+                using (var cmd = new SqlCommand(command, _client.OpenConnection()))
+                {
+                    cmd.Parameters.AddWithValue("@ID", valueId);
+                    var dataReader = await cmd.ExecuteReaderAsync();
+                    while (dataReader.Read())
+                    {
+                        parmTypeId = dataReader.GetInt32(0);
+                    }
+                }
+
+                _client.CloseConnection();
+                var dbParmType = new DataBaseParameterType();
+                return await dbParmType.SelectByIdAsync(parmTypeId);
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine("[DatabaseAvailableValue.GetTypeForValueAsync()] Error: " + exception.Message);
+                _client.CloseConnection();
+                return null;
+            }
+            finally
+            {
+                _client.CloseConnection();
+            }
         }
 
         public async Task<bool> CreateAsync(int idParameterType, AvailableValueDto newObject)
         {
-            return false;//todo
+            throw new NotImplementedException();//todo
         }
 
         #endregion

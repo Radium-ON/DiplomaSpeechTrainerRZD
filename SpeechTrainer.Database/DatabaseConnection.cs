@@ -15,10 +15,10 @@ namespace SpeechTrainer.Database
             Connection = new SqlConnection(connectionString);
         }
 
-        private static readonly Lazy<DatabaseConnection> lazy =
+        private static readonly Lazy<DatabaseConnection> _lazy =
             new Lazy<DatabaseConnection>(() => new DatabaseConnection());
 
-        public static DatabaseConnection Source => lazy.Value;
+        public static DatabaseConnection Source => _lazy.Value;
 
         public SqlConnection OpenConnection()
         {

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -89,12 +88,12 @@ namespace SpeechTrainer.Database.Database
 
         public async Task<bool> UpdateAsync(PhraseDto newObject)
         {
-            return false;//todo
+            throw new NotImplementedException();//todo
         }
 
         public async Task<bool> DeleteAsync(int id)
         {
-            return false;//todo
+            throw new NotImplementedException();//todo
         }
 
         #endregion
