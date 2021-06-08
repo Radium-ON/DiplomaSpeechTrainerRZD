@@ -41,7 +41,7 @@ namespace SpeechTrainer.Core
 
         public static double GetAllAverageRating(List<TaskEntity> tasks)
         {
-            List<double> avgRatings = new List<double>();
+            var avgRatings = new List<double>();
             foreach (var task in tasks)
             {
                 avgRatings.Add(GetAverageRating(task.Intervals));

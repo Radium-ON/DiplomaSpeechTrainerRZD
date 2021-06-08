@@ -12,21 +12,61 @@ namespace SpeechTrainer.Core.Utills
     {
         private readonly SpeechConfig _speechConfig;
         private readonly AudioConfig _audioConfig;
+        private readonly SpeechRecognizer _speechRecognizer;
+        private readonly SpeechSynthesizer _speechSynthesizer;
+
+        public event EventHandler<SessionEventArgs> RecognizerSessionStarted;
+        public event EventHandler<SessionEventArgs> RecognizerSessionStopped;
+        public event EventHandler<SpeechRecognitionEventArgs> RecognizerRecognized;
+
+        public event EventHandler<SpeechSynthesisEventArgs> SynthesizerSynthesisStarted;
+        public event EventHandler<SpeechSynthesisEventArgs> SynthesizerSynthesisCompleted;
 
         public SpeechService()
         {
             _speechConfig = SpeechConfig.FromSubscription("88ef55a3ae9a4d8c9c121ce17ae4db51", "northeurope");
             _speechConfig.SpeechRecognitionLanguage = "ru-ru";
             _audioConfig = AudioConfig.FromDefaultMicrophoneInput();
+
+            _speechRecognizer = new SpeechRecognizer(_speechConfig, _audioConfig);
+            SetRecognizerEvents();
+            _speechSynthesizer = new SpeechSynthesizer(_speechConfig);
+            SetSynthesizerEvents();
+        }
+
+        private void SetSynthesizerEvents()
+        {
+            _speechSynthesizer.SynthesisStarted += (sender, synthesisEventArgs) =>
+            {
+                SynthesizerSynthesisStarted?.Invoke(sender, synthesisEventArgs);
+            };
+            _speechSynthesizer.SynthesisCompleted += (sender, synthesisEventArgs) =>
+            {
+                SynthesizerSynthesisCompleted?.Invoke(sender, synthesisEventArgs);
+            };
+        }
+
+        private void SetRecognizerEvents()
+        {
+            _speechRecognizer.SessionStarted += (sender, sessionEventArgs) =>
+            {
+                RecognizerSessionStarted?.Invoke(sender, sessionEventArgs);
+            };
+            _speechRecognizer.SessionStopped += (sender, sessionEventArgs) =>
+            {
+                RecognizerSessionStopped?.Invoke(sender, sessionEventArgs);
+            };
+            _speechRecognizer.Recognized += (sender, recognitionEventArgs) =>
+            {
+                RecognizerRecognized?.Invoke(sender, recognitionEventArgs);
+            };
         }
 
         #region Implementation of ISpeechToText<RecognitionResult>
 
         public async Task<RecognitionResult> RecognizeSpeechFromMicrophoneAsync()
         {
-            using var recognizer = new SpeechRecognizer(_speechConfig, _audioConfig);
-
-            return await recognizer.RecognizeOnceAsync();
+            return await _speechRecognizer.RecognizeOnceAsync();
         }
 
         #endregion
@@ -40,8 +80,8 @@ namespace SpeechTrainer.Core.Utills
 
         public async Task GenerateSpeechToSpeakersAsync(string text)
         {
-            using var synthesizer = new SpeechSynthesizer(_speechConfig);
-            await synthesizer.SpeakTextAsync(text);
+            await _speechSynthesizer.SpeakTextAsync(text);
+
         }
 
         public async Task GenerateSpeechToFileAsync(string text, string filePath)

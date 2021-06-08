@@ -21,21 +21,15 @@ namespace SpeechTrainer.Core.Utills
         public static bool ValidateTextField(string text, LengthText count)
         {
             text = text.Trim();
-            switch (count)
+            return count switch
             {
-                case LengthText.DescriptionLength:
-                    return text.Length <= DescriptionLength && text.Length > 0;
-                case LengthText.NameLength:
-                    return text.Length <= NameLength && text.Length > 0;
-                case LengthText.SubtitleLength:
-                    return text.Length <= SubtitleLength && text.Length > 0;
-                case LengthText.TitleLength:
-                    return text.Length <= TitleLength && text.Length > 0;
-                case LengthText.TypeLength:
-                    return text.Length <= TypeLength && text.Length > 0;
-                default:
-                    return text.Length > 0;
-            }
+                LengthText.DescriptionLength => (text.Length <= DescriptionLength && text.Length > 0),
+                LengthText.NameLength => (text.Length <= NameLength && text.Length > 0),
+                LengthText.SubtitleLength => (text.Length <= SubtitleLength && text.Length > 0),
+                LengthText.TitleLength => (text.Length <= TitleLength && text.Length > 0),
+                LengthText.TypeLength => (text.Length <= TypeLength && text.Length > 0),
+                _ => (text.Length > 0)
+            };
         }
     }
 }
