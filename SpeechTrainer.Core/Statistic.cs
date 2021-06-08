@@ -1,6 +1,6 @@
-﻿using SpeechTrainer.Core.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using SpeechTrainer.Core.ModelObservable;
 
 namespace SpeechTrainer.Core
 {

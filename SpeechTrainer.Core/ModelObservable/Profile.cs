@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SpeechTrainer.Core.Model
+namespace SpeechTrainer.Core.ModelObservable
 {
     public class Profile
     {

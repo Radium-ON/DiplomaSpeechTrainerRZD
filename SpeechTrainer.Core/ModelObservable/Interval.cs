@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SpeechTrainer.Core.Model
+namespace SpeechTrainer.Core.ModelObservable
 {
     public class Interval
     {

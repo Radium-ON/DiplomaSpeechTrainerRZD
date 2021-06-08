@@ -6,15 +6,17 @@
         public string StudentAnswer { get; }
         public string CompleteForm { get; }
         public int TrainingId { get; }
+        public bool IsCorrect { get; }
 
-        public TrainingLineDto(string studentAnswer, string completeForm, int trainingId)
+        public TrainingLineDto(string studentAnswer, string completeForm, int trainingId, bool isCorrect)
         {
             StudentAnswer = studentAnswer;
             CompleteForm = completeForm;
             TrainingId = trainingId;
+            IsCorrect = isCorrect;
         }
 
-        public TrainingLineDto(int id, string studentAnswer, string completeForm, int trainingId) : this(studentAnswer, completeForm, trainingId)
+        public TrainingLineDto(int id, string studentAnswer, string completeForm, int trainingId, bool isCorrect) : this(studentAnswer, completeForm, trainingId, isCorrect)
         {
             Id = id;
         }
@@ -25,7 +27,7 @@
 
         public override string ToString()
         {
-            return StudentAnswer + " " + CompleteForm;
+            return StudentAnswer + " " + CompleteForm + " " + IsCorrect;
         }
     }
 }

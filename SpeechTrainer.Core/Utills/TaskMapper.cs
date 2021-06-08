@@ -1,6 +1,6 @@
-﻿using SpeechTrainer.Core.Model;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using SpeechTrainer.Core.ModelObservable;
 using SpeechTrainer.Database.Entities;
 
 namespace SpeechTrainer.Core.Utills

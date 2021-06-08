@@ -33,8 +33,9 @@ namespace SpeechTrainer.Database.Database
                         var studentAnswer = dataReader.GetString(1);
                         var trainingId = dataReader.GetInt32(2);
                         var completeForm = dataReader.GetString(3);
+                        var isCorrect = dataReader.GetBoolean(4);
 
-                        lines.Add(new TrainingLineDto(id, studentAnswer, completeForm, trainingId));
+                        lines.Add(new TrainingLineDto(id, studentAnswer, completeForm, trainingId, isCorrect));
                     }
                 }
 
@@ -69,8 +70,9 @@ namespace SpeechTrainer.Database.Database
                         var studentAnswer = dataReader.GetString(1);
                         var trainingId = dataReader.GetInt32(2);
                         var completeForm = dataReader.GetString(3);
+                        var isCorrect = dataReader.GetBoolean(4);
 
-                        line = new TrainingLineDto(id, studentAnswer, completeForm, trainingId);
+                        line = new TrainingLineDto(id, studentAnswer, completeForm, trainingId, isCorrect);
                     }
                 }
 
@@ -119,8 +121,9 @@ namespace SpeechTrainer.Database.Database
                         var studentAnswer = dataReader.GetString(1);
                         var trainingId = dataReader.GetInt32(2);
                         var completeForm = dataReader.GetString(3);
+                        var isCorrect = dataReader.GetBoolean(4);
 
-                        lines.Add(new TrainingLineDto(id, studentAnswer, completeForm, trainingId));
+                        lines.Add(new TrainingLineDto(id, studentAnswer, completeForm, trainingId, isCorrect));
                     }
                 }
 
@@ -142,8 +145,8 @@ namespace SpeechTrainer.Database.Database
         public async Task<bool> CreateAsync(int idTraining, TrainingLineDto newObject)
         {
             const string command = "INSERT INTO TrainingLine" +
-                                   "(StudentAnswer, TrainingId, CompleteForm)" +
-                                   "VALUES(@StudentAnswer, @TrainingId, @CompleteForm)";
+                                   "(StudentAnswer, TrainingId, CompleteForm, IsCorrect)" +
+                                   "VALUES(@StudentAnswer, @TrainingId, @CompleteForm, @IsCorrect)";
             try
             {
                 using (var cmd = new SqlCommand(command, _client.OpenConnection()))
@@ -151,6 +154,7 @@ namespace SpeechTrainer.Database.Database
                     cmd.Parameters.AddWithValue("@StudentAnswer", newObject.StudentAnswer);
                     cmd.Parameters.AddWithValue("@TrainingId", idTraining);
                     cmd.Parameters.AddWithValue("@CompleteForm", newObject.CompleteForm);
+                    cmd.Parameters.AddWithValue("@IsCorrect", newObject.IsCorrect);
                     var row = await cmd.ExecuteNonQueryAsync();
                     Debug.WriteLine("[DatabaseTrainingLine.CreateAsync()] Rows: " + row);
                 }
