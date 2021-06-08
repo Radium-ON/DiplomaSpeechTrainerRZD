@@ -5,6 +5,7 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using SpeechTrainer.Core.Interfaces;
 using SpeechTrainer.Core.Utills;
 
 namespace SpeechTrainer.UWP.Training.TrainingStart.View

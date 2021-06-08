@@ -1,4 +1,4 @@
-﻿namespace SpeechTrainer.Core.Utills
+﻿namespace SpeechTrainer.Core.Interfaces
 {
     public interface IPageHeader
     {

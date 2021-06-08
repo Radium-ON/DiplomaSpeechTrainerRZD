@@ -3,6 +3,7 @@
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 using Windows.UI.Xaml.Controls;
+using SpeechTrainer.Core.Interfaces;
 using SpeechTrainer.Core.Utills;
 
 namespace SpeechTrainer.UWP.User.Results.View
