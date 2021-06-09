@@ -5,10 +5,10 @@ namespace SpeechTrainer.Core.ModelObservable
     public class TrainingLineObservable : ObservableValidator
     {
         public int Id { get; }
-        public string StudentAnswer { get; }
-        public string CompleteForm { get; }
+        public string StudentAnswer { get; set; }
+        public string CompleteForm { get; set; }
         public int TrainingId { get; }
-        public bool IsCorrect { get; }
+        public bool IsCorrect { get; set; }
 
         public TrainingLineObservable(int id, string studentAnswer, string completeForm, int trainingId, bool isCorrect)
         {
@@ -17,6 +17,10 @@ namespace SpeechTrainer.Core.ModelObservable
             CompleteForm = completeForm;
             TrainingId = trainingId;
             IsCorrect = isCorrect;
+        }
+
+        public TrainingLineObservable()
+        {
         }
     }
 }

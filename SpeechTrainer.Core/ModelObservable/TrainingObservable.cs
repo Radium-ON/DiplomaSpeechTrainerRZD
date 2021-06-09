@@ -13,9 +13,9 @@ namespace SpeechTrainer.Core.ModelObservable
         public int ParticipantId { get; }
         public int ScoresNumber { get; }
         public DateTime TrainingDate { get; }
-        public StudentObservable Student { get; private set; }
-        public SituationObservable Situation { get; private set; }
-        public List<TrainingLineObservable> TrainingLines { get; private set; }
+        public StudentObservable Student { get; set; }
+        public SituationObservable Situation { get; set; }
+        public List<TrainingLineObservable> TrainingLines { get; set; }
 
         public TrainingObservable(int id, int studentId, int participantId, int scoresNumber, DateTime trainingDate, StudentObservable student, SituationObservable situation, List<TrainingLineObservable> trainingLines)
         {
@@ -27,6 +27,10 @@ namespace SpeechTrainer.Core.ModelObservable
             Student = student;
             Situation = situation;
             TrainingLines = trainingLines;
+        }
+
+        public TrainingObservable()
+        {
         }
     }
 }
