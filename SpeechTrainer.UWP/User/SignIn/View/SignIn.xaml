@@ -8,7 +8,7 @@
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:iCore="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Loaded="{x:Bind ViewModel.GetAllStudentsAsync}">
 
     <Grid>
         <TextBlock Text="Тренировка речевых команд" Style="{StaticResource HeaderTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,200" TextAlignment="Center"/>
@@ -22,7 +22,7 @@
                         Content="Войти"
                         Click="SignIn_OnClick"
                         Command="{x:Bind ViewModel.SignInCommand, Mode=OneWay}"
-                        CommandParameter="{x:Bind ViewModel.Student}"/>
+                        CommandParameter="{Binding Student, UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" 
                     HorizontalAlignment="Center"

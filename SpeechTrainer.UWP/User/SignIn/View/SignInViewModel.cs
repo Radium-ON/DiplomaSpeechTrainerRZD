@@ -24,10 +24,14 @@ namespace SpeechTrainer.UWP.User.SignIn.View
         public StudentObservable Student
         {
             get => _student;
-            set => SetProperty(ref _student, value);
+            set
+            {
+                SetProperty(ref _student, value);
+                OnPropertyChanged(nameof(SignInCommand));
+            }
         }
 
-        public ICommand SignInCommand => new RelayCommand(() => SignIn(_student));
+        public RelayCommand<StudentObservable> SignInCommand => new RelayCommand<StudentObservable>(SignIn, d => Student != null);
 
         public bool VisibleLoading
         {
@@ -42,11 +46,10 @@ namespace SpeechTrainer.UWP.User.SignIn.View
 
         public SignInViewModel(GetStudentsOption getStudentsOption)
         {
-            this._getStudentsOption = getStudentsOption;
-            GetAllStudentsAsync();
+            _getStudentsOption = getStudentsOption;
         }
 
-        private async Task GetAllStudentsAsync()
+        public async Task GetAllStudentsAsync()
         {
             var response = await _getStudentsOption.Get();
             if (response is Success<List<StudentObservable>> responseWrapper)
