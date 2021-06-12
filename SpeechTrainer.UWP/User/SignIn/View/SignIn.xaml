@@ -9,24 +9,21 @@
     xmlns:iCore="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    
+
     <Grid>
         <TextBlock Text="Тренировка речевых команд" Style="{StaticResource HeaderTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,200" TextAlignment="Center"/>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                <ComboBox Margin="0,12,0,0"
-                          HorizontalAlignment="Stretch"
-                          
+            <ComboBox Margin="0,12,0,0" HorizontalAlignment="Stretch"
+                     ItemsSource="{x:Bind ViewModel.Students, Mode=OneWay}" SelectedItem="{x:Bind ViewModel.Student, Mode=TwoWay}"     
                 />
-                <!--ItemsSource="{x:Bind ViewModel.Profiles, Mode=OneWay}" SelectedItem="{x:Bind ViewModel.Profile, Mode=TwoWay}"-->
-                <Button Margin="0,12,0,0"
+
+            <Button Margin="0,12,0,0"
                         Height="40" Width="300"
                         Content="Войти"
                         Click="SignIn_OnClick"
-                        HorizontalAlignment="Stretch"
-                        Command="{Binding NavigateCommand}"/>
-                <!--    Command="{x:Bind ViewModel.SignInCommand, Mode=OneWay}"
-                        CommandParameter="{x:Bind ViewModel.Profile}"-->
-            </StackPanel>
+                        Command="{x:Bind ViewModel.SignInCommand, Mode=OneWay}"
+                        CommandParameter="{x:Bind ViewModel.Student}"/>
+        </StackPanel>
         <StackPanel Orientation="Horizontal" 
                     HorizontalAlignment="Center"
                     VerticalAlignment="Bottom"

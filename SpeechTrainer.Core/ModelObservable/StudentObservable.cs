@@ -23,5 +23,14 @@ namespace SpeechTrainer.Core.ModelObservable
             Group = @group;
             Trainings = trainings;
         }
+
+        #region Overrides of Object
+
+        public override string ToString()
+        {
+            return $"{FirstName} {LastName}";
+        }
+
+        #endregion
     }
 }

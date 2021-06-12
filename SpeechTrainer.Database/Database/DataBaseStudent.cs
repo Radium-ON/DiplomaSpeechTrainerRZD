@@ -62,6 +62,11 @@ namespace SpeechTrainer.Database.Database
 
         public async Task<StudentDto> SelectByIdAsync(int idObject)
         {
+            if (_client.Connection.State == ConnectionState.Open)
+            {
+                _client.CloseConnection();
+            }
+
             const string command = "SELECT * FROM Student WHERE Id = @ID";
             var student = new StudentDto();
             try

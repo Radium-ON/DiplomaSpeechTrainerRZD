@@ -7,6 +7,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -14,6 +15,9 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.Extensions.DependencyInjection;
+using SpeechTrainer.Core.Utills;
+using SpeechTrainer.UWP.User.SignIn.Operation;
 using SpeechTrainer.UWP.User.SignIn.View;
 
 namespace SpeechTrainer.UWP
@@ -29,6 +33,7 @@ namespace SpeechTrainer.UWP
         /// </summary>
         public App()
         {
+            Services = ConfigureServices();
             this.InitializeComponent();
             this.Suspending += OnSuspending;
         }
@@ -96,6 +101,30 @@ namespace SpeechTrainer.UWP
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
+        }
+
+        /// <summary>
+        /// Gets the current <see cref="App"/> instance in use
+        /// </summary>
+        public new static App Current => (App)Application.Current;
+
+        /// <summary>
+        /// Gets the <see cref="IServiceProvider"/> instance to resolve application services.
+        /// </summary>
+        public IServiceProvider Services { get; }
+
+        /// <summary>
+        /// Configures the services for the application.
+        /// </summary>
+        private static IServiceProvider ConfigureServices()
+        {
+            var services = new ServiceCollection();
+
+            services.AddSingleton<TrainingService, TrainingService>();
+            services.AddSingleton<GetStudentsOption, GetStudentsOption>();
+            services.AddTransient<SignInViewModel>();
+
+            return services.BuildServiceProvider();
         }
     }
 }

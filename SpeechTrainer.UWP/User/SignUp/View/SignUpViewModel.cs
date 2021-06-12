@@ -1,8 +1,9 @@
-﻿using SpeechTrainer.Core.Utills;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using SpeechTrainer.Core.Utills;
 
 namespace SpeechTrainer.UWP.User.SignUp.View
 {
-	public class SignUpViewModel : ViewModelBase
+	public class SignUpViewModel : ObservableObject
 	{
         public SignUpViewModel()
         {

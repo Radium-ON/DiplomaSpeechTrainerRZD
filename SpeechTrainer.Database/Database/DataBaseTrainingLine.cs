@@ -107,6 +107,7 @@ namespace SpeechTrainer.Database.Database
 
         public async Task<List<TrainingLineDto>> GetLinesByTrainingAsync(int idTraining)
         {
+            _client.CloseConnection();
             const string command = "SELECT * FROM TrainingLine WHERE TrainingId = @ID";
             var lines = new List<TrainingLineDto>();
             try

@@ -1,8 +1,9 @@
-﻿using SpeechTrainer.Core.Utills;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using SpeechTrainer.Core.Utills;
 
 namespace SpeechTrainer.UWP.User.Results.View
 {
-	public class ResultsViewModel : ViewModelBase
+	public class ResultsViewModel : ObservableObject
 	{
         public ResultsViewModel()
         {

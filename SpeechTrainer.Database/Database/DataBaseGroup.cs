@@ -53,7 +53,7 @@ namespace SpeechTrainer.Database.Database
 
         public async Task<GroupDto> SelectByIdAsync(int idObject)
         {
-            const string command = "SELECT * FROM Group WHERE Id = @ID";
+            const string command = "SELECT * FROM [Group] WHERE Id = @ID";
             var group = new GroupDto();
             try
             {
@@ -106,9 +106,8 @@ namespace SpeechTrainer.Database.Database
 
         public async Task<GroupDto> GetGroupByStudentAsync(int idStudent)
         {
-            const string command = "SELECT Group.Id, Group.Name" +
-                                   "FROM Group, Student_Group WHERE Student_Group.StudentId = @ID" +
-                                   "AND Student_Group.GroupId = Group.Id";
+            _client.CloseConnection();
+            const string command = "SELECT [Group].Id, [Group].Name FROM [Group], [Student_Group] WHERE Student_Group.StudentId = @ID AND Student_Group.GroupId = [Group].Id";
             var group = new GroupDto();
             try
             {

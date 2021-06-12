@@ -1,8 +1,9 @@
-﻿using SpeechTrainer.Core.Utills;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using SpeechTrainer.Core.Utills;
 
 namespace SpeechTrainer.UWP.Training.HistoryDetails.View
 {
-    public class HistoryDetailsViewModel : ViewModelBase
+    public class HistoryDetailsViewModel : ObservableObject
     {
         public HistoryDetailsViewModel()
         {

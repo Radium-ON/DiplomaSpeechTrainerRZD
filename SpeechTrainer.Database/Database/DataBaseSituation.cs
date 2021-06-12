@@ -157,10 +157,8 @@ namespace SpeechTrainer.Database.Database
 
         public async Task<SituationDto> GetSituationByTrainingAsync(int idTraining)
         {
-            const string command = "SELECT Situation.Id, Situation.Name, Situation.Description FROM Situation, Participant, Training" +
-                                   "WHERE Training.Id = @ID" +
-                                   "AND Training.ParticipantId = Participant.Id" +
-                                   "AND Participant.SituationId = Situation.Id";
+            _client.CloseConnection();
+            const string command = "SELECT Situation.Id, Situation.Name, Situation.Description FROM Situation, Participant, Training\r\nWHERE Training.Id = 2 AND Training.ParticipantId = Participant.Id AND Participant.SituationId = Situation.Id";
             var situation = new SituationDto();
             try
             {
