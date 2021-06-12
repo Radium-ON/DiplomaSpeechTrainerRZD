@@ -152,6 +152,11 @@
       <DependentUpon>Results.xaml</DependentUpon>
     </Compile>
     <Compile Include="User\Results\View\ResultsViewModel.cs" />
+    <Compile Include="User\SignIn\Data\ISignInDataSource.cs" />
+    <Compile Include="User\SignIn\Data\ISignInRepository.cs" />
+    <Compile Include="User\SignIn\Data\SignInLocalDataSource.cs" />
+    <Compile Include="User\SignIn\Data\SignInRepository.cs" />
+    <Compile Include="User\SignIn\Operation\GetStudentsOption.cs" />
     <Compile Include="User\SignIn\View\SignIn.xaml.cs">
       <DependentUpon>SignIn.xaml</DependentUpon>
     </Compile>
@@ -262,8 +267,6 @@
     <Folder Include="Training\TrainingStart\Operation\" />
     <Folder Include="User\Results\Data\" />
     <Folder Include="User\Results\Operation\" />
-    <Folder Include="User\SignIn\Data\" />
-    <Folder Include="User\SignIn\Operation\" />
     <Folder Include="User\SignUp\Data\" />
     <Folder Include="User\SignUp\Operation\" />
   </ItemGroup>
@@ -271,6 +274,10 @@
     <ProjectReference Include="..\SpeechTrainer.Core\SpeechTrainer.Core.csproj">
       <Project>{fc3d961a-dc50-462e-a75e-8b18cc0ed28d}</Project>
       <Name>SpeechTrainer.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SpeechTrainer.Database\SpeechTrainer.Database.csproj">
+      <Project>{75C80753-85D3-4506-9EA8-DC55B19E8711}</Project>
+      <Name>SpeechTrainer.Database</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
