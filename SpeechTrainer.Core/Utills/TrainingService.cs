@@ -72,8 +72,8 @@ namespace SpeechTrainer.Core.Utills
             var phraseText = form.Phrase.Text;
             if (form.Parameters.Count != 0)
             {
-                var sortedParms = form.Parameters.OrderBy(n => n.OrderNum).Select(i => i.Value.Value).ToArray();
-                textWithParms = string.Format(phraseText, sortedParms as object[]);
+                object[] sortedParms = form.Parameters.OrderBy(n => n.OrderNum).Select(i => i.Value.Value).ToArray();
+                textWithParms = string.Format(phraseText, sortedParms);
             }
             else
             {

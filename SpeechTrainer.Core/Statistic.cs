@@ -6,6 +6,7 @@ namespace SpeechTrainer.Core
 {
     public static class Statistic
     {
+        /*
         public static double GetAverageRating(List<Interval> intervals)
         {
             double result = 0;
@@ -72,5 +73,6 @@ namespace SpeechTrainer.Core
             TimeSpan allTime = GetAllTimeByTasks(tasks);
             return new TimeSpan(allTime.Ticks / tasks.Count);
         }
+        */
     }
 }
