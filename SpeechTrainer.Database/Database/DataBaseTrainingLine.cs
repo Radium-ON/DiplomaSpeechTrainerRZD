@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using SpeechTrainer.Database.Entities;
 using SpeechTrainer.Database.Interfaces;
@@ -38,8 +39,19 @@ namespace SpeechTrainer.Database.Database
                         lines.Add(new TrainingLineDto(id, studentAnswer, completeForm, trainingId, isCorrect));
                     }
                 }
-
                 _client.CloseConnection();
+
+                if (lines.Count != 0)
+                {
+                    var forms = await GetAnswerNumbersAsync(lines.First().TrainingId);//todo некрасиво, но делать нечего
+
+                    for (var i = 0; i < lines.Count; i++)
+                    {
+                        var line = lines[i];
+                        line.SetNumber(forms[i].OrderNum);
+                    }
+                }
+
                 return lines;
             }
             catch (Exception exception)
@@ -52,6 +64,17 @@ namespace SpeechTrainer.Database.Database
             {
                 _client.CloseConnection();
             }
+        }
+
+        private async Task<List<AnswerFormDto>> GetAnswerNumbersAsync(int trainingId)
+        {
+            var dbSituation = new DataBaseSituation();
+            var dbAnswerForm = new DataBaseAnswerForm();
+            var dbPosition = new DataBasePosition();
+            var situation = await dbSituation.GetSituationByTrainingAsync(trainingId);
+            var studentPosition = await dbPosition.GetPositionByTrainingAsync(trainingId);
+            var forms = await dbAnswerForm.GetFormsBySituationAsync(situation.Id);
+            return forms.FindAll(form => form.Position.Id == studentPosition.Id).OrderBy(n => n.OrderNum).ToList();
         }
 
         public async Task<TrainingLineDto> SelectByIdAsync(int idObject)
@@ -77,6 +100,12 @@ namespace SpeechTrainer.Database.Database
                 }
 
                 _client.CloseConnection();
+
+                if (line.Id != 0)
+                {
+                    var form = await GetAnswerNumbersAsync(line.TrainingId);//todo некрасиво, но делать нечего
+                    line.SetNumber(form.First().OrderNum);
+                }
                 return line;
             }
             catch (Exception exception)
@@ -129,6 +158,18 @@ namespace SpeechTrainer.Database.Database
                 }
 
                 _client.CloseConnection();
+
+                if (lines.Count != 0)
+                {
+                    var forms = await GetAnswerNumbersAsync(lines.First().TrainingId);//todo некрасиво, но делать нечего
+
+                    for (var i = 0; i < lines.Count; i++)
+                    {
+                        var line = lines[i];
+                        line.SetNumber(forms[i].OrderNum);
+                    }
+                }
+
                 return lines;
             }
             catch (Exception exception)
@@ -146,8 +187,8 @@ namespace SpeechTrainer.Database.Database
         public async Task<bool> CreateAsync(int idTraining, TrainingLineDto newObject)
         {
             const string command = "INSERT INTO TrainingLine" +
-                                   "(StudentAnswer, TrainingId, CompleteForm, IsCorrect)" +
-                                   "VALUES(@StudentAnswer, @TrainingId, @CompleteForm, @IsCorrect)";
+                                   " (StudentAnswer, TrainingId, CompleteForm, IsCorrect)" +
+                                   " VALUES(@StudentAnswer, @TrainingId, @CompleteForm, @IsCorrect)";
             try
             {
                 using (var cmd = new SqlCommand(command, _client.OpenConnection()))

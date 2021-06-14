@@ -7,6 +7,7 @@
         public string CompleteForm { get; }
         public int TrainingId { get; }
         public bool IsCorrect { get; }
+        public int SituationOrderNum { get; private set; }
 
         public TrainingLineDto(string studentAnswer, string completeForm, int trainingId, bool isCorrect)
         {
@@ -23,6 +24,11 @@
 
         public TrainingLineDto()
         {
+        }
+
+        public void SetNumber(int number)
+        {
+            SituationOrderNum = number;
         }
 
         public override string ToString()

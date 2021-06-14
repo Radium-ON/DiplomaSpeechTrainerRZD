@@ -17,6 +17,10 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.Extensions.DependencyInjection;
 using SpeechTrainer.Core.Utills;
+using SpeechTrainer.UWP.Training.History.Operation;
+using SpeechTrainer.UWP.Training.History.View;
+using SpeechTrainer.UWP.Training.HistoryDetails.Operation;
+using SpeechTrainer.UWP.Training.HistoryDetails.View;
 using SpeechTrainer.UWP.User.SignIn.Operation;
 using SpeechTrainer.UWP.User.SignIn.View;
 using SpeechTrainer.UWP.User.SignUp.Operation;
@@ -125,9 +129,13 @@ namespace SpeechTrainer.UWP
             services.AddSingleton<TrainingService, TrainingService>();
             services.AddSingleton<GetStudentsOption, GetStudentsOption>();
             services.AddSingleton<SignUpOptions, SignUpOptions>();
+            services.AddSingleton<TrainingHistoryOptions, TrainingHistoryOptions>();
+            services.AddSingleton<TrainingDetailsOptions, TrainingDetailsOptions>();
 
             services.AddTransient<SignInViewModel>();
             services.AddTransient<SignUpViewModel>();
+            services.AddTransient<HistoryViewModel>();
+            services.AddTransient<HistoryDetailsViewModel>();
 
             return services.BuildServiceProvider();
         }

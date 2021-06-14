@@ -45,7 +45,7 @@ namespace SpeechTrainer.Database.Database
         public async Task<List<ParameterDto>> GetParametersByAnswerFormAsync(int idForm)
         {
             const string command = "SELECT Parameter.Id, Parameter.OrderNum, Parameter.FormId FROM Parameter" +
-                                   "WHERE Parameter.FormId = @ID";
+                                   " WHERE Parameter.FormId = @ID";
 
             var parms = new List<ParameterDto>();
             try
@@ -64,11 +64,11 @@ namespace SpeechTrainer.Database.Database
                         parms.Add(parm);
                     }
                 }
+                _client.CloseConnection();
                 foreach (var parm in parms)
                 {
                     parm.SetAvailableValue(await GetParameterValueAsync(parm.Id));
                 }
-                _client.CloseConnection();
                 return parms;
             }
             catch (Exception exception)

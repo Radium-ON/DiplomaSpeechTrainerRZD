@@ -5,6 +5,7 @@ using Windows.UI.Xaml.Input;
 using SpeechTrainer.UWP.Training.History.View;
 using SpeechTrainer.UWP.Training.HistoryDetails.View;
 using SpeechTrainer.UWP.Training.TrainingStart.View;
+using SpeechTrainer.UWP.User.Results.View;
 using SpeechTrainer.UWP.User.SignIn.View;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -16,6 +17,7 @@ namespace SpeechTrainer.UWP.Shell.NavigationPage.View
     /// </summary>
     public sealed partial class NavigationPage : Page
     {
+        private bool _alreadyStarted = false;
         public NavigationPage()
         {
             InitializeComponent();
@@ -23,28 +25,21 @@ namespace SpeechTrainer.UWP.Shell.NavigationPage.View
 
         private void NavigationView_OnSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
-            if (args.IsSettingsSelected)
+            if (_alreadyStarted) return;
+            _alreadyStarted = true;
+            var item = args.SelectedItem as NavigationViewItem;
+            var itemTag = (string)item?.Tag;
+            switch (itemTag)
             {
-                main_frame.Navigate(typeof(Settings.View.Settings));
-            }
-            else
-            {
-                var item = args.SelectedItem as NavigationViewItem;
-                var itemTag = (string)item?.Tag;
-
-                switch (itemTag)
-                {
-                    case "Training":
-                        main_frame.Navigate(typeof(TrainingStart));
-                        break;
-                    case "History":
-                        main_frame.Navigate(typeof(History));
-                        break;
-                    case "Results":
-                        main_frame.Navigate(typeof(HistoryDetails));
-                        break;
-                }
-
+                case "Training":
+                    main_frame.Navigate(typeof(TrainingStart));
+                    break;
+                case "History":
+                    main_frame.Navigate(typeof(History));
+                    break;
+                case "Results":
+                    main_frame.Navigate(typeof(Results));
+                    break;
             }
         }
 
@@ -68,6 +63,33 @@ namespace SpeechTrainer.UWP.Shell.NavigationPage.View
                 case ContentDialogResult.Secondary:
                     e.Handled = true;
                     break;
+            }
+        }
+
+        private void Navigation_view_OnItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
+        {
+            if (args.IsSettingsInvoked)
+            {
+                main_frame.Navigate(typeof(Settings.View.Settings));
+            }
+            else
+            {
+                var item = args.InvokedItemContainer as NavigationViewItem;
+                var itemTag = (string)item?.Tag;
+
+                switch (itemTag)
+                {
+                    case "Training":
+                        main_frame.Navigate(typeof(TrainingStart));
+                        break;
+                    case "History":
+                        main_frame.Navigate(typeof(History));
+                        break;
+                    case "Results":
+                        main_frame.Navigate(typeof(Results));
+                        break;
+                }
+
             }
         }
     }

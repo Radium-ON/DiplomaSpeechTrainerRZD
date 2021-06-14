@@ -19,5 +19,14 @@ namespace SpeechTrainer.Core.ModelObservable
             Name = name;
             Description = description;
         }
+
+        #region Overrides of Object
+
+        public override string ToString()
+        {
+            return Name;
+        }
+
+        #endregion
     }
 }

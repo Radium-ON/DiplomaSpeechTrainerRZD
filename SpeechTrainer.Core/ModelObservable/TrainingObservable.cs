@@ -79,5 +79,14 @@ namespace SpeechTrainer.Core.ModelObservable
         public TrainingObservable()
         {
         }
+
+        #region Overrides of Object
+
+        public override string ToString()
+        {
+            return Situation.ToString();
+        }
+
+        #endregion
     }
 }

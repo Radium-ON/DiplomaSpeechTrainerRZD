@@ -62,11 +62,6 @@ namespace SpeechTrainer.Database.Database
 
         public async Task<StudentDto> SelectByIdAsync(int idObject)
         {
-            if (_client.Connection.State == ConnectionState.Open)
-            {
-                _client.CloseConnection();
-            }
-
             const string command = "SELECT * FROM Student WHERE Id = @ID";
             var student = new StudentDto();
             try
@@ -86,10 +81,11 @@ namespace SpeechTrainer.Database.Database
                     }
                 }
 
+                _client.CloseConnection();
+
                 student.SetGroup(await GetStudentGroupAsync(student.Id));
                 student.SetTrainings(await GetStudentTrainingsAsync(student.Id));
 
-                _client.CloseConnection();
                 return student;
             }
             catch (Exception exception)

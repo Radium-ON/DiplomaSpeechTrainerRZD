@@ -36,6 +36,7 @@ namespace SpeechTrainer.Database.Database
                         answerForms.Add(answerForm);
                     }
                 }
+                _client.CloseConnection();
                 foreach (var form in answerForms)
                 {
                     form.SetSituation(await GetFormSituationAsync(form.Id));
@@ -43,7 +44,6 @@ namespace SpeechTrainer.Database.Database
                     form.SetParameters(await GetFormParametersAsync(form.Id));
                     form.SetPhrase(await GetFormPhraseAsync(form.Id));
                 }
-                _client.CloseConnection();
                 return answerForms;
             }
             catch (Exception exception)
@@ -61,7 +61,7 @@ namespace SpeechTrainer.Database.Database
         private async Task<PhraseDto> GetFormPhraseAsync(int formId)
         {
             const string command = "SELECT PhraseId FROM AnswerForm_Phrase_Participant" +
-                                   "WHERE AnswerForm_Phrase_Participant.FormId = @ID";
+                                   " WHERE AnswerForm_Phrase_Participant.FormId = @ID";
             var phraseId = 0;
 
             try
@@ -95,8 +95,8 @@ namespace SpeechTrainer.Database.Database
         private async Task<PositionDto> GetFormPositionAsync(int formId)
         {
             const string command = "SELECT PositionId FROM AnswerForm_Phrase_Participant, Participant" +
-                                   "WHERE AnswerForm_Phrase_Participant.FormId = @ID" +
-                                   "AND AnswerForm_Phrase_Participant.ParticipantId = Participant.Id";
+                                   " WHERE AnswerForm_Phrase_Participant.FormId = @ID" +
+                                   " AND AnswerForm_Phrase_Participant.ParticipantId = Participant.Id";
             var positionId = 0;
 
             try
@@ -130,8 +130,8 @@ namespace SpeechTrainer.Database.Database
         private async Task<SituationDto> GetFormSituationAsync(int formId)
         {
             const string command = "SELECT SituationId FROM AnswerForm_Phrase_Participant, Participant" +
-                                   "WHERE AnswerForm_Phrase_Participant.FormId = @ID" +
-                                   "AND AnswerForm_Phrase_Participant.ParticipantId = Participant.Id";
+                                   " WHERE AnswerForm_Phrase_Participant.FormId = @ID" +
+                                   " AND AnswerForm_Phrase_Participant.ParticipantId = Participant.Id";
             var situationId = 0;
 
             try
@@ -181,11 +181,12 @@ namespace SpeechTrainer.Database.Database
                     }
                 }
 
+                _client.CloseConnection();
+
                 form.SetSituation(await GetFormSituationAsync(form.Id));
                 form.SetPosition(await GetFormPositionAsync(form.Id));
                 form.SetParameters(await GetFormParametersAsync(form.Id));
-
-                _client.CloseConnection();
+                form.SetPhrase(await GetFormPhraseAsync(form.Id));
                 return form;
             }
             catch (Exception exception)
@@ -223,9 +224,9 @@ namespace SpeechTrainer.Database.Database
         public async Task<List<AnswerFormDto>> GetFormsByPositionAsync(int idPosition)
         {
             const string command = "SELECT AnswerForm.Id, AnswerForm.OrderNum FROM AnswerForm, AnswerForm_Phrase_Participant, Participant" +
-                                   "WHERE AnswerForm_Phrase_Participant.FormId = AnswerForm.Id" +
-                                   "AND AnswerForm_Phrase_Participant.ParticipantId = Participant.Id" +
-                                   "AND Participant.PositionId = @ID";
+                                   " WHERE AnswerForm_Phrase_Participant.FormId = AnswerForm.Id" +
+                                   " AND AnswerForm_Phrase_Participant.ParticipantId = Participant.Id" +
+                                   " AND Participant.PositionId = @ID";
 
             var answerForms = new List<AnswerFormDto>();
             try
@@ -243,13 +244,16 @@ namespace SpeechTrainer.Database.Database
                         answerForms.Add(answerForm);
                     }
                 }
+
+                _client.CloseConnection();
+
                 foreach (var form in answerForms)
                 {
                     form.SetSituation(await GetFormSituationAsync(form.Id));
                     form.SetPosition(await GetFormPositionAsync(form.Id));
                     form.SetParameters(await GetFormParametersAsync(form.Id));
+                    form.SetPhrase(await GetFormPhraseAsync(form.Id));
                 }
-                _client.CloseConnection();
                 return answerForms;
             }
             catch (Exception exception)
@@ -267,9 +271,9 @@ namespace SpeechTrainer.Database.Database
         public async Task<List<AnswerFormDto>> GetFormsBySituationAsync(int idSituation)
         {
             const string command = "SELECT AnswerForm.Id, AnswerForm.OrderNum FROM AnswerForm, AnswerForm_Phrase_Participant, Participant" +
-                                   "WHERE AnswerForm_Phrase_Participant.FormId = AnswerForm.Id" +
-                                   "AND AnswerForm_Phrase_Participant.ParticipantId = Participant.Id" +
-                                   "AND Participant.SituationId = @ID";
+                                   " WHERE AnswerForm_Phrase_Participant.FormId = AnswerForm.Id" +
+                                   " AND AnswerForm_Phrase_Participant.ParticipantId = Participant.Id" +
+                                   " AND Participant.SituationId = @ID";
 
             var answerForms = new List<AnswerFormDto>();
             try
@@ -287,13 +291,14 @@ namespace SpeechTrainer.Database.Database
                         answerForms.Add(answerForm);
                     }
                 }
+                _client.CloseConnection();
                 foreach (var form in answerForms)
                 {
                     form.SetSituation(await GetFormSituationAsync(form.Id));
                     form.SetPosition(await GetFormPositionAsync(form.Id));
                     form.SetParameters(await GetFormParametersAsync(form.Id));
+                    form.SetPhrase(await GetFormPhraseAsync(form.Id));
                 }
-                _client.CloseConnection();
                 return answerForms;
             }
             catch (Exception exception)

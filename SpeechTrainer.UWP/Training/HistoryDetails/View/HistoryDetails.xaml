@@ -5,42 +5,41 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Loaded="{x:Bind ViewModel.InitializePropertiesAsync}">
+    <Page.Resources>
+        <converters:BoolToObjectConverter x:Key="bool_to_object_converter" TrueValue="✔" FalseValue="❌"/>
+    </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <TextBlock Margin="20,60,0,0" Text="Ответы" Style="{StaticResource HeaderTextBlockStyle}"/>
-        <StackPanel Grid.Row="1" Margin="20,40,20,0">
+        <StackPanel Margin="40,0,0,0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <TextBlock Text="{x:Bind ViewModel.Training.Situation, Mode=OneWay}" Style="{StaticResource TitleTextBlockStyle}"/>
+            <TextBlock Text="{x:Bind ViewModel.Position, Mode=OneWay}" Style="{StaticResource SubtitleTextBlockStyle}"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Margin="40,40,40,0">
             <controls:DataGrid
-                x:Name="dataGrid"
-                VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                x:Name="answers_data_grid"
+                IsReadOnly="True"
                 HorizontalScrollBarVisibility="Visible"
                 VerticalScrollBarVisibility="Visible"
                 AlternatingRowBackground="Transparent"
                 AlternatingRowForeground="Gray"
-                AreRowDetailsFrozen="False"
-                AreRowGroupHeadersFrozen="True"
                 AutoGenerateColumns="False"
                 CanUserSortColumns="False"
-                CanUserReorderColumns="True"
+                CanUserReorderColumns="False"
                 CanUserResizeColumns="True"
-                ColumnHeaderHeight="32"
-                MaxColumnWidth="400"
                 FrozenColumnCount="0"
-                GridLinesVisibility="Vertical"
-                HeadersVisibility="Column"
-                RowDetailsVisibilityMode="Collapsed"
-                SelectionMode="Extended"
-                RowGroupHeaderPropertyNameAlternative="Range">
+                GridLinesVisibility="All"
+                ItemsSource="{x:Bind ViewModel.TrainingLines, Mode=OneWay}">
                 <controls:DataGrid.Columns>
-                    <controls:DataGridTextColumn Header="Номер вопроса"/>
-                    <controls:DataGridTextColumn Header="Ваш ответ"/>
-                    <controls:DataGridTextColumn Header="Правильный ответ" />
-                    <controls:DataGridTextColumn Header="Метка"/>
+                    <controls:DataGridTextColumn Header="Порядок фразы" Width="Auto" Binding="{Binding SituationOrderNum, Mode=OneWay}"/>
+                    <controls:DataGridTextColumn Header="Ваш ответ" Width="*" Binding="{Binding StudentAnswer, Mode=OneWay}"/>
+                    <controls:DataGridTextColumn Header="Правильный ответ" Width="*" Binding="{Binding CompleteForm, Mode=OneWay}"/>
+                    <controls:DataGridTextColumn Width="Auto" Binding="{Binding IsCorrect, Converter={StaticResource bool_to_object_converter}}"/>
                 </controls:DataGrid.Columns>
             </controls:DataGrid>
         </StackPanel>

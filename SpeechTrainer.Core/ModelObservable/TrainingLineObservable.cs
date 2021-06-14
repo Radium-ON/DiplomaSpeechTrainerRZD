@@ -9,18 +9,21 @@ namespace SpeechTrainer.Core.ModelObservable
         public string CompleteForm { get; set; }
         public int TrainingId { get; }
         public bool IsCorrect { get; set; }
+        public int SituationOrderNum { get; set; }
 
-        public TrainingLineObservable(int id, string studentAnswer, string completeForm, int trainingId, bool isCorrect)
+        public TrainingLineObservable(int id, string studentAnswer, string completeForm, int trainingId, bool isCorrect, int situationOrderNum)
         {
             Id = id;
             StudentAnswer = studentAnswer;
             CompleteForm = completeForm;
             TrainingId = trainingId;
             IsCorrect = isCorrect;
+            SituationOrderNum = situationOrderNum;
         }
 
         public TrainingLineObservable()
         {
+            
         }
     }
 }

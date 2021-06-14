@@ -16,5 +16,14 @@ namespace SpeechTrainer.Core.ModelObservable
             FullPosition = fullPosition;
             Responsibilities = responsibilities;
         }
+
+        #region Overrides of Object
+
+        public override string ToString()
+        {
+            return $"{FullPosition} ({ShortName})";
+        }
+
+        #endregion
     }
 }

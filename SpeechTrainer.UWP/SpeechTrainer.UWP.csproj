@@ -133,10 +133,20 @@
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Shell\Settings\View\SettingsViewModel.cs" />
+    <Compile Include="Training\HistoryDetails\Data\IHistoryDetailsDataSource.cs" />
+    <Compile Include="Training\HistoryDetails\Data\IHistoryDetailsRepository.cs" />
+    <Compile Include="Training\HistoryDetails\Data\HistoryDetailsLocalDataSource.cs" />
+    <Compile Include="Training\HistoryDetails\Data\HistoryDetailsRepository.cs" />
+    <Compile Include="Training\HistoryDetails\Operation\TrainingDetailsOptions.cs" />
     <Compile Include="Training\HistoryDetails\View\HistoryDetails.xaml.cs">
       <DependentUpon>HistoryDetails.xaml</DependentUpon>
     </Compile>
     <Compile Include="Training\HistoryDetails\View\HistoryDetailsViewModel.cs" />
+    <Compile Include="Training\History\Data\ITrainingDataSource.cs" />
+    <Compile Include="Training\History\Data\ITrainingRepository.cs" />
+    <Compile Include="Training\History\Data\TrainingLocalDataSource.cs" />
+    <Compile Include="Training\History\Data\TrainingRepository.cs" />
+    <Compile Include="Training\History\Operation\TrainingHistoryOptions.cs" />
     <Compile Include="Training\History\View\History.xaml.cs">
       <DependentUpon>History.xaml</DependentUpon>
     </Compile>
@@ -240,6 +250,9 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.12</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI">
+      <Version>6.1.1</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls.DataGrid">
       <Version>6.1.1</Version>
     </PackageReference>
@@ -266,10 +279,6 @@
     <Folder Include="Shell\NavigationPage\Operation\" />
     <Folder Include="Shell\Settings\Data\" />
     <Folder Include="Shell\Settings\Operation\" />
-    <Folder Include="Training\HistoryDetails\Data\" />
-    <Folder Include="Training\HistoryDetails\Operation\" />
-    <Folder Include="Training\History\Data\" />
-    <Folder Include="Training\History\Operation\" />
     <Folder Include="Training\TrainingRun\Data\" />
     <Folder Include="Training\TrainingRun\Operation\" />
     <Folder Include="Training\TrainingStart\Data\" />

@@ -37,12 +37,12 @@ namespace SpeechTrainer.Database.Database
                         situations.Add(situation);
                     }
                 }
+                _client.CloseConnection();
                 foreach (var situation in situations)
                 {
-                    situation.SetAnswerForms(await GetFormsBySituationAsync(situation.Id));
+                    //situation.SetAnswerForms(await GetFormsBySituationAsync(situation.Id));
                     situation.SetPositions(await GetPositionsBySituationAsync(situation.Id));
                 }
-                _client.CloseConnection();
                 return situations;
             }
             catch (Exception exception)
@@ -90,6 +90,8 @@ namespace SpeechTrainer.Database.Database
                 }
 
                 _client.CloseConnection();
+                //situation.SetAnswerForms(await GetFormsBySituationAsync(situation.Id));
+                situation.SetPositions(await GetPositionsBySituationAsync(situation.Id));
                 return situation;
             }
             catch (Exception exception)
@@ -121,8 +123,8 @@ namespace SpeechTrainer.Database.Database
         public async Task<List<SituationDto>> GetSituationsByPositionAsync(int idPosition)
         {
             const string command = "SELECT Situation.Id, Situation.Name, Situation.Description FROM Situation, Participant" +
-                                   "WHERE Participant.PositionId = @ID" +
-                                   "AND Participant.SituationId = Situation.Id";
+                                   " WHERE Participant.PositionId = @ID" +
+                                   " AND Participant.SituationId = Situation.Id";
             var situations = new List<SituationDto>();
             try
             {
@@ -141,6 +143,11 @@ namespace SpeechTrainer.Database.Database
                 }
 
                 _client.CloseConnection();
+                foreach (var situation in situations)
+                {
+                    //situation.SetAnswerForms(await GetFormsBySituationAsync(situation.Id));
+                    situation.SetPositions(await GetPositionsBySituationAsync(situation.Id));
+                }
                 return situations;
             }
             catch (Exception exception)
@@ -158,7 +165,8 @@ namespace SpeechTrainer.Database.Database
         public async Task<SituationDto> GetSituationByTrainingAsync(int idTraining)
         {
             _client.CloseConnection();
-            const string command = "SELECT Situation.Id, Situation.Name, Situation.Description FROM Situation, Participant, Training\r\nWHERE Training.Id = 2 AND Training.ParticipantId = Participant.Id AND Participant.SituationId = Situation.Id";
+            const string command = "SELECT Situation.Id, Situation.Name, Situation.Description FROM Situation, Participant, Training" +
+                                   " WHERE Training.Id = 2 AND Training.ParticipantId = Participant.Id AND Participant.SituationId = Situation.Id";
             var situation = new SituationDto();
             try
             {
@@ -177,6 +185,10 @@ namespace SpeechTrainer.Database.Database
                 }
 
                 _client.CloseConnection();
+
+                //situation.SetAnswerForms(await GetFormsBySituationAsync(situation.Id));
+                situation.SetPositions(await GetPositionsBySituationAsync(situation.Id));
+
                 return situation;
             }
             catch (Exception exception)

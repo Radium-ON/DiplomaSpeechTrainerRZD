@@ -38,13 +38,13 @@ namespace SpeechTrainer.Database.Database
                         trainings.Add(new TrainingDto(id, scores, trainDate, studentId, participantId, null, null));
                     }
                 }
+                _client.CloseConnection();
                 foreach (var training in trainings)
                 {
                     training.SetSituation(await GetTrainingSituationAsync(training.Id));
                     training.SetStudent(await GetTrainingStudentAsync(training.Id));
                     training.SetTrainingLines(await GetTrainingLinesAsync(training.Id));
                 }
-                _client.CloseConnection();
                 return trainings;
             }
             catch (Exception exception)
@@ -98,12 +98,12 @@ namespace SpeechTrainer.Database.Database
                         training = new TrainingDto(id, scores, trainDate, studentId, participantId, null, null);
                     }
                 }
+                _client.CloseConnection();
 
                 training.SetSituation(await GetTrainingSituationAsync(training.Id));
                 training.SetStudent(await GetTrainingStudentAsync(training.Id));
                 training.SetTrainingLines(await GetTrainingLinesAsync(training.Id));
 
-                _client.CloseConnection();
                 return training;
             }
             catch (Exception exception)
@@ -134,7 +134,6 @@ namespace SpeechTrainer.Database.Database
 
         public async Task<List<TrainingDto>> GetTrainingsByStudentAsync(int idStudent)
         {
-            _client.CloseConnection();
             const string command = "SELECT * FROM Training WHERE Training.StudentId = @ID";
             var trainings = new List<TrainingDto>();
             try
@@ -154,13 +153,13 @@ namespace SpeechTrainer.Database.Database
                         trainings.Add(new TrainingDto(id, scores, trainDate, studentId, participantId, null, null));
                     }
                 }
+                _client.CloseConnection();
                 foreach (var training in trainings)
                 {
                     training.SetSituation(await GetTrainingSituationAsync(training.Id));
                     training.SetStudent(await GetTrainingStudentAsync(training.Id));
                     training.SetTrainingLines(await GetTrainingLinesAsync(training.Id));
                 }
-                _client.CloseConnection();
                 return trainings;
             }
             catch (Exception exception)
@@ -179,9 +178,9 @@ namespace SpeechTrainer.Database.Database
             TrainingDto newObject)
         {
             const string command = "INSERT INTO Training" +
-                                   "(ScoresNumber, TrainingDate, StudentId, ParticipantId)" +
-                                   "VALUES(@Scores, @Date, @StudentId," +
-                                   "(SELECT Id From Participant WHERE Participant.PositionId = @PositionId AND Participant.SituationId = @SituationId))";
+                                   " (ScoresNumber, TrainingDate, StudentId, ParticipantId)" +
+                                   " VALUES(@Scores, @Date, @StudentId," +
+                                   " (SELECT Id From Participant WHERE Participant.PositionId = @PositionId AND Participant.SituationId = @SituationId))";
 
             const string lastIndexCommand = "SELECT IDENT_CURRENT('Training') AS [IDENT_CURRENT]";
 

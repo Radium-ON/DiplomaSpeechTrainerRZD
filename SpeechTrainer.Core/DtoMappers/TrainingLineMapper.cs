@@ -25,7 +25,8 @@ namespace SpeechTrainer.Core.DtoMappers
                 dto.StudentAnswer,
                 dto.CompleteForm,
                 dto.TrainingId,
-                dto.IsCorrect
+                dto.IsCorrect,
+                dto.SituationOrderNum
                 );
         }
         public static IEnumerable<TrainingLineDto> ConvertToListDto(List<TrainingLineObservable> observables)

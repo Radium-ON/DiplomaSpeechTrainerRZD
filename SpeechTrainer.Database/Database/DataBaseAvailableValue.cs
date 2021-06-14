@@ -39,12 +39,13 @@ namespace SpeechTrainer.Database.Database
                     }
                 }
 
+                _client.CloseConnection();
+
                 foreach (var value in availValues)
                 {
                     value.SetParameterType(await GetTypeForValueAsync(value.Id));
                 }
 
-                _client.CloseConnection();
                 return availValues;
             }
             catch (Exception exception)
@@ -77,10 +78,10 @@ namespace SpeechTrainer.Database.Database
                         availValue = new AvailableValueDto(id, value);
                     }
                 }
+                _client.CloseConnection();
 
                 availValue.SetParameterType(await GetTypeForValueAsync(availValue.Id));
 
-                _client.CloseConnection();
                 return availValue;
             }
             catch (Exception exception)
@@ -130,11 +131,11 @@ namespace SpeechTrainer.Database.Database
                         values.Add(availValue);
                     }
                 }
+                _client.CloseConnection();
                 foreach (var value in values)
                 {
                     value.SetParameterType(await GetTypeForValueAsync(idParameterType));
                 }
-                _client.CloseConnection();
                 return values;
             }
             catch (Exception exception)
@@ -152,8 +153,8 @@ namespace SpeechTrainer.Database.Database
         public async Task<AvailableValueDto> GetAvailableValueByParameterAsync(int idParameter)
         {
             const string command = "SELECT AvailableValue.Id, AvailableValue.Value FROM AvailableValue, Parameter_Value" +
-                                   "WHERE Parameter_Value.ParameterId = @ID" +
-                                   "AND Parameter_Value.ValueId = AvailableValue.Id";
+                                   " WHERE Parameter_Value.ParameterId = @ID" +
+                                   " AND Parameter_Value.ValueId = AvailableValue.Id";
 
             var value = new AvailableValueDto();
 
@@ -172,10 +173,10 @@ namespace SpeechTrainer.Database.Database
                         value = new AvailableValueDto(id, val);
                     }
                 }
+                _client.CloseConnection();
 
                 value.SetParameterType(await GetTypeForValueAsync(value.Id));
 
-                _client.CloseConnection();
                 return value;
             }
             catch (Exception exception)
@@ -193,7 +194,7 @@ namespace SpeechTrainer.Database.Database
         private async Task<ParameterTypeDto> GetTypeForValueAsync(int valueId)
         {
             const string command = "SELECT ParameterTypeId FROM ParameterType_AvailValue" +
-                                   "WHERE ParameterType_AvailValue.ValueId = @ID";
+                                   " WHERE ParameterType_AvailValue.ValueId = @ID";
             var parmTypeId = 0;
 
             try

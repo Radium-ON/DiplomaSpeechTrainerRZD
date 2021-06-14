@@ -108,7 +108,7 @@ namespace SpeechTrainer.Database.Database
         public async Task<List<PositionDto>> GetPositionsBySituationAsync(int idSituation)
         {
             const string command = "SELECT Position.Id, FullPosition, Responsibilities, ShortName" +
-                                   "FROM Participant, Position WHERE Participant.SituationId = @ID AND Participant.PositionId = Position.Id";
+                                   " FROM Participant, Position WHERE Participant.SituationId = @ID AND Participant.PositionId = Position.Id";
             var positions = new List<PositionDto>();
             try
             {
@@ -145,9 +145,9 @@ namespace SpeechTrainer.Database.Database
         public async Task<PositionDto> GetPositionByFormAsync(int idForm)
         {
             const string command = "SELECT Position.Id, FullPosition, Responsibilities, ShortName" +
-                                   "FROM Participant, Position, AnswerForm_Phrase_Participant WHERE AnswerForm_Phrase_Participant.FormId = @ID" +
-                                   "AND AnswerForm_Phrase_Participant.ParticipantId = Participant.Id" +
-                                   "AND Participant.PositionId = Position.Id";
+                                   " FROM Participant, Position, AnswerForm_Phrase_Participant WHERE AnswerForm_Phrase_Participant.FormId = @ID" +
+                                   " AND AnswerForm_Phrase_Participant.ParticipantId = Participant.Id" +
+                                   " AND Participant.PositionId = Position.Id";
             var position = new PositionDto();
             try
             {
@@ -184,8 +184,8 @@ namespace SpeechTrainer.Database.Database
         public async Task<PositionDto> GetPositionByTrainingAsync(int idTraining)
         {
             const string command = "SELECT Position.Id, FullPosition, Responsibilities, ShortName" +
-                                   "FROM Participant, Position, Training WHERE Training.Id = @ID AND Training.ParticipantId = Participant.Id" +
-                                   "AND Participant.PositionId = Position.Id";
+                                   " FROM Participant, Position, Training WHERE Training.Id = @ID AND Training.ParticipantId = Participant.Id" +
+                                   " AND Participant.PositionId = Position.Id";
             var position = new PositionDto();
             try
             {
@@ -223,8 +223,8 @@ namespace SpeechTrainer.Database.Database
         {
             var commandCreateParameterType = "INSERT Position VALUES" +
                                              "(@FullPosition," +
-                                             "@Resp" +
-                                             "ShortName";
+                                             "@Resp," +
+                                             "@ShortName)";
 
             try
             {
