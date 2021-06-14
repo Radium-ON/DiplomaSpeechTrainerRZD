@@ -14,14 +14,26 @@ namespace SpeechTrainer.Core.ModelObservable
         public GroupObservable Group { get; private set; }
         public List<TrainingObservable> Trainings { get; private set; }
 
-        public StudentObservable(int id, string firstName, string lastName, string studentCode, GroupObservable @group, List<TrainingObservable> trainings)
+        public StudentObservable(int id, string firstName, string lastName, string studentCode, GroupObservable group, List<TrainingObservable> trainings)
         {
             Id = id;
             FirstName = firstName;
             LastName = lastName;
             StudentCode = studentCode;
-            Group = @group;
+            Group = group;
             Trainings = trainings;
+        }
+
+        public StudentObservable(string firstName, string lastName, GroupObservable group) : this(firstName, lastName, group, null)
+        {
+        }
+
+        public StudentObservable(string firstName, string lastName, GroupObservable group, string studentCode)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            Group = group;
+            StudentCode = studentCode;
         }
 
         #region Overrides of Object

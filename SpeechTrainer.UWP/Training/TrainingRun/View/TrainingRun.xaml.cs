@@ -16,7 +16,7 @@ namespace SpeechTrainer.UWP.Training.TrainingRun.View
     {
         public TrainingRun()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         private async void NavigationPage_OnClick(object sender, RoutedEventArgs e)

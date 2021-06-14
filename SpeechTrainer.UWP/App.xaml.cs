@@ -19,6 +19,8 @@ using Microsoft.Extensions.DependencyInjection;
 using SpeechTrainer.Core.Utills;
 using SpeechTrainer.UWP.User.SignIn.Operation;
 using SpeechTrainer.UWP.User.SignIn.View;
+using SpeechTrainer.UWP.User.SignUp.Operation;
+using SpeechTrainer.UWP.User.SignUp.View;
 
 namespace SpeechTrainer.UWP
 {
@@ -34,8 +36,8 @@ namespace SpeechTrainer.UWP
         public App()
         {
             Services = ConfigureServices();
-            this.InitializeComponent();
-            this.Suspending += OnSuspending;
+            InitializeComponent();
+            Suspending += OnSuspending;
         }
 
         /// <summary>
@@ -122,7 +124,10 @@ namespace SpeechTrainer.UWP
 
             services.AddSingleton<TrainingService, TrainingService>();
             services.AddSingleton<GetStudentsOption, GetStudentsOption>();
+            services.AddSingleton<SignUpOptions, SignUpOptions>();
+
             services.AddTransient<SignInViewModel>();
+            services.AddTransient<SignUpViewModel>();
 
             return services.BuildServiceProvider();
         }

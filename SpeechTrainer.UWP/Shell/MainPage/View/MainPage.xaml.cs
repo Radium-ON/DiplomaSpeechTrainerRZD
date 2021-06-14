@@ -13,7 +13,7 @@ namespace SpeechTrainer.UWP.Shell.MainPage.View
     {
         public MainPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }

@@ -13,7 +13,7 @@ namespace SpeechTrainer.UWP.Training.HistoryDetails.View
     {
         public HistoryDetails()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }

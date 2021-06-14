@@ -18,7 +18,7 @@ namespace SpeechTrainer.UWP.Shell.NavigationPage.View
     {
         public NavigationPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         private void NavigationView_OnSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)

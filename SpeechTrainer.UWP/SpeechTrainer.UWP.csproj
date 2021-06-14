@@ -99,6 +99,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>false</UseDotNetNativeToolchain>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -161,6 +162,11 @@
       <DependentUpon>SignIn.xaml</DependentUpon>
     </Compile>
     <Compile Include="User\SignIn\View\SignInViewModel.cs" />
+    <Compile Include="User\SignUp\Data\ISignUpDataSource.cs" />
+    <Compile Include="User\SignUp\Data\ISignUpRepository.cs" />
+    <Compile Include="User\SignUp\Data\SignUpLocalDataSource.cs" />
+    <Compile Include="User\SignUp\Data\SignUpRepository.cs" />
+    <Compile Include="User\SignUp\Operation\SignUpOptions.cs" />
     <Compile Include="User\SignUp\View\SignUp.xaml.cs">
       <DependentUpon>SignUp.xaml</DependentUpon>
     </Compile>
@@ -270,8 +276,6 @@
     <Folder Include="Training\TrainingStart\Operation\" />
     <Folder Include="User\Results\Data\" />
     <Folder Include="User\Results\Operation\" />
-    <Folder Include="User\SignUp\Data\" />
-    <Folder Include="User\SignUp\Operation\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SpeechTrainer.Core\SpeechTrainer.Core.csproj">

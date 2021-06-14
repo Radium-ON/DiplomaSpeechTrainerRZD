@@ -14,7 +14,7 @@ namespace SpeechTrainer.UWP.Training.History.View
     {
         public History()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #region Implementation of IPageHeader

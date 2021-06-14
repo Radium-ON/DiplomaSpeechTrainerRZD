@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -20,7 +21,11 @@ namespace SpeechTrainer.Database.Database
 
         public async Task<List<GroupDto>> SelectAllAsync()
         {
-            const string command = "SELECT * FROM Group";
+            if (_client.Connection.State == ConnectionState.Open)
+            {
+                _client.CloseConnection();
+            }
+            const string command = "SELECT * FROM [Group]";
             var groups = new List<GroupDto>();
             try
             {

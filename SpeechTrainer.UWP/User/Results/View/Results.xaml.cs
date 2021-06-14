@@ -15,7 +15,7 @@ namespace SpeechTrainer.UWP.User.Results.View
     {
         public Results()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #region Implementation of IPageHeader

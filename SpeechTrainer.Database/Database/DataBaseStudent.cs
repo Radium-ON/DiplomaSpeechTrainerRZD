@@ -132,8 +132,8 @@ namespace SpeechTrainer.Database.Database
 
         public async Task<bool> CreateAsync(StudentDto newObject)
         {
-            const string command = "INSERT INTO Student" +
-                                   "(FirstName, LastName, StudentCode)" +
+            const string command = "INSERT INTO Student " +
+                                   "(FirstName, LastName, StudentCode) " +
                                    "VALUES(@FirstName, @LastName, @StudentCode)";
             const string lastIndexCommand = "SELECT IDENT_CURRENT('Student') AS [IDENT_CURRENT]";
 

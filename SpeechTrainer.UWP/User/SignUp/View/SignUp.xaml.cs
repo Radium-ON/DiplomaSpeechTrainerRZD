@@ -1,5 +1,6 @@
 ﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Microsoft.Extensions.DependencyInjection;
 using SpeechTrainer.UWP.Shell.NavigationPage.View;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -11,9 +12,12 @@ namespace SpeechTrainer.UWP.User.SignUp.View
     /// </summary>
     public sealed partial class SignUp : Page
     {
+        public SignUpViewModel ViewModel => (SignUpViewModel) DataContext;
+
         public SignUp()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+            DataContext = App.Current.Services.GetService<SignUpViewModel>();
         }
 
         private void ToSignIn_OnClick(object sender, RoutedEventArgs e)

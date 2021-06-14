@@ -4,31 +4,36 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converters="using:ValueConverters"
     mc:Ignorable="d"
-    
-    
-    
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    Loaded="{x:Bind ViewModel.GetAllGroupsAsync}">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <converters:BoolToVisibilityConverter x:Key="visibility_converter"/>
+        </ResourceDictionary>
+    </Page.Resources>
 
     <Grid>
         <ScrollViewer>
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,40">
                 <TextBlock Text="Создание профиля" Style="{StaticResource HeaderTextBlockStyle}"/>
-                <TextBlock Foreground="Red" Text="Заполните все поля"/>
-                           <!--Visibility="{x:Bind ViewModel.ShowError, Mode=OneWay, 
-                Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}}"-->
-                           
-                <TextBox Margin="0,20,0,0" Header="Введите свое имя:" PlaceholderText="Иван" /><!--Text="{x:Bind ViewModel.FirstName, Mode=TwoWay}"-->
-                <TextBox Margin="0,16,0,0" Header="Введите свою фамилию:" PlaceholderText="Диденко" /><!--Text="{x:Bind ViewModel.SecondName, Mode=TwoWay}"-->
-                <TextBox Margin="0,16,0,0" Header="Введите название учебной группы:" PlaceholderText="БПИ-411" /><!--Text="{x:Bind ViewModel.SecondName, Mode=TwoWay}"-->
+                <TextBlock Foreground="Red" Text="Заполните все поля"
+                           Visibility="{Binding ShowError, Mode=OneWay, Converter={StaticResource visibility_converter}}"/>
 
-                <Button Content="Создать и войти" 
-                        Height="40"
-                        Margin="0,16,0,0"
-                        HorizontalAlignment="Right"
-                        Click="ToNavigationPage_OnClick"/>
-                        <!--Command="{x:Bind ViewModel.CreateProfileCommand}"-->
-                
+                <TextBox Margin="0,20,0,0" Header="Введите свое имя:" PlaceholderText="Иван" Text="{x:Bind ViewModel.FirstName, Mode=TwoWay}"/>
+                <TextBox Margin="0,16,0,0" Header="Введите свою фамилию:" PlaceholderText="Диденко" Text="{x:Bind ViewModel.LastName, Mode=TwoWay}"/>
+                <ComboBox Margin="0,16,0,0" Header="Выберите свою учебную группу:" HorizontalAlignment="Stretch"
+                          ItemsSource="{x:Bind ViewModel.Groups, Mode=OneWay}" SelectedItem="{x:Bind ViewModel.SelectedGroup, Mode=TwoWay}"/>
+                <TextBox Margin="0,16,0,0" Header="Введите код студента:" PlaceholderText="13-БПИ-14" Text="{x:Bind ViewModel.StudentCode, Mode=TwoWay}"/>
+
+                <Button Content="Создать и сохранить" 
+                        Height="40" Margin="0,16,0,0" HorizontalAlignment="Right"
+                        Command="{x:Bind ViewModel.SignUpCommand}"
+                        />
+                <!--Click="ToNavigationPage_OnClick"-->
+
             </StackPanel>
         </ScrollViewer>
 

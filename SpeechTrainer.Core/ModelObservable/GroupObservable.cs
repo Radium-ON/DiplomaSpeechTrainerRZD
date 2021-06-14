@@ -12,5 +12,14 @@ namespace SpeechTrainer.Core.ModelObservable
             Id = id;
             GroupName = groupName;
         }
+
+        #region Overrides of Object
+
+        public override string ToString()
+        {
+            return GroupName;
+        }
+
+        #endregion
     }
 }

@@ -19,7 +19,7 @@ namespace SpeechTrainer.UWP.Training.TrainingStart.View
 
         public TrainingStart()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             ViewModel = new TrainingStartViewModel();
         }
 

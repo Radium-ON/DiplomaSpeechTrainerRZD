@@ -13,7 +13,7 @@ namespace SpeechTrainer.UWP.Shell.Settings.View
     {
         public Settings()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }
