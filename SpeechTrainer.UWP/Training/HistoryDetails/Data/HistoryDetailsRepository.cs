@@ -31,7 +31,7 @@ namespace SpeechTrainer.UWP.Training.HistoryDetails.Data
             }
             catch (Exception e)
             {
-                Debug.WriteLine("[HistoryDetailsRepository.GetTrainingLines()] Error: " + e.Message);
+                Debug.WriteLine("[HistoryDetailsRepository.GetSituations()] Error: " + e.Message);
                 return new Error(e.Message);
             }
         }

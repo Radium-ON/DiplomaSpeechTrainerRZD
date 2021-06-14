@@ -93,10 +93,9 @@ namespace SpeechTrainer.Core.Utills
             await DoSituationStepAsync(_answerForms);
         }
 
-        public async Task TrainingRunAsync(StudentObservable student, PositionObservable position, SituationObservable situation, List<AnswerFormObservable> forms)
+        public async Task TrainingRunAsync(int studentId, PositionObservable position, SituationObservable situation, List<AnswerFormObservable> forms)
         {
-            Training = new TrainingObservable { TrainingLines = new List<TrainingLineObservable>(), Student = student, Situation = situation };
-            Student = student;
+            Training = new TrainingObservable { TrainingLines = new List<TrainingLineObservable>(), StudentId = studentId, Situation = situation };
             Position = position;
             _answerForms = forms.OrderBy(n => n.OrderNum).ToList();
 

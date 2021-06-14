@@ -155,6 +155,11 @@
       <DependentUpon>TrainingRun.xaml</DependentUpon>
     </Compile>
     <Compile Include="Training\TrainingRun\View\TrainingRunViewModel.cs" />
+    <Compile Include="Training\TrainingStart\Data\TrainingStartLocalDataSource.cs" />
+    <Compile Include="Training\TrainingStart\Data\TrainingStartRepository.cs" />
+    <Compile Include="Training\TrainingStart\Data\ITrainingStartDataSource.cs" />
+    <Compile Include="Training\TrainingStart\Data\ITrainingStartRepository.cs" />
+    <Compile Include="Training\TrainingStart\Operation\TrainingStartOptions.cs" />
     <Compile Include="Training\TrainingStart\View\TrainingStart.xaml.cs">
       <DependentUpon>TrainingStart.xaml</DependentUpon>
     </Compile>
@@ -325,8 +330,6 @@
     <Folder Include="Shell\Settings\Operation\" />
     <Folder Include="Training\TrainingRun\Data\" />
     <Folder Include="Training\TrainingRun\Operation\" />
-    <Folder Include="Training\TrainingStart\Data\" />
-    <Folder Include="Training\TrainingStart\Operation\" />
     <Folder Include="User\Results\Data\" />
     <Folder Include="User\Results\Operation\" />
   </ItemGroup>

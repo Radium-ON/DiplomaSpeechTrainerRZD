@@ -21,6 +21,8 @@ using SpeechTrainer.UWP.Training.History.Operation;
 using SpeechTrainer.UWP.Training.History.View;
 using SpeechTrainer.UWP.Training.HistoryDetails.Operation;
 using SpeechTrainer.UWP.Training.HistoryDetails.View;
+using SpeechTrainer.UWP.Training.TrainingStart.Operation;
+using SpeechTrainer.UWP.Training.TrainingStart.View;
 using SpeechTrainer.UWP.User.SignIn.Operation;
 using SpeechTrainer.UWP.User.SignIn.View;
 using SpeechTrainer.UWP.User.SignUp.Operation;
@@ -131,11 +133,13 @@ namespace SpeechTrainer.UWP
             services.AddSingleton<SignUpOptions, SignUpOptions>();
             services.AddSingleton<TrainingHistoryOptions, TrainingHistoryOptions>();
             services.AddSingleton<TrainingDetailsOptions, TrainingDetailsOptions>();
+            services.AddSingleton<TrainingStartOptions, TrainingStartOptions>();
 
             services.AddTransient<SignInViewModel>();
             services.AddTransient<SignUpViewModel>();
             services.AddTransient<HistoryViewModel>();
             services.AddTransient<HistoryDetailsViewModel>();
+            services.AddTransient<TrainingStartViewModel>();
 
             return services.BuildServiceProvider();
         }
