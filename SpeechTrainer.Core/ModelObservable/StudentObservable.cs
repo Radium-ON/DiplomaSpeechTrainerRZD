@@ -36,6 +36,10 @@ namespace SpeechTrainer.Core.ModelObservable
             StudentCode = studentCode;
         }
 
+        public StudentObservable()
+        {
+        }
+
         #region Overrides of Object
 
         public override string ToString()

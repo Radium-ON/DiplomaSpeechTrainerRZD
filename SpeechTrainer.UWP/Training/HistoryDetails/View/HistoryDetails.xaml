@@ -6,10 +6,23 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:modelObservable="using:SpeechTrainer.Core.ModelObservable"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Loaded="{x:Bind ViewModel.InitializePropertiesAsync}">
     <Page.Resources>
         <converters:BoolToObjectConverter x:Key="bool_to_object_converter" TrueValue="✔" FalseValue="❌"/>
+        <DataTemplate x:Key="row_details_template">
+            <StackPanel>
+                <Grid Margin="138,10" Padding="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition MaxWidth="600"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" FontSize="13" Text="{Binding StudentAnswer}" HorizontalAlignment="Left" TextWrapping="WrapWholeWords"/>
+                    <TextBlock Grid.Column="1" FontSize="13" Text="{Binding CompleteForm}" TextWrapping="WrapWholeWords" HorizontalAlignment="Right"/>
+                </Grid>
+            </StackPanel>
+        </DataTemplate>
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -24,6 +37,8 @@
             <controls:DataGrid
                 x:Name="answers_data_grid"
                 IsReadOnly="True"
+                RowDetailsTemplate="{StaticResource row_details_template}"
+                RowDetailsVisibilityMode="VisibleWhenSelected"
                 HorizontalScrollBarVisibility="Visible"
                 VerticalScrollBarVisibility="Visible"
                 AlternatingRowBackground="Transparent"

@@ -17,10 +17,14 @@ namespace SpeechTrainer.Core.Utills
 
         private List<AnswerFormObservable> _answerForms;
         private AnswerFormObservable _currentForm;
+        private int _allStudentPhrases;
+        private int _correctStudentPhrases;
 
         public StudentObservable Student { get; private set; }
         public PositionObservable Position { get; private set; }
         public TrainingObservable Training { get; private set; }
+
+        public string RecognitionInProcess { get; set; }
 
         public event EventHandler TrainingEnded;
         public event EventHandler<int> StepCompleted;
@@ -33,18 +37,43 @@ namespace SpeechTrainer.Core.Utills
 
         private void SetSpeechServiceEvents()
         {
-            _speechService.SynthesizerSynthesisCompleted += _speechService_SynthesizerSynthesisCompleted;
+            _speechService.SynthesizerSynthesisCompleted += SpeechServiceOnSynthesizerSynthesisCompleted;
 
-            _speechService.RecognizerRecognized += _speechService_RecognizerRecognized;
-            _speechService.RecognizerSessionStopped += _speechService_RecognizerSessionStopped;
+            _speechService.RecognizerRecognized += SpeechServiceOnRecognizerRecognized;
+            _speechService.RecognizerRecognizing += SpeechServiceOnRecognizerRecognizing;
+            _speechService.RecognizerSessionStopped += SpeechServiceOnRecognizerSessionStopped;
         }
 
-        private async void _speechService_RecognizerSessionStopped(object sender, SessionEventArgs e)
+        private void SpeechServiceOnRecognizerRecognizing(object sender, SpeechRecognitionEventArgs e)
         {
-            await DoSituationStepAsync(_answerForms);
+            RecognitionInProcess = e.Result.Text;
         }
 
-        private void _speechService_RecognizerRecognized(object sender, SpeechRecognitionEventArgs e)
+        private async void SpeechServiceOnRecognizerSessionStopped(object sender, SessionEventArgs e)
+        {
+            await CheckTrainingEnd();
+        }
+
+        private async Task CheckTrainingEnd()
+        {
+            if (_answerForms.Count > 1)
+            {
+                _answerForms.RemoveAt(0);
+                await DoSituationStepAsync(_answerForms);
+            }
+            else
+            {
+                CalcScores();
+                TrainingEnded?.Invoke(this, null);
+            }
+        }
+
+        private void CalcScores()
+        {
+            Training.ScoresNumber = (int)(_correctStudentPhrases / (double)_allStudentPhrases * 100);
+        }
+
+        private void SpeechServiceOnRecognizerRecognized(object sender, SpeechRecognitionEventArgs e)
         {
             var studentAnswer = e.Result.Text;
             var completeForm = GetCompleteAnswerForm(_currentForm);
@@ -55,6 +84,10 @@ namespace SpeechTrainer.Core.Utills
                 StudentAnswer = studentAnswer,
                 IsCorrect = CompareAnswers(completeForm, studentAnswer)
             };
+            if (line.IsCorrect)
+            {
+                _correctStudentPhrases++;
+            }
             Training.TrainingLines.Add(line);
             StepCompleted?.Invoke(this, _answerForms.Count);
         }
@@ -83,19 +116,27 @@ namespace SpeechTrainer.Core.Utills
             return textWithParms;
         }
 
-        private void _speechService_SynthesizerSynthesisCompleted(object sender, SpeechSynthesisEventArgs e)
+        private void SpeechServiceOnSynthesizerSynthesisCompleted(object sender, SpeechSynthesisEventArgs e)
         {
             StepCompleted?.Invoke(this, _answerForms.Count);
         }
 
         public async Task RecordStudentAnswerAsync()
         {
-            await DoSituationStepAsync(_answerForms);
+            if (_answerForms.Count > 1)
+            {
+                _answerForms.RemoveAt(0);
+                await DoSituationStepAsync(_answerForms);
+            }
+            else
+            {
+                TrainingEnded?.Invoke(this, null);
+            }
         }
 
         public async Task TrainingRunAsync(int studentId, PositionObservable position, SituationObservable situation, List<AnswerFormObservable> forms)
         {
-            Training = new TrainingObservable { TrainingLines = new List<TrainingLineObservable>(), StudentId = studentId, Situation = situation };
+            Training = new TrainingObservable { TrainingLines = new List<TrainingLineObservable>(), StudentId = studentId, Situation = situation, TrainingDate = DateTime.Now };
             Position = position;
             _answerForms = forms.OrderBy(n => n.OrderNum).ToList();
 
@@ -104,27 +145,23 @@ namespace SpeechTrainer.Core.Utills
 
         private async Task DoSituationStepAsync(List<AnswerFormObservable> forms)
         {
-            _currentForm = forms.FirstOrDefault();
-            if (_currentForm == null)
-            {
-                TrainingEnded?.Invoke(this, null);
-                return;
-            }
+            _currentForm = forms.First();
+
             if (CheckPositionStudent(_currentForm?.Position, Position))
             {
+                _allStudentPhrases++;
                 var result = await _speechService.RecognizeSpeechFromMicrophoneAsync();
                 Debug.WriteLine(result.Text);
             }
             else
             {
-                await _speechService.GenerateSpeechToSpeakersAsync(_currentForm.Phrase.Text);
+                await _speechService.GenerateSpeechToSpeakersAsync(GetCompleteAnswerForm(_currentForm));
             }
-            forms.RemoveAt(0);
         }
 
         private bool CheckPositionStudent(PositionObservable formPosition, PositionObservable studentPosition)
         {
-            return formPosition.ShortName == studentPosition.ShortName;
+            return formPosition.Id == studentPosition.Id;
         }
 
         private string RemoveSpecialCharacters(string str)

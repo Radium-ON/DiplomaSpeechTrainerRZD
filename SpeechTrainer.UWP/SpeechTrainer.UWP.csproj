@@ -120,6 +120,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PlatformTools\PrivacySettingsEnabler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shell\MainPage\View\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -151,6 +152,11 @@
       <DependentUpon>History.xaml</DependentUpon>
     </Compile>
     <Compile Include="Training\History\View\HistoryViewModel.cs" />
+    <Compile Include="Training\TrainingRun\Data\ITrainingRunDataSource.cs" />
+    <Compile Include="Training\TrainingRun\Data\ITrainingRunRepository.cs" />
+    <Compile Include="Training\TrainingRun\Data\TrainingRunLocalDataSource.cs" />
+    <Compile Include="Training\TrainingRun\Data\TrainingRunRepository.cs" />
+    <Compile Include="Training\TrainingRun\Operation\TrainingRunOptions.cs" />
     <Compile Include="Training\TrainingRun\View\TrainingRun.xaml.cs">
       <DependentUpon>TrainingRun.xaml</DependentUpon>
     </Compile>
@@ -328,8 +334,6 @@
     <Folder Include="Shell\NavigationPage\Operation\" />
     <Folder Include="Shell\Settings\Data\" />
     <Folder Include="Shell\Settings\Operation\" />
-    <Folder Include="Training\TrainingRun\Data\" />
-    <Folder Include="Training\TrainingRun\Operation\" />
     <Folder Include="User\Results\Data\" />
     <Folder Include="User\Results\Operation\" />
   </ItemGroup>

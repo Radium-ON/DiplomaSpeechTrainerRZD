@@ -15,12 +15,17 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.CognitiveServices.Speech;
 using Microsoft.Extensions.DependencyInjection;
+using SpeechTrainer.Core.Interfaces;
 using SpeechTrainer.Core.Utills;
+using SpeechTrainer.UWP.PlatformTools;
 using SpeechTrainer.UWP.Training.History.Operation;
 using SpeechTrainer.UWP.Training.History.View;
 using SpeechTrainer.UWP.Training.HistoryDetails.Operation;
 using SpeechTrainer.UWP.Training.HistoryDetails.View;
+using SpeechTrainer.UWP.Training.TrainingRun.Operation;
+using SpeechTrainer.UWP.Training.TrainingRun.View;
 using SpeechTrainer.UWP.Training.TrainingStart.Operation;
 using SpeechTrainer.UWP.Training.TrainingStart.View;
 using SpeechTrainer.UWP.User.SignIn.Operation;
@@ -129,17 +134,22 @@ namespace SpeechTrainer.UWP
             var services = new ServiceCollection();
 
             services.AddSingleton<TrainingService, TrainingService>();
+            services.AddSingleton<ISpeechToText<RecognitionResult>, SpeechService>();
+            services.AddSingleton<IPrivacySettings, PrivacySettingsEnabler>();
+
             services.AddSingleton<GetStudentsOption, GetStudentsOption>();
             services.AddSingleton<SignUpOptions, SignUpOptions>();
             services.AddSingleton<TrainingHistoryOptions, TrainingHistoryOptions>();
             services.AddSingleton<TrainingDetailsOptions, TrainingDetailsOptions>();
             services.AddSingleton<TrainingStartOptions, TrainingStartOptions>();
+            services.AddSingleton<TrainingRunOptions, TrainingRunOptions>();
 
             services.AddTransient<SignInViewModel>();
             services.AddTransient<SignUpViewModel>();
             services.AddTransient<HistoryViewModel>();
             services.AddTransient<HistoryDetailsViewModel>();
             services.AddTransient<TrainingStartViewModel>();
+            services.AddTransient<TrainingRunViewModel>();
 
             return services.BuildServiceProvider();
         }

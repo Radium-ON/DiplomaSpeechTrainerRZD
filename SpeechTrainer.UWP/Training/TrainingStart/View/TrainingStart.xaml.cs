@@ -2,6 +2,7 @@
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -29,18 +30,25 @@ namespace SpeechTrainer.UWP.Training.TrainingStart.View
             Extensions.FindParent<Frame>(Frame).Navigate(typeof(TrainingRun.View.TrainingRun));
         }
 
+        private void ViewModelOnTrainingStarted(object sender, EventArgs e)
+        {
+            Extensions.FindParent<Frame>(Frame).Navigate(typeof(TrainingRun.View.TrainingRun));
+        }
+
         #region Overrides of Page
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            ViewModel.IsActive = true;
             base.OnNavigatedTo(e);
+            ViewModel.IsActive = true;
+            ViewModel.TrainingStarted += ViewModelOnTrainingStarted;
         }
 
-        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             ViewModel.IsActive = false;
-            base.OnNavigatingFrom(e);
+            ViewModel.TrainingStarted -= ViewModelOnTrainingStarted;
+            base.OnNavigatedFrom(e);
         }
 
         #endregion

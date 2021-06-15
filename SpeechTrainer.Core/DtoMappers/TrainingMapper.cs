@@ -17,7 +17,6 @@ namespace SpeechTrainer.Core.DtoMappers
                 observable.TrainingDate,
                 observable.StudentId,
                 observable.ParticipantId,
-                StudentMapper.ConvertToDto(observable.Student),
                 SituationMapper.ConvertToDto(observable.Situation),
                 TrainingLineMapper.ConvertToListDto(observable.TrainingLines)?.ToList()
                 );
@@ -31,7 +30,6 @@ namespace SpeechTrainer.Core.DtoMappers
             dto.ParticipantId,
             dto.ScoresNumber,
             dto.TrainingDate,
-            StudentMapper.ConvertFromDto(dto.Student),
             SituationMapper.ConvertFromDto(dto.Situation),
             TrainingLineMapper.ConvertFromListDto(dto.TrainingLines)?.ToList()
             );

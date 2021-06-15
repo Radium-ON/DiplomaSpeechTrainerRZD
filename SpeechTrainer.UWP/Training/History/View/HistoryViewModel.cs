@@ -46,7 +46,7 @@ namespace SpeechTrainer.UWP.Training.History.View
         {
             try
             {
-                var response = await _historyOptions.GetTrainings(Session.IdProfile);
+                var response = await _historyOptions.GetTrainings(Session.StudentId);
                 if (response is Success<List<TrainingObservable>> responseWrapper)
                 {
                     Trainings = new ObservableCollection<TrainingObservable>(responseWrapper.Data);

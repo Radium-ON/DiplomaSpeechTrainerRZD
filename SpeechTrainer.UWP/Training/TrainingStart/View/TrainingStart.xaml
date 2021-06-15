@@ -25,7 +25,6 @@
                 <ComboBox x:Name="positions_combobox" Header="Выберите свою роль (должность)" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                           ItemsSource="{Binding ElementName=situations_combobox, Path=SelectedItem.Positions, Mode=OneWay}" SelectedItem="{x:Bind ViewModel.SelectedPosition, Mode=TwoWay}"/>
                 <Button Content="Начать тренировку" Style="{StaticResource AccentButtonStyle}" HorizontalAlignment="Center" Width="300" Height="74" FontSize="24" Margin="0,40,0,0"
-                        Click="TrainingRun_OnClick"
                         Command="{x:Bind ViewModel.StartCommand}" CommandParameter="{Binding ElementName=positions_combobox, Path=SelectedItem, Mode=TwoWay}"/>
             </StackPanel>
         </ScrollViewer>

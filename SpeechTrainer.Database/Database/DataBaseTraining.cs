@@ -42,7 +42,7 @@ namespace SpeechTrainer.Database.Database
                 foreach (var training in trainings)
                 {
                     training.SetSituation(await GetTrainingSituationAsync(training.Id));
-                    training.SetStudent(await GetTrainingStudentAsync(training.Id));
+                    //training.SetStudent(await GetTrainingStudentAsync(training.Id));
                     training.SetTrainingLines(await GetTrainingLinesAsync(training.Id));
                 }
                 return trainings;
@@ -101,7 +101,7 @@ namespace SpeechTrainer.Database.Database
                 _client.CloseConnection();
 
                 training.SetSituation(await GetTrainingSituationAsync(training.Id));
-                training.SetStudent(await GetTrainingStudentAsync(training.Id));
+                //training.SetStudent(await GetTrainingStudentAsync(training.Id));
                 training.SetTrainingLines(await GetTrainingLinesAsync(training.Id));
 
                 return training;
@@ -157,7 +157,7 @@ namespace SpeechTrainer.Database.Database
                 foreach (var training in trainings)
                 {
                     training.SetSituation(await GetTrainingSituationAsync(training.Id));
-                    training.SetStudent(await GetTrainingStudentAsync(training.Id));
+                    //training.SetStudent(await GetTrainingStudentAsync(training.Id));
                     training.SetTrainingLines(await GetTrainingLinesAsync(training.Id));
                 }
                 return trainings;
@@ -174,7 +174,7 @@ namespace SpeechTrainer.Database.Database
             }
         }
 
-        public async Task<bool> CreateAsync(StudentDto student, SituationDto situation, PositionDto position,
+        public async Task<bool> CreateAsync(int idStudent, SituationDto situation, PositionDto position,
             TrainingDto newObject)
         {
             const string command = "INSERT INTO Training" +
@@ -192,7 +192,7 @@ namespace SpeechTrainer.Database.Database
                 {
                     cmd.Parameters.AddWithValue("@Scores", newObject.ScoresNumber);
                     cmd.Parameters.AddWithValue("@Date", newObject.TrainingDate);
-                    cmd.Parameters.AddWithValue("@StudentId", student.Id);
+                    cmd.Parameters.AddWithValue("@StudentId", idStudent);
                     cmd.Parameters.AddWithValue("@PositionId", position.Id);
                     cmd.Parameters.AddWithValue("@SituationId", situation.Id);
                     var row = await cmd.ExecuteNonQueryAsync();

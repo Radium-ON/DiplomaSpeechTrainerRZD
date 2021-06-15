@@ -13,7 +13,7 @@ namespace SpeechTrainer.UWP.User.SignIn.View
     /// </summary>
     public sealed partial class SignIn : Page
     {
-        public SignInViewModel ViewModel => (SignInViewModel) DataContext;
+        public SignInViewModel ViewModel => (SignInViewModel)DataContext;
 
         public SignIn()
         {
@@ -35,7 +35,7 @@ namespace SpeechTrainer.UWP.User.SignIn.View
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            
+
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

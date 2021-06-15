@@ -12,7 +12,6 @@ namespace SpeechTrainer.Core.ModelObservable
         private int _participantId;
         private int _scoresNumber;
         private DateTime _trainingDate;
-        private StudentObservable _student;
         private SituationObservable _situation;
         private List<TrainingLineObservable> _trainingLines;
 
@@ -46,12 +45,6 @@ namespace SpeechTrainer.Core.ModelObservable
             set => SetProperty(ref _trainingDate, value);
         }
 
-        public StudentObservable Student
-        {
-            get => _student;
-            set => SetProperty(ref _student, value);
-        }
-
         public SituationObservable Situation
         {
             get => _situation;
@@ -64,14 +57,13 @@ namespace SpeechTrainer.Core.ModelObservable
             set => SetProperty(ref _trainingLines, value);
         }
 
-        public TrainingObservable(int id, int studentId, int participantId, int scoresNumber, DateTime trainingDate, StudentObservable student, SituationObservable situation, List<TrainingLineObservable> trainingLines)
+        public TrainingObservable(int id, int studentId, int participantId, int scoresNumber, DateTime trainingDate, SituationObservable situation, List<TrainingLineObservable> trainingLines)
         {
             _id = id;
             _studentId = studentId;
             _participantId = participantId;
             _scoresNumber = scoresNumber;
             _trainingDate = trainingDate;
-            Student = student;
             Situation = situation;
             TrainingLines = trainingLines;
         }

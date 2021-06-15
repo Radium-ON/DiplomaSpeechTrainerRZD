@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Mvvm.Messaging;
+using SpeechTrainer.Core.Interfaces;
 using SpeechTrainer.Core.ModelObservable;
 using SpeechTrainer.Core.ResponseWrapper;
 using SpeechTrainer.Core.Utills;
@@ -14,16 +17,20 @@ namespace SpeechTrainer.UWP.Training.TrainingStart.View
     public class TrainingStartViewModel : ObservableRecipient
     {
         private readonly TrainingStartOptions _trainingStartOptions;
+        private readonly IPrivacySettings _privacySettingsEnabler;
         private ObservableCollection<SituationObservable> _situations;
         private SituationObservable _selectedSituation;
         private PositionObservable _selectedPosition;
 
-        public TrainingStartViewModel(TrainingStartOptions trainingStartOptions)
+        public TrainingStartViewModel(TrainingStartOptions trainingStartOptions, IPrivacySettings privacySettingsEnabler)
         {
             _trainingStartOptions = trainingStartOptions;
+            _privacySettingsEnabler = privacySettingsEnabler;
         }
 
-        public RelayCommand<PositionObservable> StartCommand => new RelayCommand<PositionObservable>(StartTraining,
+        public event EventHandler TrainingStarted;
+
+        public IAsyncRelayCommand<PositionObservable> StartCommand => new AsyncRelayCommand<PositionObservable>(StartTraining,
             p => SelectedPosition != null && SelectedSituation != null);
 
         public ObservableCollection<SituationObservable> Situations
@@ -62,9 +69,11 @@ namespace SpeechTrainer.UWP.Training.TrainingStart.View
             }
         }
 
-        private void StartTraining(PositionObservable positionObservable)
+        private async Task StartTraining(PositionObservable positionObservable)
         {
-
+            await _privacySettingsEnabler.EnableMicrophoneAsync();
+            TrainingStarted?.Invoke(this, EventArgs.Empty);
+            Messenger.Send(new TrainingStartMessage(SelectedSituation, SelectedPosition));
         }
     }
 }

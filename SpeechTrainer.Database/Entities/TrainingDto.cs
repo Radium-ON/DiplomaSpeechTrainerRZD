@@ -10,26 +10,24 @@ namespace SpeechTrainer.Database.Entities
         public int ParticipantId { get; }
         public int ScoresNumber { get; }
         public DateTime TrainingDate { get; }
-        public StudentDto Student { get; private set; }
         public SituationDto Situation { get; private set; }
         public List<TrainingLineDto> TrainingLines { get; private set; }
 
-        public TrainingDto(int scores, DateTime date, int studentId, int participantId, StudentDto student, SituationDto situation)
+        public TrainingDto(int scores, DateTime date, int studentId, int participantId, SituationDto situation)
         {
             StudentId = studentId;
             ParticipantId = participantId;
             ScoresNumber = scores;
             TrainingDate = date;
-            Student = student;
             Situation = situation;
         }
 
-        public TrainingDto(int id, int scores, DateTime date, int studentId, int participantId, StudentDto student, SituationDto situation) : this(scores, date, studentId, participantId, student, situation)
+        public TrainingDto(int id, int scores, DateTime date, int studentId, int participantId, SituationDto situation) : this(scores, date, studentId, participantId, situation)
         {
             Id = id;
         }
 
-        public TrainingDto(int id, int scores, DateTime date, int studentId, int participantId, StudentDto student, SituationDto situation, List<TrainingLineDto> lines) : this(id, scores, date, studentId, participantId, student, situation)
+        public TrainingDto(int id, int scores, DateTime date, int studentId, int participantId, SituationDto situation, List<TrainingLineDto> lines) : this(id, scores, date, studentId, participantId, situation)
         {
             TrainingLines = lines;
         }
@@ -43,11 +41,6 @@ namespace SpeechTrainer.Database.Entities
             TrainingLines = lines;
         }
 
-        public void SetStudent(StudentDto student)
-        {
-            Student = student;
-        }
-
         public void SetSituation(SituationDto situation)
         {
             Situation = situation;
@@ -55,7 +48,7 @@ namespace SpeechTrainer.Database.Entities
 
         public override string ToString()
         {
-            return Student.ToString() + ScoresNumber + " " + TrainingDate;
+            return Situation.Name + " " + ScoresNumber + " " + TrainingDate;
         }
     }
 }

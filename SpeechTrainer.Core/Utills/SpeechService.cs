@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.CognitiveServices.Speech;
@@ -18,6 +19,7 @@ namespace SpeechTrainer.Core.Utills
         public event EventHandler<SessionEventArgs> RecognizerSessionStarted;
         public event EventHandler<SessionEventArgs> RecognizerSessionStopped;
         public event EventHandler<SpeechRecognitionEventArgs> RecognizerRecognized;
+        public event EventHandler<SpeechRecognitionEventArgs> RecognizerRecognizing;
 
         public event EventHandler<SpeechSynthesisEventArgs> SynthesizerSynthesisStarted;
         public event EventHandler<SpeechSynthesisEventArgs> SynthesizerSynthesisCompleted;
@@ -26,6 +28,8 @@ namespace SpeechTrainer.Core.Utills
         {
             _speechConfig = SpeechConfig.FromSubscription("88ef55a3ae9a4d8c9c121ce17ae4db51", "northeurope");
             _speechConfig.SpeechRecognitionLanguage = "ru-ru";
+            _speechConfig.SpeechSynthesisLanguage = "ru-ru";
+            _speechConfig.SpeechSynthesisVoiceName = "ru-RU-DmitryNeural";
             _audioConfig = AudioConfig.FromDefaultMicrophoneInput();
 
             _speechRecognizer = new SpeechRecognizer(_speechConfig, _audioConfig);
@@ -38,27 +42,39 @@ namespace SpeechTrainer.Core.Utills
         {
             _speechSynthesizer.SynthesisStarted += (sender, synthesisEventArgs) =>
             {
+                Debug.WriteLine("Синтез речи начат");
                 SynthesizerSynthesisStarted?.Invoke(sender, synthesisEventArgs);
             };
             _speechSynthesizer.SynthesisCompleted += (sender, synthesisEventArgs) =>
             {
+                Debug.WriteLine("Синтез речи завершен");
                 SynthesizerSynthesisCompleted?.Invoke(sender, synthesisEventArgs);
             };
+            _speechSynthesizer.Synthesizing += (sender, args) => { Debug.WriteLine("Синтез..."); };
         }
 
         private void SetRecognizerEvents()
         {
             _speechRecognizer.SessionStarted += (sender, sessionEventArgs) =>
             {
+                Debug.WriteLine("Начало распознавания речи");
                 RecognizerSessionStarted?.Invoke(sender, sessionEventArgs);
             };
             _speechRecognizer.SessionStopped += (sender, sessionEventArgs) =>
             {
+                Debug.WriteLine("Распознавание речи окончено");
                 RecognizerSessionStopped?.Invoke(sender, sessionEventArgs);
             };
             _speechRecognizer.Recognized += (sender, recognitionEventArgs) =>
             {
+                Debug.WriteLine("Текст из речи получен");
                 RecognizerRecognized?.Invoke(sender, recognitionEventArgs);
+            };
+            _speechRecognizer.Recognizing += (sender, recognitionEventArgs) =>
+            {
+                Debug.WriteLine("Распознавание в процессе:");
+                Debug.Write($"{recognitionEventArgs.Result.Text}");
+                RecognizerRecognizing?.Invoke(sender, recognitionEventArgs);
             };
         }
 
