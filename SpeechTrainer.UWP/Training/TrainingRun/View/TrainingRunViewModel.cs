@@ -27,6 +27,7 @@ namespace SpeechTrainer.UWP.Training.TrainingRun.View
         private ObservableCollection<AnswerFormObservable> _answerForms;
         private PositionObservable _position;
         private bool _playAnimation;
+        private bool _trainingAlreadyCreated;
 
         public TrainingRunViewModel(TrainingService trainingService, TrainingRunOptions trainingRunOptions)
         {
@@ -38,14 +39,20 @@ namespace SpeechTrainer.UWP.Training.TrainingRun.View
             Training = new TrainingObservable();
         }
 
+        public event EventHandler ExitRequested;
+        public event EventHandler AnimationStopped;
+        public event EventHandler AnimationResumed;
+
         private async Task TrainingServiceOnStepCompleted(object sender, int e)
         {
         }
 
         private async Task TrainingServiceOnTrainingEnded(object sender, EventArgs e)
         {
-            await CreateTraining(_trainingService.Training);
-            InterruptCommand.Execute(null);
+            if (!_trainingAlreadyCreated)
+            {
+                await CreateTraining(_trainingService.Training);
+            }
         }
 
         public IAsyncRelayCommand AnswerCommand => new AsyncRelayCommand(RecordAnswer);
@@ -54,13 +61,15 @@ namespace SpeechTrainer.UWP.Training.TrainingRun.View
 
         private void Exit()
         {
+            _trainingService.StopTraining();
+            ExitRequested?.Invoke(this, EventArgs.Empty);
         }
 
         private async Task RecordAnswer()
         {
-            PlayAnimation = true;
+            AnimationResumed?.Invoke(this, EventArgs.Empty);
             await _trainingService.RecordStudentAnswerAsync();
-            PlayAnimation = false;
+            AnimationStopped?.Invoke(this, EventArgs.Empty);
         }
 
         public bool PlayAnimation
@@ -92,10 +101,6 @@ namespace SpeechTrainer.UWP.Training.TrainingRun.View
         public async Task InitializeProperties()
         {
             await GetAnswerFormsAsync();
-        }
-
-        public async Task TrainingResume()
-        {
             await _trainingService.TrainingRunAsync(Session.StudentId, Position, Training.Situation, AnswerForms.ToList());
         }
 
@@ -120,7 +125,7 @@ namespace SpeechTrainer.UWP.Training.TrainingRun.View
                 var response = await _trainingRunOptions.CreateTraining(Session.StudentId, resultTraining, Position);
                 if (response is Success<bool> responseWrapper && responseWrapper.Data)
                 {
-                    //ShowError = false;
+                    _trainingAlreadyCreated = true;
                 }
                 else
                 {
@@ -128,10 +133,6 @@ namespace SpeechTrainer.UWP.Training.TrainingRun.View
 
                     Debug.WriteLine("[TrainingRunViewModel.CreateTraining()] Error: " + errorMessage);
                 }
-            }
-            else
-            {
-                //ShowError = true;
             }
         }
 

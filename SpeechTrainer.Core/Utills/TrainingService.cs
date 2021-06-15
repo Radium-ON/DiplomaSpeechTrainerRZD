@@ -68,6 +68,11 @@ namespace SpeechTrainer.Core.Utills
             }
         }
 
+        public void StopTraining()
+        {
+            _speechService.StopOperations();
+        }
+
         private void CalcScores()
         {
             Training.ScoresNumber = (int)(_correctStudentPhrases / (double)_allStudentPhrases * 100);

@@ -186,6 +186,7 @@ namespace SpeechTrainer.Database.Database
 
         public async Task<bool> CreateAsync(int idTraining, TrainingLineDto newObject)
         {
+            _client.CloseConnection();
             const string command = "INSERT INTO TrainingLine" +
                                    " (StudentAnswer, TrainingId, CompleteForm, IsCorrect)" +
                                    " VALUES(@StudentAnswer, @TrainingId, @CompleteForm, @IsCorrect)";

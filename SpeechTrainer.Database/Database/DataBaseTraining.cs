@@ -185,7 +185,7 @@ namespace SpeechTrainer.Database.Database
             const string lastIndexCommand = "SELECT IDENT_CURRENT('Training') AS [IDENT_CURRENT]";
 
             decimal? lastIndex = null;
-
+            _client.CloseConnection();
             try
             {
                 using (var cmd = new SqlCommand(command, _client.OpenConnection()))
@@ -224,6 +224,7 @@ namespace SpeechTrainer.Database.Database
 
         private async Task<bool> InsertTrainingLinesAsync(int? lastIndex, List<TrainingLineDto> newLines)
         {
+            _client.CloseConnection();
             var result = false;
             try
             {

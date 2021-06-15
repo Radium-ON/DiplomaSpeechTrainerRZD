@@ -120,6 +120,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PlatformTools\MediaPlayerFoundation.cs" />
     <Compile Include="PlatformTools\PrivacySettingsEnabler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shell\MainPage\View\MainPage.xaml.cs">

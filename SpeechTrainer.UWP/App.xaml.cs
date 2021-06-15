@@ -134,6 +134,7 @@ namespace SpeechTrainer.UWP
             var services = new ServiceCollection();
 
             services.AddSingleton<TrainingService, TrainingService>();
+            services.AddSingleton<IPlayer, MediaPlayerFoundation>();
             services.AddSingleton<ISpeechToText<RecognitionResult>, SpeechService>();
             services.AddSingleton<IPrivacySettings, PrivacySettingsEnabler>();
 
