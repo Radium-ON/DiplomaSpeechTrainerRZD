@@ -40,8 +40,6 @@ namespace SpeechTrainer.UWP.Training.TrainingRun.View
         }
 
         public event EventHandler ExitRequested;
-        public event EventHandler AnimationStopped;
-        public event EventHandler AnimationResumed;
 
         private async Task TrainingServiceOnStepCompleted(object sender, int e)
         {
@@ -67,9 +65,9 @@ namespace SpeechTrainer.UWP.Training.TrainingRun.View
 
         private async Task RecordAnswer()
         {
-            AnimationResumed?.Invoke(this, EventArgs.Empty);
+            PlayAnimation = true;
             await _trainingService.RecordStudentAnswerAsync();
-            AnimationStopped?.Invoke(this, EventArgs.Empty);
+            PlayAnimation = false;
         }
 
         public bool PlayAnimation

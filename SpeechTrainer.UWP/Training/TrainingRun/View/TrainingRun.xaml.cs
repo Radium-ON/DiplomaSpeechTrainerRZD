@@ -21,7 +21,6 @@ namespace SpeechTrainer.UWP.Training.TrainingRun.View
         {
             InitializeComponent();
             DataContext = App.Current.Services.GetService<TrainingRunViewModel>();
-            lottie_player.PlayAsync(0, 1, true);
         }
 
         private async void Exit_OnClick(object sender, RoutedEventArgs e)
@@ -53,8 +52,6 @@ namespace SpeechTrainer.UWP.Training.TrainingRun.View
         {
             ViewModel.IsActive = false;
             ViewModel.ExitRequested -= ViewModelOnExitRequested;
-            ViewModel.AnimationResumed -= ResumeLottie;
-            ViewModel.AnimationStopped -= PauseLottie;
             base.OnNavigatedFrom(e);
         }
 
@@ -63,18 +60,6 @@ namespace SpeechTrainer.UWP.Training.TrainingRun.View
             base.OnNavigatedTo(e);
             ViewModel.IsActive = true;
             ViewModel.ExitRequested += ViewModelOnExitRequested;
-            ViewModel.AnimationResumed += ResumeLottie;
-            ViewModel.AnimationStopped += PauseLottie;
-        }
-
-        private void PauseLottie(object sender, EventArgs args)
-        {
-            lottie_player.Pause();
-        }
-
-        private void ResumeLottie(object sender, EventArgs args)
-        {
-            lottie_player.Resume();
         }
 
         private async void ViewModelOnExitRequested(object sender, EventArgs e)
