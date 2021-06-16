@@ -19,7 +19,7 @@ namespace SpeechTrainer.Database.Database
 
         #region Implementation of IDatabase<TrainingLineDto,bool>
 
-        public async Task<List<TrainingLineDto>> SelectAllAsync()
+        public async Task<List<TrainingLineDto>> SelectAllAsync(bool includeNestedData)
         {
             const string command = "SELECT * FROM TrainingLine";
             var lines = new List<TrainingLineDto>();
@@ -77,7 +77,7 @@ namespace SpeechTrainer.Database.Database
             return forms.FindAll(form => form.Position.Id == studentPosition.Id).OrderBy(n => n.OrderNum).ToList();
         }
 
-        public async Task<TrainingLineDto> SelectByIdAsync(int idObject)
+        public async Task<TrainingLineDto> SelectByIdAsync(int idObject, bool includeNestedData)
         {
             const string command = "SELECT * FROM TrainingLine WHERE Id = @ID";
             var line = new TrainingLineDto();

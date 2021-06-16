@@ -18,7 +18,7 @@ namespace SpeechTrainer.Database.Database
 
         #region Implementation of IDatabase<SituationDto,bool>
 
-        public async Task<List<SituationDto>> SelectAllAsync()
+        public async Task<List<SituationDto>> SelectAllAsync(bool includeNestedData)
         {
             const string command = "SELECT * FROM Situation";
             var situations = new List<SituationDto>();
@@ -38,10 +38,12 @@ namespace SpeechTrainer.Database.Database
                     }
                 }
                 _client.CloseConnection();
-                foreach (var situation in situations)
+                if (includeNestedData)
                 {
-                    //situation.SetAnswerForms(await GetFormsBySituationAsync(situation.Id));
-                    situation.SetPositions(await GetPositionsBySituationAsync(situation.Id));
+                    foreach (var situation in situations)
+                    {
+                        situation.SetPositions(await GetPositionsBySituationAsync(situation.Id));
+                    }
                 }
                 return situations;
             }
@@ -69,7 +71,7 @@ namespace SpeechTrainer.Database.Database
             return await dbForm.GetFormsBySituationAsync(situationId);
         }
 
-        public async Task<SituationDto> SelectByIdAsync(int idObject)
+        public async Task<SituationDto> SelectByIdAsync(int idObject, bool includeNestedData)
         {
             const string command = "SELECT * FROM Situation WHERE Id = @ID";
             var situation = new SituationDto();
@@ -90,8 +92,10 @@ namespace SpeechTrainer.Database.Database
                 }
 
                 _client.CloseConnection();
-                //situation.SetAnswerForms(await GetFormsBySituationAsync(situation.Id));
-                situation.SetPositions(await GetPositionsBySituationAsync(situation.Id));
+                if (includeNestedData)
+                {
+                    situation.SetPositions(await GetPositionsBySituationAsync(situation.Id));
+                }
                 return situation;
             }
             catch (Exception exception)
@@ -143,9 +147,9 @@ namespace SpeechTrainer.Database.Database
                 }
 
                 _client.CloseConnection();
+
                 foreach (var situation in situations)
                 {
-                    //situation.SetAnswerForms(await GetFormsBySituationAsync(situation.Id));
                     situation.SetPositions(await GetPositionsBySituationAsync(situation.Id));
                 }
                 return situations;
@@ -186,7 +190,6 @@ namespace SpeechTrainer.Database.Database
 
                 _client.CloseConnection();
 
-                //situation.SetAnswerForms(await GetFormsBySituationAsync(situation.Id));
                 situation.SetPositions(await GetPositionsBySituationAsync(situation.Id));
 
                 return situation;

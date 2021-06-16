@@ -20,7 +20,7 @@ namespace SpeechTrainer.Database.Database
 
         #region Implementation of IDatabase<ParameterTypeDto,bool>
 
-        public async Task<List<ParameterTypeDto>> SelectAllAsync()
+        public async Task<List<ParameterTypeDto>> SelectAllAsync(bool includeNestedData)
         {
             var command = "SELECT * FROM ParameterType";
             var parmTypes = new List<ParameterTypeDto>();
@@ -54,7 +54,7 @@ namespace SpeechTrainer.Database.Database
             }
         }
 
-        public async Task<ParameterTypeDto> SelectByIdAsync(int idObject)
+        public async Task<ParameterTypeDto> SelectByIdAsync(int idObject, bool includeNestedData)
         {
             var command = "SELECT * FROM ParameterType WHERE Id = @ID";
             var parmType = new ParameterTypeDto();

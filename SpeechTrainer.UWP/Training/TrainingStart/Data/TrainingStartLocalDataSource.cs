@@ -19,7 +19,7 @@ namespace SpeechTrainer.UWP.Training.TrainingStart.Data
 
         public async Task<List<SituationDto>> GetSituations()
         {
-            return await _dbSituation.SelectAllAsync();
+            return await _dbSituation.SelectAllAsync(true);
         }
 
         #endregion

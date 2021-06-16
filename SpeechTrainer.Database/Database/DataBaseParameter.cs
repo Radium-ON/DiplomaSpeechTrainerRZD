@@ -18,12 +18,12 @@ namespace SpeechTrainer.Database.Database
 
         #region Implementation of IDatabase<ParameterDto,bool>
 
-        public async Task<List<ParameterDto>> SelectAllAsync()
+        public async Task<List<ParameterDto>> SelectAllAsync(bool includeNestedData)
         {
             throw new NotImplementedException();//todo
         }
 
-        public async Task<ParameterDto> SelectByIdAsync(int id)
+        public async Task<ParameterDto> SelectByIdAsync(int id, bool includeNestedData)
         {
             throw new NotImplementedException();//todo
         }

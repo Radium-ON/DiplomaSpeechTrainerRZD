@@ -19,7 +19,7 @@ namespace SpeechTrainer.Database.Database
 
         #region Implementation of IDatabase<StudentDto,bool>
 
-        public async Task<List<StudentDto>> SelectAllAsync()
+        public async Task<List<StudentDto>> SelectAllAsync(bool includeNestedData)
         {
             const string command = "SELECT * FROM Student";
             var students = new List<StudentDto>();
@@ -40,10 +40,20 @@ namespace SpeechTrainer.Database.Database
                 }
                 _client.CloseConnection();
 
-                foreach (var student in students)
+                if (includeNestedData)
                 {
-                    student.SetGroup(await GetStudentGroupAsync(student.Id));
-                    student.SetTrainings(await GetStudentTrainingsAsync(student.Id));
+                    foreach (var student in students)
+                    {
+                        student.SetGroup(await GetStudentGroupAsync(student.Id));
+                        student.SetTrainings(await GetStudentTrainingsAsync(student.Id));
+                    }
+                }
+                else
+                {
+                    foreach (var student in students)
+                    {
+                        student.SetGroup(new GroupDto());
+                    }
                 }
 
                 return students;
@@ -60,7 +70,7 @@ namespace SpeechTrainer.Database.Database
             }
         }
 
-        public async Task<StudentDto> SelectByIdAsync(int idObject)
+        public async Task<StudentDto> SelectByIdAsync(int idObject, bool includeNestedData)
         {
             const string command = "SELECT * FROM Student WHERE Id = @ID";
             var student = new StudentDto();
@@ -82,9 +92,11 @@ namespace SpeechTrainer.Database.Database
                 }
 
                 _client.CloseConnection();
-
-                student.SetGroup(await GetStudentGroupAsync(student.Id));
-                student.SetTrainings(await GetStudentTrainingsAsync(student.Id));
+                if (includeNestedData)
+                {
+                    student.SetGroup(await GetStudentGroupAsync(student.Id));
+                    student.SetTrainings(await GetStudentTrainingsAsync(student.Id));
+                }
 
                 return student;
             }

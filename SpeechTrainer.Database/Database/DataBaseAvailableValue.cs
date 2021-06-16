@@ -19,7 +19,7 @@ namespace SpeechTrainer.Database.Database
 
         #region Implementation of IDatabase<AvailableValueDto,bool>
 
-        public async Task<List<AvailableValueDto>> SelectAllAsync()
+        public async Task<List<AvailableValueDto>> SelectAllAsync(bool includeNestedData)
         {
             const string command = "SELECT * FROM AvailableValue";
             var availValues = new List<AvailableValueDto>();
@@ -60,7 +60,7 @@ namespace SpeechTrainer.Database.Database
             }
         }
 
-        public async Task<AvailableValueDto> SelectByIdAsync(int idObject)
+        public async Task<AvailableValueDto> SelectByIdAsync(int idObject, bool includeNestedData)
         {
             var command = "SELECT * FROM AvailableValue WHERE Id = @ID";
             var availValue = new AvailableValueDto();
@@ -211,7 +211,7 @@ namespace SpeechTrainer.Database.Database
 
                 _client.CloseConnection();
                 var dbParmType = new DataBaseParameterType();
-                return await dbParmType.SelectByIdAsync(parmTypeId);
+                return await dbParmType.SelectByIdAsync(parmTypeId, false);
             }
             catch (Exception exception)
             {

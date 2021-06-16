@@ -21,7 +21,7 @@ namespace SpeechTrainer.UWP.User.SignUp.Data
 
         public async Task<List<GroupDto>> GetAllGroups()
         {
-            return await _dbGroup.SelectAllAsync();
+            return await _dbGroup.SelectAllAsync(true);
         }
 
         public async Task<bool> CreateStudent(StudentDto student)

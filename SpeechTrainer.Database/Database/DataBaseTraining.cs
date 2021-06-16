@@ -18,7 +18,7 @@ namespace SpeechTrainer.Database.Database
 
         #region Implementation of IDatabase<TrainingDto,bool>
 
-        public async Task<List<TrainingDto>> SelectAllAsync()
+        public async Task<List<TrainingDto>> SelectAllAsync(bool includeNestedData)
         {
             const string command = "SELECT * FROM Training";
             var trainings = new List<TrainingDto>();
@@ -39,11 +39,13 @@ namespace SpeechTrainer.Database.Database
                     }
                 }
                 _client.CloseConnection();
-                foreach (var training in trainings)
+                if (includeNestedData)
                 {
-                    training.SetSituation(await GetTrainingSituationAsync(training.Id));
-                    //training.SetStudent(await GetTrainingStudentAsync(training.Id));
-                    training.SetTrainingLines(await GetTrainingLinesAsync(training.Id));
+                    foreach (var training in trainings)
+                    {
+                        training.SetSituation(await GetTrainingSituationAsync(training.Id));
+                        training.SetTrainingLines(await GetTrainingLinesAsync(training.Id));
+                    }
                 }
                 return trainings;
             }
@@ -68,7 +70,7 @@ namespace SpeechTrainer.Database.Database
         private async Task<StudentDto> GetTrainingStudentAsync(int studentId)
         {
             var db = new DataBaseStudent();
-            return await db.SelectByIdAsync(studentId);
+            return await db.SelectByIdAsync(studentId, false);
         }
 
         private async Task<SituationDto> GetTrainingSituationAsync(int trainingId)
@@ -77,7 +79,7 @@ namespace SpeechTrainer.Database.Database
             return await db.GetSituationByTrainingAsync(trainingId);
         }
 
-        public async Task<TrainingDto> SelectByIdAsync(int idObject)
+        public async Task<TrainingDto> SelectByIdAsync(int idObject, bool includeNestedData)
         {
             const string command = "SELECT * FROM Training WHERE Id = @ID";
             var training = new TrainingDto();
@@ -100,9 +102,11 @@ namespace SpeechTrainer.Database.Database
                 }
                 _client.CloseConnection();
 
-                training.SetSituation(await GetTrainingSituationAsync(training.Id));
-                //training.SetStudent(await GetTrainingStudentAsync(training.Id));
-                training.SetTrainingLines(await GetTrainingLinesAsync(training.Id));
+                if (includeNestedData)
+                {
+                    training.SetSituation(await GetTrainingSituationAsync(training.Id));
+                    training.SetTrainingLines(await GetTrainingLinesAsync(training.Id));
+                }
 
                 return training;
             }
@@ -157,7 +161,6 @@ namespace SpeechTrainer.Database.Database
                 foreach (var training in trainings)
                 {
                     training.SetSituation(await GetTrainingSituationAsync(training.Id));
-                    //training.SetStudent(await GetTrainingStudentAsync(training.Id));
                     training.SetTrainingLines(await GetTrainingLinesAsync(training.Id));
                 }
                 return trainings;

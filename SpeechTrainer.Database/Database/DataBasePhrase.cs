@@ -18,7 +18,7 @@ namespace SpeechTrainer.Database.Database
 
         #region Implementation of IDatabase<PhraseDto,bool>
 
-        public async Task<List<PhraseDto>> SelectAllAsync()
+        public async Task<List<PhraseDto>> SelectAllAsync(bool includeNestedData)
         {
             var command = "SELECT * FROM Phrase";
             var phrases = new List<PhraseDto>();
@@ -52,7 +52,7 @@ namespace SpeechTrainer.Database.Database
             }
         }
 
-        public async Task<PhraseDto> SelectByIdAsync(int idObject)
+        public async Task<PhraseDto> SelectByIdAsync(int idObject, bool includeNestedData)
         {
             var command = "SELECT * FROM Phrase WHERE Id = @ID";
             var phraseDto = new PhraseDto();

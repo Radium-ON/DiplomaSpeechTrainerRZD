@@ -18,7 +18,7 @@ namespace SpeechTrainer.Database.Database
 
         #region Implementation of IDatabase<AnswerFormDto,bool>
 
-        public async Task<List<AnswerFormDto>> SelectAllAsync()
+        public async Task<List<AnswerFormDto>> SelectAllAsync(bool includeNestedData)
         {
             const string command = "SELECT * FROM AnswerForm";
             var answerForms = new List<AnswerFormDto>();
@@ -37,12 +37,15 @@ namespace SpeechTrainer.Database.Database
                     }
                 }
                 _client.CloseConnection();
-                foreach (var form in answerForms)
+                if (includeNestedData)
                 {
-                    form.SetSituation(await GetFormSituationAsync(form.Id));
-                    form.SetPosition(await GetFormPositionAsync(form.Id));
-                    form.SetParameters(await GetFormParametersAsync(form.Id));
-                    form.SetPhrase(await GetFormPhraseAsync(form.Id));
+                    foreach (var form in answerForms)
+                    {
+                        form.SetSituation(await GetFormSituationAsync(form.Id));
+                        form.SetPosition(await GetFormPositionAsync(form.Id));
+                        form.SetParameters(await GetFormParametersAsync(form.Id));
+                        form.SetPhrase(await GetFormPhraseAsync(form.Id));
+                    }
                 }
                 return answerForms;
             }
@@ -78,7 +81,7 @@ namespace SpeechTrainer.Database.Database
                 _client.CloseConnection();
 
                 var db = new DataBasePhrase();
-                return await db.SelectByIdAsync(phraseId);
+                return await db.SelectByIdAsync(phraseId, true);
             }
             catch (Exception exception)
             {
@@ -113,7 +116,7 @@ namespace SpeechTrainer.Database.Database
 
                 _client.CloseConnection();
                 var db = new DataBasePosition();
-                return await db.SelectByIdAsync(positionId);
+                return await db.SelectByIdAsync(positionId, false);
             }
             catch (Exception exception)
             {
@@ -148,7 +151,7 @@ namespace SpeechTrainer.Database.Database
 
                 _client.CloseConnection();
                 var db = new DataBaseSituation();
-                return await db.SelectByIdAsync(situationId);
+                return await db.SelectByIdAsync(situationId, false);
             }
             catch (Exception exception)
             {
@@ -162,7 +165,7 @@ namespace SpeechTrainer.Database.Database
             }
         }
 
-        public async Task<AnswerFormDto> SelectByIdAsync(int idObject)
+        public async Task<AnswerFormDto> SelectByIdAsync(int idObject, bool includeNestedData)
         {
             const string command = "SELECT * FROM AnswerForm WHERE Id = @ID";
             var form = new AnswerFormDto();
@@ -182,11 +185,13 @@ namespace SpeechTrainer.Database.Database
                 }
 
                 _client.CloseConnection();
-
-                form.SetSituation(await GetFormSituationAsync(form.Id));
-                form.SetPosition(await GetFormPositionAsync(form.Id));
-                form.SetParameters(await GetFormParametersAsync(form.Id));
-                form.SetPhrase(await GetFormPhraseAsync(form.Id));
+                if (includeNestedData)
+                {
+                    form.SetSituation(await GetFormSituationAsync(form.Id));
+                    form.SetPosition(await GetFormPositionAsync(form.Id));
+                    form.SetParameters(await GetFormParametersAsync(form.Id));
+                    form.SetPhrase(await GetFormPhraseAsync(form.Id));
+                }
                 return form;
             }
             catch (Exception exception)

@@ -19,7 +19,7 @@ namespace SpeechTrainer.Database.Database
 
         #region Implementation of IDatabase<GroupDto,bool>
 
-        public async Task<List<GroupDto>> SelectAllAsync()
+        public async Task<List<GroupDto>> SelectAllAsync(bool includeNestedData)
         {
             if (_client.Connection.State == ConnectionState.Open)
             {
@@ -56,7 +56,7 @@ namespace SpeechTrainer.Database.Database
             }
         }
 
-        public async Task<GroupDto> SelectByIdAsync(int idObject)
+        public async Task<GroupDto> SelectByIdAsync(int idObject, bool includeNestedData)
         {
             const string command = "SELECT * FROM [Group] WHERE Id = @ID";
             var group = new GroupDto();
