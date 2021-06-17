@@ -195,7 +195,7 @@ namespace SpeechTrainer.Core.Utills
 
         private string RemoveSpecialCharacters(string str)
         {
-            return Regex.Replace(str, @"[^\w\d\s]", "").ToUpper();
+            return Regex.Replace(str, @"[^\w\d\s+]", "").ToUpper().Replace(" ", string.Empty);
         }
 
     }

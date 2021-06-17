@@ -32,15 +32,16 @@ namespace SpeechTrainer.Core.Utills
             _mediaPlayer = mediaPlayer;
             _mediaPlayer.PlaybackEnded += MediaPlayerOnPlaybackEnded;
             _speechConfig = SpeechConfig.FromSubscription("88ef55a3ae9a4d8c9c121ce17ae4db51", "northeurope");
-            _speechConfig.EndpointId = "a7980ff0-7342-4299-9fe3-9a876e2135bc";
             _speechConfig.SpeechRecognitionLanguage = "ru-ru";
-            _speechConfig.SpeechSynthesisLanguage = "ru-ru";
-            _speechConfig.SpeechSynthesisVoiceName = "ru-RU-DmitryNeural";
+            _speechConfig.EndpointId = "a7980ff0-7342-4299-9fe3-9a876e2135bc";
             _audioConfig = AudioConfig.FromDefaultMicrophoneInput();
 
             _speechRecognizer = new SpeechRecognizer(_speechConfig, _audioConfig);
             SetRecognizerEvents();
-            _speechSynthesizer = new SpeechSynthesizer(_speechConfig);
+            var synthConfig = SpeechConfig.FromSubscription("88ef55a3ae9a4d8c9c121ce17ae4db51", "northeurope");
+            synthConfig.SpeechSynthesisLanguage = "ru-ru";
+            synthConfig.SpeechSynthesisVoiceName = "ru-RU-DmitryNeural";
+            _speechSynthesizer = new SpeechSynthesizer(synthConfig);
             SetSynthesizerEvents();
         }
 
