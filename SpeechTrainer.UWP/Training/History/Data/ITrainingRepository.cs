@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using SpeechTrainer.Core.ModelObservable;
 using SpeechTrainer.Core.ResponseWrapper;
 
 namespace SpeechTrainer.UWP.Training.History.Data

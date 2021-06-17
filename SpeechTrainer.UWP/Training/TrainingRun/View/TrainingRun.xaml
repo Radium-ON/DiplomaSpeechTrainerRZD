@@ -29,16 +29,19 @@
             </StackPanel>
         </ScrollViewer>
         <StackPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{x:Bind ViewModel.PlayAnimation, Mode=OneWay, Converter={StaticResource visibility_converter}}">
-            <winui:AnimatedVisualPlayer MaxWidth="600" MaxHeight="400" Margin="100,40,100,20" x:Name="lottie_player" AutoPlay="True">
+            <winui:AnimatedVisualPlayer MaxWidth="600" MaxHeight="400" Margin="100,40,100,20" AutoPlay="True">
                 <lottie:LottieVisualSource UriSource="ms-appx:///Assets/Lottie/audio_visual3.json" />
             </winui:AnimatedVisualPlayer>
-            <TextBlock Text="Идет запись" Style="{StaticResource CaptionTextBlockStyle}" VerticalAlignment="Top" HorizontalAlignment="Center" Visibility="{x:Bind ViewModel.PlayAnimation, Converter={StaticResource visibility_converter}, Mode=OneWay}"/>
-            <TextBlock Text="{x:Bind ViewModel.RecognitionInProcess, Mode=OneWay}" Style="{StaticResource CaptionTextBlockStyle}" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+            <TextBlock Text="Идет запись" Style="{StaticResource CaptionTextBlockStyle}" VerticalAlignment="Top" HorizontalAlignment="Center"
+                       Visibility="{x:Bind ViewModel.PlayAnimation, Converter={StaticResource visibility_converter}, Mode=OneWay}"/>
+            <TextBlock Text="{x:Bind ViewModel.RecognitionInProcess, Mode=OneWay}" Style="{StaticResource CaptionTextBlockStyle}" VerticalAlignment="Top" HorizontalAlignment="Center" Visibility="Collapsed"/>
+            <!--<TextBlock Text="Говорите!" FontSize="20" Foreground="Red" VerticalAlignment="Top" HorizontalAlignment="Center"
+                       Visibility="{x:Bind ViewModel.SpeakMessage, Converter={StaticResource visibility_converter}, Mode=OneWay}"/>-->
         </StackPanel>
-        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,60">
-            <Button Content="Выйти" MinWidth="80" Style="{StaticResource ButtonRevealStyle}" Command="{x:Bind ViewModel.InterruptCommand}" HorizontalAlignment="Center"/>
-            <Button Content="Ответить" MinWidth="80" Style="{StaticResource AccentButtonStyle}" Margin="100,0,0,0" Command="{x:Bind ViewModel.AnswerCommand}" HorizontalAlignment="Center"/>
+        <Grid Grid.Row="3" VerticalAlignment="Center" Margin="0,0,0,60">
+            <Button Content="Выйти" Margin="20,0,0,0" MinWidth="80" Style="{StaticResource ButtonRevealStyle}" Command="{x:Bind ViewModel.InterruptCommand}" HorizontalAlignment="Left"/>
+            <Button Content="Ответить" MinWidth="200" MinHeight="50" Style="{StaticResource AccentButtonStyle}" Command="{x:Bind ViewModel.AnswerCommand}" HorizontalAlignment="Center"/>
             <!--<Button Content="Пауза" MinWidth="80" Style="{StaticResource ButtonRevealStyle}" Click="{x:Bind ViewModel.TrainingResume}"/>-->
-        </StackPanel>
+        </Grid>
     </Grid>
 </Page>

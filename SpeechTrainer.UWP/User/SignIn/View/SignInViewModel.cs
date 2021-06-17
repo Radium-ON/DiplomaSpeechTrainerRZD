@@ -2,14 +2,11 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using System.Windows.Input;
-using Windows.UI.Xaml.Navigation;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using SpeechTrainer.Core;
 using SpeechTrainer.Core.ModelObservable;
 using SpeechTrainer.Core.ResponseWrapper;
-using SpeechTrainer.Core.Utills;
 using SpeechTrainer.UWP.User.SignIn.Operation;
 
 namespace SpeechTrainer.UWP.User.SignIn.View
@@ -18,7 +15,6 @@ namespace SpeechTrainer.UWP.User.SignIn.View
     {
         private readonly GetStudentsOption _getStudentsOption;
         private ObservableCollection<StudentObservable> _students;
-        private bool _visibleLoading;
         private StudentObservable _student;
 
         public StudentObservable Student
@@ -33,11 +29,6 @@ namespace SpeechTrainer.UWP.User.SignIn.View
 
         public RelayCommand<StudentObservable> SignInCommand => new RelayCommand<StudentObservable>(SignIn, d => Student != null);
 
-        public bool VisibleLoading
-        {
-            get => _visibleLoading;
-            set => SetProperty(ref _visibleLoading, value);
-        }
         public ObservableCollection<StudentObservable> Students
         {
             get => _students;
@@ -66,11 +57,6 @@ namespace SpeechTrainer.UWP.User.SignIn.View
         private void SignIn(StudentObservable student)
         {
             Session.SetId(student.Id);
-        }
-
-        private void ShowLoadingData(bool value)
-        {
-            VisibleLoading = value;
         }
 
     }

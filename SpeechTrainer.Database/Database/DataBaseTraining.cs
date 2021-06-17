@@ -136,7 +136,7 @@ namespace SpeechTrainer.Database.Database
 
         #region Implementation of IDataBaseTraining<TrainingDto,bool>
 
-        public async Task<List<TrainingDto>> GetTrainingsByStudentAsync(int idStudent)
+        public async Task<List<TrainingDto>> GetTrainingsByStudentAsync(int idStudent, bool enableSubQuery)
         {
             const string command = "SELECT * FROM Training WHERE Training.StudentId = @ID";
             var trainings = new List<TrainingDto>();
@@ -158,10 +158,21 @@ namespace SpeechTrainer.Database.Database
                     }
                 }
                 _client.CloseConnection();
-                foreach (var training in trainings)
+
+                if (enableSubQuery)
                 {
-                    training.SetSituation(await GetTrainingSituationAsync(training.Id));
-                    training.SetTrainingLines(await GetTrainingLinesAsync(training.Id));
+                    foreach (var training in trainings)
+                    {
+                        training.SetSituation(await GetTrainingSituationAsync(training.Id));
+                        training.SetTrainingLines(await GetTrainingLinesAsync(training.Id));
+                    }
+                }
+                else
+                {
+                    foreach (var training in trainings)
+                    {
+                        training.SetSituation(await GetTrainingSituationAsync(training.Id));
+                    }
                 }
                 return trainings;
             }
@@ -236,6 +247,7 @@ namespace SpeechTrainer.Database.Database
                     var db = new DataBaseTrainingLine();
                     foreach (var line in newLines)
                     {
+                        _client.CloseConnection();
                         result = await db.CreateAsync((int)lastIndex, line);
                     }
 

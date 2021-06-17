@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using SpeechTrainer.Core.ModelObservable;
 using SpeechTrainer.Core.ResponseWrapper;
-using SpeechTrainer.Database.Entities;
 
 namespace SpeechTrainer.UWP.Training.TrainingRun.Data
 {

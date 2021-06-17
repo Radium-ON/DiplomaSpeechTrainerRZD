@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Windows.Media.Capture;
+using Windows.System;
 using SpeechTrainer.Core.Interfaces;
 
 namespace SpeechTrainer.UWP.PlatformTools
@@ -13,11 +15,11 @@ namespace SpeechTrainer.UWP.PlatformTools
             var isMicAvailable = true;
             try
             {
-                var mediaCapture = new Windows.Media.Capture.MediaCapture();
+                var mediaCapture = new MediaCapture();
                 var settings =
-                    new Windows.Media.Capture.MediaCaptureInitializationSettings
+                    new MediaCaptureInitializationSettings
                     {
-                        StreamingCaptureMode = Windows.Media.Capture.StreamingCaptureMode.Audio
+                        StreamingCaptureMode = StreamingCaptureMode.Audio
                     };
                 await mediaCapture.InitializeAsync(settings);
             }
@@ -28,7 +30,7 @@ namespace SpeechTrainer.UWP.PlatformTools
 
             if (!isMicAvailable)
             {
-                await Windows.System.Launcher.LaunchUriAsync(
+                await Launcher.LaunchUriAsync(
                     new Uri("ms-settings:privacy-microphone"));
             }
         }

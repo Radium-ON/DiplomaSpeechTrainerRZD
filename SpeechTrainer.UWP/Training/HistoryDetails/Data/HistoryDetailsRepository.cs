@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using SpeechTrainer.Core.DtoMappers;
 using SpeechTrainer.Core.ModelObservable;
 using SpeechTrainer.Core.ResponseWrapper;
-using SpeechTrainer.UWP.Training.History.Data;
 
 namespace SpeechTrainer.UWP.Training.HistoryDetails.Data
 {

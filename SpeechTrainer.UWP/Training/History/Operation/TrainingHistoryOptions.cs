@@ -1,8 +1,6 @@
 ﻿using System.Threading.Tasks;
-using SpeechTrainer.Core.ModelObservable;
 using SpeechTrainer.Core.ResponseWrapper;
 using SpeechTrainer.UWP.Training.History.Data;
-using SpeechTrainer.UWP.User.SignUp.Data;
 
 namespace SpeechTrainer.UWP.Training.History.Operation
 {

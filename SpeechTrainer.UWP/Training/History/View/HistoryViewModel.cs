@@ -10,7 +10,6 @@ using Microsoft.Toolkit.Mvvm.Messaging.Messages;
 using SpeechTrainer.Core;
 using SpeechTrainer.Core.ModelObservable;
 using SpeechTrainer.Core.ResponseWrapper;
-using SpeechTrainer.Core.Utills;
 using SpeechTrainer.UWP.Training.History.Operation;
 
 namespace SpeechTrainer.UWP.Training.History.View
@@ -26,7 +25,7 @@ namespace SpeechTrainer.UWP.Training.History.View
             set => SetProperty(ref _selectedTraining, value, true);
         }
 
-        public RelayCommand SendCommand { get; private set; }
+        public RelayCommand SendCommand { get; }
 
         private ObservableCollection<TrainingObservable> _trainings;
 

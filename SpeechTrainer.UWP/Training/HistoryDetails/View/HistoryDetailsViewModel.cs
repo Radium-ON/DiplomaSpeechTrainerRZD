@@ -7,8 +7,6 @@ using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Mvvm.Messaging.Messages;
 using SpeechTrainer.Core.ModelObservable;
 using SpeechTrainer.Core.ResponseWrapper;
-using SpeechTrainer.Core.Utills;
-using SpeechTrainer.UWP.Training.History.View;
 using SpeechTrainer.UWP.Training.HistoryDetails.Operation;
 
 namespace SpeechTrainer.UWP.Training.HistoryDetails.View

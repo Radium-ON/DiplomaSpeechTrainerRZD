@@ -115,7 +115,7 @@ namespace SpeechTrainer.Database.Database
         private async Task<List<TrainingDto>> GetStudentTrainingsAsync(int studentId)
         {
             var db = new DataBaseTraining();
-            return await db.GetTrainingsByStudentAsync(studentId);
+            return await db.GetTrainingsByStudentAsync(studentId, false);
         }
 
         private async Task<GroupDto> GetStudentGroupAsync(int studentId)

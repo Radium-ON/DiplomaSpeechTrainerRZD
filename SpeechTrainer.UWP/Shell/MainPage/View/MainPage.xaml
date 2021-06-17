@@ -4,22 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:valueConverters="using:ValueConverters"
-
-
     mc:Ignorable="d"
-    
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    <Page.Resources>
-        <ResourceDictionary> 
-            <valueConverters:DateTimeConverter x:Key="date_time_converter" Format="d" MinValueString="-"/> 
-        </ResourceDictionary> 
-    </Page.Resources>
-
     <Grid>
-        
-        
-
         <Frame/>
     </Grid>
 </Page>

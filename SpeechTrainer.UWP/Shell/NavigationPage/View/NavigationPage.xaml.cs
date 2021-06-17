@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using SpeechTrainer.UWP.Training.History.View;
-using SpeechTrainer.UWP.Training.HistoryDetails.View;
 using SpeechTrainer.UWP.Training.TrainingStart.View;
 using SpeechTrainer.UWP.User.Results.View;
 using SpeechTrainer.UWP.User.SignIn.View;
@@ -17,7 +15,7 @@ namespace SpeechTrainer.UWP.Shell.NavigationPage.View
     /// </summary>
     public sealed partial class NavigationPage : Page
     {
-        private bool _alreadyStarted = false;
+        private bool _alreadyStarted;
         public NavigationPage()
         {
             InitializeComponent();

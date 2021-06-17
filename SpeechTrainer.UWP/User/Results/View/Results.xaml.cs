@@ -4,7 +4,6 @@
 
 using Windows.UI.Xaml.Controls;
 using SpeechTrainer.Core.Interfaces;
-using SpeechTrainer.Core.Utills;
 
 namespace SpeechTrainer.UWP.User.Results.View
 {

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using SpeechTrainer.Core.ModelObservable;
-using SpeechTrainer.Core.Utills;
 using SpeechTrainer.Database.Entities;
 
 namespace SpeechTrainer.Core.DtoMappers

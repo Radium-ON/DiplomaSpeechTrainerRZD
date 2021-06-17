@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using SpeechTrainer.Core.ResponseWrapper;
-using SpeechTrainer.UWP.Training.History.Data;
 using SpeechTrainer.UWP.Training.HistoryDetails.Data;
 
 namespace SpeechTrainer.UWP.Training.HistoryDetails.Operation

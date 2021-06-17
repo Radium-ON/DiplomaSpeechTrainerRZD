@@ -41,7 +41,6 @@ namespace SpeechTrainer.UWP.Training.TrainingRun.View
                     Frame.Navigate(typeof(NavigationPage));
                     break;
                 case ContentDialogResult.Secondary:
-                    ;
                     break;
             }
         }
@@ -80,7 +79,6 @@ namespace SpeechTrainer.UWP.Training.TrainingRun.View
                     Frame.Navigate(typeof(NavigationPage));
                     break;
                 case ContentDialogResult.Secondary:
-                    ;
                     break;
             }
         }

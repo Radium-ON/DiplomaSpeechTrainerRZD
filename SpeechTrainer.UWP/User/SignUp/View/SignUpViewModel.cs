@@ -6,8 +6,6 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using SpeechTrainer.Core.ModelObservable;
 using SpeechTrainer.Core.ResponseWrapper;
-using SpeechTrainer.Core.Utills;
-using SpeechTrainer.UWP.User.SignIn.Operation;
 using SpeechTrainer.UWP.User.SignUp.Operation;
 
 namespace SpeechTrainer.UWP.User.SignUp.View

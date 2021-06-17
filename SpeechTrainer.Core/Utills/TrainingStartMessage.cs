@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Toolkit.Mvvm.Messaging.Messages;
+﻿using Microsoft.Toolkit.Mvvm.Messaging.Messages;
 using SpeechTrainer.Core.ModelObservable;
 
 namespace SpeechTrainer.Core.Utills

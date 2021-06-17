@@ -4,13 +4,10 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.CognitiveServices.Speech;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
-using Microsoft.Toolkit.Mvvm.Messaging.Messages;
 using SpeechTrainer.Core;
-using SpeechTrainer.Core.Interfaces;
 using SpeechTrainer.Core.ModelObservable;
 using SpeechTrainer.Core.ResponseWrapper;
 using SpeechTrainer.Core.Utills;
@@ -34,15 +31,22 @@ namespace SpeechTrainer.UWP.Training.TrainingRun.View
             _trainingRunOptions = trainingRunOptions;
             _trainingService = trainingService;
             _trainingService.TrainingEnded += async (o, args) => await TrainingServiceOnTrainingEnded(o, args);
-            _trainingService.StepCompleted += async (o, i) => await TrainingServiceOnStepCompleted(o, i);
+            _trainingService.StepCompleted += TrainingServiceOnStepCompleted;
+            _trainingService.RecognitionStarted += TrainingServiceOnRecognitionStarted;
 
             Training = new TrainingObservable();
         }
 
+        private void TrainingServiceOnRecognitionStarted(object sender, EventArgs e)
+        {
+            //SpeakMessage = true;
+        }
+
         public event EventHandler ExitRequested;
 
-        private async Task TrainingServiceOnStepCompleted(object sender, int e)
+        private void TrainingServiceOnStepCompleted(object sender, int e)
         {
+            //SpeakMessage = false;
         }
 
         private async Task TrainingServiceOnTrainingEnded(object sender, EventArgs e)
@@ -50,6 +54,7 @@ namespace SpeechTrainer.UWP.Training.TrainingRun.View
             if (!_trainingAlreadyCreated)
             {
                 await CreateTraining(_trainingService.Training);
+                //ExitRequested?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -69,6 +74,8 @@ namespace SpeechTrainer.UWP.Training.TrainingRun.View
             await _trainingService.RecordStudentAnswerAsync();
             PlayAnimation = false;
         }
+
+
 
         public bool PlayAnimation
         {

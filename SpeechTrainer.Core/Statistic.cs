@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using SpeechTrainer.Core.ModelObservable;
-
-namespace SpeechTrainer.Core
+﻿namespace SpeechTrainer.Core
 {
     public static class Statistic
     {

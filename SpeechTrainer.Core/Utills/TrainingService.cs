@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.CognitiveServices.Speech;
@@ -20,7 +19,6 @@ namespace SpeechTrainer.Core.Utills
         private int _allStudentPhrases;
         private int _correctStudentPhrases;
 
-        public StudentObservable Student { get; private set; }
         public PositionObservable Position { get; private set; }
         public TrainingObservable Training { get; private set; }
 
@@ -28,6 +26,7 @@ namespace SpeechTrainer.Core.Utills
 
         public event EventHandler TrainingEnded;
         public event EventHandler<int> StepCompleted;
+        public event EventHandler RecognitionStarted;
 
         public TrainingService(ISpeechToText<RecognitionResult> speechService)
         {
@@ -38,10 +37,27 @@ namespace SpeechTrainer.Core.Utills
         private void SetSpeechServiceEvents()
         {
             _speechService.SynthesizerSynthesisCompleted += SpeechServiceOnSynthesizerSynthesisCompleted;
+            _speechService.MediaPlaybackEnded += SpeechServiceOnMediaPlaybackEnded;
 
             _speechService.RecognizerRecognized += SpeechServiceOnRecognizerRecognized;
             _speechService.RecognizerRecognizing += SpeechServiceOnRecognizerRecognizing;
             _speechService.RecognizerSessionStopped += SpeechServiceOnRecognizerSessionStopped;
+            _speechService.RecognizerSessionStarted += SpeechServiceOnRecognizerSessionStarted;
+        }
+
+        private async void SpeechServiceOnMediaPlaybackEnded(object sender, EventArgs e)
+        {
+            StepCompleted?.Invoke(this, _answerForms.Count);
+            IsTrainingEnd();
+            if (IsNextPhraseSynth(_answerForms))
+            {
+                await DoSituationStepAsync(_answerForms);
+            }
+        }
+
+        private void SpeechServiceOnRecognizerSessionStarted(object sender, SessionEventArgs e)
+        {
+            RecognitionStarted?.Invoke(this, null);
         }
 
         private void SpeechServiceOnRecognizerRecognizing(object sender, SpeechRecognitionEventArgs e)
@@ -51,31 +67,11 @@ namespace SpeechTrainer.Core.Utills
 
         private async void SpeechServiceOnRecognizerSessionStopped(object sender, SessionEventArgs e)
         {
-            await CheckTrainingEnd();
-        }
-
-        private async Task CheckTrainingEnd()
-        {
-            if (_answerForms.Count > 1)
+            StepCompleted?.Invoke(this, _answerForms.Count);
+            if (!IsTrainingEnd())
             {
-                _answerForms.RemoveAt(0);
                 await DoSituationStepAsync(_answerForms);
             }
-            else
-            {
-                CalcScores();
-                TrainingEnded?.Invoke(this, null);
-            }
-        }
-
-        public void StopTraining()
-        {
-            _speechService.StopOperations();
-        }
-
-        private void CalcScores()
-        {
-            Training.ScoresNumber = (int)(_correctStudentPhrases / (double)_allStudentPhrases * 100);
         }
 
         private void SpeechServiceOnRecognizerRecognized(object sender, SpeechRecognitionEventArgs e)
@@ -95,6 +91,77 @@ namespace SpeechTrainer.Core.Utills
             }
             Training.TrainingLines.Add(line);
             StepCompleted?.Invoke(this, _answerForms.Count);
+        }
+
+        private async void SpeechServiceOnSynthesizerSynthesisCompleted(object sender, SpeechSynthesisEventArgs e)
+        {
+            // StepCompleted?.Invoke(this, _answerForms.Count);
+            // IsTrainingEnd();
+            // if (IsNextPhraseSynth(_answerForms))
+            // {
+            //     await DoSituationStepAsync(_answerForms);
+            // }
+        }
+
+        private bool IsNextPhraseSynth(List<AnswerFormObservable> forms)
+        {
+            _currentForm = forms.First();
+            return !CheckPositionStudent(_currentForm?.Position, Position);
+        }
+
+        private bool IsTrainingEnd()
+        {
+            if (_answerForms.Count > 0)
+            {
+                return false;
+            }
+
+            CalcScores();
+            TrainingEnded?.Invoke(this, null);
+            return true;
+        }
+
+        public void StopTraining()
+        {
+            _speechService.StopOperations();
+        }
+
+        public async Task RecordStudentAnswerAsync()
+        {
+            if (!IsTrainingEnd())
+            {
+                await DoSituationStepAsync(_answerForms);
+            }
+        }
+
+        public async Task TrainingRunAsync(int studentId, PositionObservable position, SituationObservable situation, List<AnswerFormObservable> forms)
+        {
+            Training = new TrainingObservable { TrainingLines = new List<TrainingLineObservable>(), StudentId = studentId, Situation = situation, TrainingDate = DateTime.Now };
+            Position = position;
+            _answerForms = forms.OrderBy(n => n.OrderNum).ToList();
+
+            await DoSituationStepAsync(_answerForms);
+        }
+
+        private async Task DoSituationStepAsync(List<AnswerFormObservable> forms)
+        {
+            _currentForm = forms.First();
+            _answerForms.RemoveAt(0);
+            if (CheckPositionStudent(_currentForm?.Position, Position))
+            {
+                _allStudentPhrases++;
+                var result = await _speechService.RecognizeSpeechFromMicrophoneAsync();
+                Debug.WriteLine(result.Text);
+            }
+            else
+            {
+                await _speechService.GenerateSpeechToSpeakersAsync(GetCompleteAnswerForm(_currentForm));
+            }
+        }
+
+        private void CalcScores()
+        {
+            Training.ScoresNumber = (int)(_correctStudentPhrases / (double)_allStudentPhrases * 100);
         }
 
         private bool CompareAnswers(string phraseText, string studentText)
@@ -119,49 +186,6 @@ namespace SpeechTrainer.Core.Utills
             }
 
             return textWithParms;
-        }
-
-        private void SpeechServiceOnSynthesizerSynthesisCompleted(object sender, SpeechSynthesisEventArgs e)
-        {
-            StepCompleted?.Invoke(this, _answerForms.Count);
-        }
-
-        public async Task RecordStudentAnswerAsync()
-        {
-            if (_answerForms.Count > 1)
-            {
-                _answerForms.RemoveAt(0);
-                await DoSituationStepAsync(_answerForms);
-            }
-            else
-            {
-                TrainingEnded?.Invoke(this, null);
-            }
-        }
-
-        public async Task TrainingRunAsync(int studentId, PositionObservable position, SituationObservable situation, List<AnswerFormObservable> forms)
-        {
-            Training = new TrainingObservable { TrainingLines = new List<TrainingLineObservable>(), StudentId = studentId, Situation = situation, TrainingDate = DateTime.Now };
-            Position = position;
-            _answerForms = forms.OrderBy(n => n.OrderNum).ToList();
-
-            await DoSituationStepAsync(_answerForms);
-        }
-
-        private async Task DoSituationStepAsync(List<AnswerFormObservable> forms)
-        {
-            _currentForm = forms.First();
-
-            if (CheckPositionStudent(_currentForm?.Position, Position))
-            {
-                _allStudentPhrases++;
-                var result = await _speechService.RecognizeSpeechFromMicrophoneAsync();
-                Debug.WriteLine(result.Text);
-            }
-            else
-            {
-                await _speechService.GenerateSpeechToSpeakersAsync(GetCompleteAnswerForm(_currentForm));
-            }
         }
 
         private bool CheckPositionStudent(PositionObservable formPosition, PositionObservable studentPosition)

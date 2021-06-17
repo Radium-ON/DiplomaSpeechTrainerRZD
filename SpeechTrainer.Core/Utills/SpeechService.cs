@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.Media.Core;
-using Windows.Media.Playback;
 using Windows.Storage;
 using Microsoft.CognitiveServices.Speech;
 using Microsoft.CognitiveServices.Speech.Audio;
@@ -28,11 +25,14 @@ namespace SpeechTrainer.Core.Utills
 
         public event EventHandler<SpeechSynthesisEventArgs> SynthesizerSynthesisStarted;
         public event EventHandler<SpeechSynthesisEventArgs> SynthesizerSynthesisCompleted;
+        public event EventHandler MediaPlaybackEnded;
 
         public SpeechService(IPlayer mediaPlayer)
         {
             _mediaPlayer = mediaPlayer;
+            _mediaPlayer.PlaybackEnded += MediaPlayerOnPlaybackEnded;
             _speechConfig = SpeechConfig.FromSubscription("88ef55a3ae9a4d8c9c121ce17ae4db51", "northeurope");
+            _speechConfig.EndpointId = "a7980ff0-7342-4299-9fe3-9a876e2135bc";
             _speechConfig.SpeechRecognitionLanguage = "ru-ru";
             _speechConfig.SpeechSynthesisLanguage = "ru-ru";
             _speechConfig.SpeechSynthesisVoiceName = "ru-RU-DmitryNeural";
@@ -42,6 +42,11 @@ namespace SpeechTrainer.Core.Utills
             SetRecognizerEvents();
             _speechSynthesizer = new SpeechSynthesizer(_speechConfig);
             SetSynthesizerEvents();
+        }
+
+        private void MediaPlayerOnPlaybackEnded(object sender, EventArgs e)
+        {
+            MediaPlaybackEnded?.Invoke(sender, e);
         }
 
         private void SetSynthesizerEvents()

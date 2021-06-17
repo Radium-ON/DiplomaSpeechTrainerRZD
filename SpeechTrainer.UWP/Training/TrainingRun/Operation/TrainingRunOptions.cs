@@ -2,7 +2,6 @@
 using SpeechTrainer.Core.ModelObservable;
 using SpeechTrainer.Core.ResponseWrapper;
 using SpeechTrainer.UWP.Training.TrainingRun.Data;
-using SpeechTrainer.UWP.Training.TrainingStart.Data;
 
 namespace SpeechTrainer.UWP.Training.TrainingRun.Operation
 {

@@ -6,7 +6,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
-    xmlns:modelObservable="using:SpeechTrainer.Core.ModelObservable"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Loaded="{x:Bind ViewModel.InitializePropertiesAsync}">
     <Page.Resources>
@@ -35,7 +34,6 @@
         </StackPanel>
         <StackPanel Grid.Row="1" Margin="40,40,40,0">
             <controls:DataGrid
-                x:Name="answers_data_grid"
                 IsReadOnly="True"
                 RowDetailsTemplate="{StaticResource row_details_template}"
                 RowDetailsVisibilityMode="VisibleWhenSelected"

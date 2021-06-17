@@ -5,7 +5,6 @@
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Toolkit.Uwp.UI.Controls;
 using SpeechTrainer.Core.Interfaces;
 
 namespace SpeechTrainer.UWP.Training.HistoryDetails.View
