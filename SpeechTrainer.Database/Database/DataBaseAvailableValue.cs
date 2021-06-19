@@ -114,7 +114,7 @@ namespace SpeechTrainer.Database.Database
         {
             var command = "SELECT Id, Value FROM AvailableValue WHERE ParameterType.Id = @ID";
             var values = new List<AvailableValueDto>();
-
+            _client.CloseConnection();
             try
             {
                 using (var cmd = new SqlCommand(command, _client.OpenConnection()))
@@ -157,7 +157,7 @@ namespace SpeechTrainer.Database.Database
                                    " AND Parameter_Value.ValueId = AvailableValue.Id";
 
             var value = new AvailableValueDto();
-
+            _client.CloseConnection();
             try
             {
                 using (var cmd = new SqlCommand(command, _client.OpenConnection()))
@@ -196,7 +196,7 @@ namespace SpeechTrainer.Database.Database
             const string command = "SELECT ParameterTypeId FROM ParameterType_AvailValue" +
                                    " WHERE ParameterType_AvailValue.ValueId = @ID";
             var parmTypeId = 0;
-
+            _client.CloseConnection();
             try
             {
                 using (var cmd = new SqlCommand(command, _client.OpenConnection()))

@@ -45,6 +45,12 @@ namespace SpeechTrainer.Core.Utills
             _speechService.RecognizerSessionStarted += SpeechServiceOnRecognizerSessionStarted;
         }
 
+        private void ResetCounters()
+        {
+            _allStudentPhrases = 0;
+            _correctStudentPhrases = 0;
+        }
+
         private async void SpeechServiceOnMediaPlaybackEnded(object sender, EventArgs e)
         {
             StepCompleted?.Invoke(this, _answerForms.Count);
@@ -136,6 +142,7 @@ namespace SpeechTrainer.Core.Utills
 
         public async Task TrainingRunAsync(int studentId, PositionObservable position, SituationObservable situation, List<AnswerFormObservable> forms)
         {
+            ResetCounters();
             Training = new TrainingObservable { TrainingLines = new List<TrainingLineObservable>(), StudentId = studentId, Situation = situation, TrainingDate = DateTime.Now };
             Position = position;
             _answerForms = forms.OrderBy(n => n.OrderNum).ToList();
@@ -161,7 +168,7 @@ namespace SpeechTrainer.Core.Utills
 
         private void CalcScores()
         {
-            Training.ScoresNumber = (int)(_correctStudentPhrases / (double)_allStudentPhrases * 100);
+            Training.ScoresNumber = (int)(_correctStudentPhrases * 100.0 / _allStudentPhrases);
         }
 
         private bool CompareAnswers(string phraseText, string studentText)

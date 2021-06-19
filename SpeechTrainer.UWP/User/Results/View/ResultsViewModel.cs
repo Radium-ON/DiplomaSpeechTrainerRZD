@@ -19,8 +19,13 @@ namespace SpeechTrainer.UWP.User.Results.View
         private readonly ResultsOptions _resultsOptions;
         private readonly AnalyticsService _analytics;
 
-        private ObservableCollection<TrainingObservable> _trainings;
+        private List<TrainingObservable> _trainings;
         private bool _loadingEnded;
+        private int _allAttempts;
+        private int _excellentCount;
+        private int _couldBeBetterCount;
+        private double _correctAnswersRatio;
+        private SituationObservable _problemSituation;
 
         public bool LoadingEnded
         {
@@ -28,7 +33,37 @@ namespace SpeechTrainer.UWP.User.Results.View
             set => SetProperty(ref _loadingEnded, value);
         }
 
-        public ObservableCollection<TrainingObservable> Trainings
+        public int AllAttempts
+        {
+            get => _allAttempts;
+            set => SetProperty(ref _allAttempts, value);
+        }
+
+        public int ExcellentCount
+        {
+            get => _excellentCount;
+            set => SetProperty(ref _excellentCount, value);
+        }
+
+        public int CouldBeBetterCount
+        {
+            get => _couldBeBetterCount;
+            set => SetProperty(ref _couldBeBetterCount, value);
+        }
+
+        public double CorrectAnswersRatio
+        {
+            get => _correctAnswersRatio;
+            set => SetProperty(ref _correctAnswersRatio, value);
+        }
+
+        public SituationObservable ProblemSutiation
+        {
+            get => _problemSituation;
+            set => SetProperty(ref _problemSituation, value);
+        }
+
+        public List<TrainingObservable> Trainings
         {
             get => _trainings;
             set => SetProperty(ref _trainings, value);
@@ -44,6 +79,12 @@ namespace SpeechTrainer.UWP.User.Results.View
         {
             LoadingEnded = false;
             await GetTrainings();
+            await _analytics.CollectAnalyticsAsync(Trainings);
+            AllAttempts = _analytics.AllAttempts;
+            ExcellentCount = _analytics.ExcellentCount;
+            CouldBeBetterCount = _analytics.CouldBeBetterCount;
+            CorrectAnswersRatio = _analytics.CorrectAnswersRatio;
+            ProblemSutiation = _analytics.ProblemSituation;
             LoadingEnded = true;
         }
 
@@ -54,7 +95,7 @@ namespace SpeechTrainer.UWP.User.Results.View
                 var response = await _resultsOptions.GetTrainings(Session.StudentId);
                 if (response is Success<List<TrainingObservable>> responseWrapper)
                 {
-                    Trainings = new ObservableCollection<TrainingObservable>(responseWrapper.Data);
+                    Trainings = new List<TrainingObservable>(responseWrapper.Data);
                 }
                 else
                 {

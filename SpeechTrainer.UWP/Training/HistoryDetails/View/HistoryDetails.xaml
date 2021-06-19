@@ -6,19 +6,20 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:modelObservable="using:SpeechTrainer.Core.ModelObservable"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Loaded="{x:Bind ViewModel.InitializePropertiesAsync}">
     <Page.Resources>
         <converters:BoolToObjectConverter x:Key="bool_to_object_converter" TrueValue="✔" FalseValue="❌"/>
-        <DataTemplate x:Key="row_details_template">
+        <DataTemplate x:Key="row_details_template" x:DataType="modelObservable:TrainingLineObservable">
             <StackPanel>
                 <Grid Margin="138,10" Padding="5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" FontSize="13" Text="{Binding StudentAnswer}" HorizontalAlignment="Left" TextWrapping="WrapWholeWords"/>
-                    <TextBlock Grid.Column="1" FontSize="13" Text="{Binding CompleteForm}" TextWrapping="WrapWholeWords" HorizontalAlignment="Right"/>
+                    <TextBlock Grid.Column="0" FontSize="13" Text="{x:Bind StudentAnswer}" HorizontalAlignment="Left" TextWrapping="WrapWholeWords"/>
+                    <TextBlock Grid.Column="1" FontSize="13" Text="{x:Bind CompleteForm}" TextWrapping="WrapWholeWords" HorizontalAlignment="Right"/>
                 </Grid>
             </StackPanel>
         </DataTemplate>

@@ -66,7 +66,7 @@ namespace SpeechTrainer.Database.Database
             const string command = "SELECT PhraseId FROM AnswerForm_Phrase_Participant" +
                                    " WHERE AnswerForm_Phrase_Participant.FormId = @ID";
             var phraseId = 0;
-
+            _client.CloseConnection();
             try
             {
                 using (var cmd = new SqlCommand(command, _client.OpenConnection()))
@@ -101,7 +101,7 @@ namespace SpeechTrainer.Database.Database
                                    " WHERE AnswerForm_Phrase_Participant.FormId = @ID" +
                                    " AND AnswerForm_Phrase_Participant.ParticipantId = Participant.Id";
             var positionId = 0;
-
+            _client.CloseConnection();
             try
             {
                 using (var cmd = new SqlCommand(command, _client.OpenConnection()))
@@ -136,7 +136,7 @@ namespace SpeechTrainer.Database.Database
                                    " WHERE AnswerForm_Phrase_Participant.FormId = @ID" +
                                    " AND AnswerForm_Phrase_Participant.ParticipantId = Participant.Id";
             var situationId = 0;
-
+            _client.CloseConnection();
             try
             {
                 using (var cmd = new SqlCommand(command, _client.OpenConnection()))
@@ -232,7 +232,7 @@ namespace SpeechTrainer.Database.Database
                                    " WHERE AnswerForm_Phrase_Participant.FormId = AnswerForm.Id" +
                                    " AND AnswerForm_Phrase_Participant.ParticipantId = Participant.Id" +
                                    " AND Participant.PositionId = @ID";
-
+            _client.CloseConnection();
             var answerForms = new List<AnswerFormDto>();
             try
             {
@@ -279,7 +279,7 @@ namespace SpeechTrainer.Database.Database
                                    " WHERE AnswerForm_Phrase_Participant.FormId = AnswerForm.Id" +
                                    " AND AnswerForm_Phrase_Participant.ParticipantId = Participant.Id" +
                                    " AND Participant.SituationId = @ID";
-
+            _client.CloseConnection();
             var answerForms = new List<AnswerFormDto>();
             try
             {

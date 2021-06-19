@@ -138,6 +138,7 @@ namespace SpeechTrainer.Database.Database
 
         public async Task<List<TrainingDto>> GetTrainingsByStudentAsync(int idStudent, bool enableSubQuery)
         {
+            _client.CloseConnection();
             const string command = "SELECT * FROM Training WHERE Training.StudentId = @ID";
             var trainings = new List<TrainingDto>();
             try

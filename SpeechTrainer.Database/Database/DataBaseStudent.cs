@@ -72,6 +72,7 @@ namespace SpeechTrainer.Database.Database
 
         public async Task<StudentDto> SelectByIdAsync(int idObject, bool includeNestedData)
         {
+            _client.CloseConnection();
             const string command = "SELECT * FROM Student WHERE Id = @ID";
             var student = new StudentDto();
             try
@@ -183,6 +184,7 @@ namespace SpeechTrainer.Database.Database
 
         private async Task<bool> InsertStudentGroupAsync(int? lastIndex, GroupDto group)
         {
+            _client.CloseConnection();
             const string insertGroupCommand = "INSERT Student_Group VALUES (@IDStudent, @IDGroup)";
             try
             {

@@ -130,6 +130,7 @@ namespace SpeechTrainer.Database.Database
                                    " WHERE Participant.PositionId = @ID" +
                                    " AND Participant.SituationId = Situation.Id";
             var situations = new List<SituationDto>();
+            _client.CloseConnection();
             try
             {
                 using (var cmd = new SqlCommand(command, _client.OpenConnection()))

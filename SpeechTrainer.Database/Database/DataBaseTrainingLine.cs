@@ -68,6 +68,7 @@ namespace SpeechTrainer.Database.Database
 
         private async Task<List<AnswerFormDto>> GetAnswerNumbersAsync(int trainingId)
         {
+            _client.CloseConnection();
             var dbSituation = new DataBaseSituation();
             var dbAnswerForm = new DataBaseAnswerForm();
             var dbPosition = new DataBasePosition();

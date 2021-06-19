@@ -12,6 +12,7 @@
     <Page.Resources>
         <converters:BoolToVisibilityConverter x:Key="bool_to_visibility"/>
         <converters:BoolNegationConverter x:Key="bool_negation"/>
+        <converters:StringFormatConverter x:Key="string_format_converter"/>
     </Page.Resources>
 
     <Grid>
@@ -29,17 +30,27 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,0,0,20" Text="Всего попыток:" Style="{StaticResource TitleTextBlockStyle}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,0,0,20" Text="Идеально:" Style="{StaticResource SubtitleTextBlockStyle}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBlock Grid.Row="2" Grid.Column="0" Margin="0,0,0,20" Text="Можно лучше:" Style="{StaticResource SubtitleTextBlockStyle}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBlock Grid.Row="3" Grid.Column="0" Margin="0,0,0,20" Text="Доля правильных ответов:" Style="{StaticResource SubtitleTextBlockStyle}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBlock Grid.Row="4" Grid.Column="0" Margin="0,0,0,20" Text="Проблемная ситуация:" Style="{StaticResource SubtitleTextBlockStyle}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,0,0,20" Text="Всего попыток:"
+                           Style="{StaticResource TitleTextBlockStyle}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,0,0,20" Text="Идеально:"
+                           Style="{StaticResource SubtitleTextBlockStyle}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBlock Grid.Row="2" Grid.Column="0" Margin="0,0,0,20" Text="Можно лучше:"
+                           Style="{StaticResource SubtitleTextBlockStyle}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBlock Grid.Row="3" Grid.Column="0" Margin="0,0,0,20" Text="Доля правильных ответов:"
+                           Style="{StaticResource SubtitleTextBlockStyle}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBlock Grid.Row="4" Grid.Column="0" Margin="0,0,0,20" Text="Проблемная ситуация:"
+                           Style="{StaticResource SubtitleTextBlockStyle}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
 
-                <TextBlock Grid.Row="0" Grid.Column="1" Margin="10,5,0,20" Text="10" Style="{StaticResource BaseTextBlockStyle}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBlock Grid.Row="1" Grid.Column="1" Margin="10,5,0,20" Text="4" Style="{StaticResource BaseTextBlockStyle}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBlock Grid.Row="2" Grid.Column="1" Margin="10,5,0,20" Text="6" Style="{StaticResource BaseTextBlockStyle}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBlock Grid.Row="3" Grid.Column="1" Margin="10,5,0,20" Text="35%" Style="{StaticResource BaseTextBlockStyle}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBlock Grid.Row="4" Grid.Column="1" Margin="10,5,0,20" Text="Пропуск поезда" Style="{StaticResource BaseTextBlockStyle}" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="0" Grid.Column="1" Margin="10,5,0,20" Text="{x:Bind ViewModel.AllAttempts, Mode=OneWay}"
+                           Style="{StaticResource BaseTextBlockStyle}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBlock Grid.Row="1" Grid.Column="1" Margin="10,5,0,20" Text="{x:Bind ViewModel.ExcellentCount, Mode=OneWay}"
+                           Style="{StaticResource BaseTextBlockStyle}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBlock Grid.Row="2" Grid.Column="1" Margin="10,5,0,20" Text="{x:Bind ViewModel.CouldBeBetterCount, Mode=OneWay}"
+                           Style="{StaticResource BaseTextBlockStyle}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBlock Grid.Row="3" Grid.Column="1" Margin="10,5,0,20" Text="{x:Bind ViewModel.CorrectAnswersRatio, Mode=OneWay, Converter={StaticResource string_format_converter}, ConverterParameter='{}{0:P2}'}"
+                           Style="{StaticResource BaseTextBlockStyle}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBlock Grid.Row="4" Grid.Column="1" Margin="10,5,0,20" Text="{x:Bind ViewModel.ProblemSutiation, Mode=OneWay}"
+                           Style="{StaticResource BaseTextBlockStyle}" VerticalAlignment="Center"/>
             </Grid>
         </ScrollViewer>
     </Grid>

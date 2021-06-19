@@ -110,6 +110,7 @@ namespace SpeechTrainer.Database.Database
             const string command = "SELECT Position.Id, FullPosition, Responsibilities, ShortName" +
                                    " FROM Participant, Position WHERE Participant.SituationId = @ID AND Participant.PositionId = Position.Id";
             var positions = new List<PositionDto>();
+            _client.CloseConnection();
             try
             {
                 using (var cmd = new SqlCommand(command, _client.OpenConnection()))
@@ -149,6 +150,7 @@ namespace SpeechTrainer.Database.Database
                                    " AND AnswerForm_Phrase_Participant.ParticipantId = Participant.Id" +
                                    " AND Participant.PositionId = Position.Id";
             var position = new PositionDto();
+            _client.CloseConnection();
             try
             {
                 using (var cmd = new SqlCommand(command, _client.OpenConnection()))
@@ -186,6 +188,7 @@ namespace SpeechTrainer.Database.Database
             const string command = "SELECT Position.Id, FullPosition, Responsibilities, ShortName" +
                                    " FROM Participant, Position, Training WHERE Training.Id = @ID AND Training.ParticipantId = Participant.Id" +
                                    " AND Participant.PositionId = Position.Id";
+            _client.CloseConnection();
             var position = new PositionDto();
             try
             {
