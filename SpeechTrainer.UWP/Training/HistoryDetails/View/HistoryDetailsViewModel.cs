@@ -18,6 +18,13 @@ namespace SpeechTrainer.UWP.Training.HistoryDetails.View
         private TrainingObservable _training;
         private PositionObservable _position;
         private ObservableCollection<TrainingLineObservable> _trainingLines;
+        private bool _loadingEnded;
+
+        public bool LoadingEnded
+        {
+            get => _loadingEnded;
+            set => SetProperty(ref _loadingEnded, value);
+        }
 
         public TrainingObservable Training
         {
@@ -44,8 +51,10 @@ namespace SpeechTrainer.UWP.Training.HistoryDetails.View
 
         public async Task InitializePropertiesAsync()
         {
+            LoadingEnded = false;
             await GetPositionAsync();
             await GetTrainingLinesAsync();
+            LoadingEnded = true;
         }
 
         private async Task GetTrainingLinesAsync()

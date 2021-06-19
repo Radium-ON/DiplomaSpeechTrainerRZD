@@ -9,19 +9,17 @@
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Loaded="{x:Bind ViewModel.GetTrainings}" d:DesignWidth="650" d:DesignHeight="462">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Loaded="{x:Bind ViewModel.InitializeProperties}" d:DesignWidth="650" d:DesignHeight="462">
     <Page.Resources>
+        <converters:BoolToVisibilityConverter x:Key="bool_to_visibility"/>
+        <converters:BoolNegationConverter x:Key="bool_negation"/>
         <converters:StringFormatConverter x:Key="string_format_converter"/>
     </Page.Resources>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <TextBlock Margin="20,60,0,0" Text="Прошлые попытки" Style="{StaticResource HeaderTextBlockStyle}" Visibility="Collapsed"/>
-        <StackPanel Grid.Row="1" Margin="20,40,20,0">
+        <ProgressRing MinHeight="100" MinWidth="100" IsActive="{x:Bind ViewModel.LoadingEnded, Mode=OneWay, Converter={StaticResource bool_negation}}"/>
+        <StackPanel Margin="20,40,20,0" Visibility="{x:Bind ViewModel.LoadingEnded, Mode=OneWay, Converter={StaticResource bool_to_visibility}}">
             <ListView x:Name="history_listview" ItemsSource="{x:Bind ViewModel.Trainings, Mode=OneWay}" SelectedItem="{x:Bind ViewModel.SelectedTraining, Mode=TwoWay}"
-                      SelectionChanged="Selector_OnSelectionChanged">
+                                                                                                                                                                        SelectionChanged="Selector_OnSelectionChanged">
                 <interactivity:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="SelectionChanged">
                         <core:InvokeCommandAction Command="{x:Bind ViewModel.SendCommand}"/>

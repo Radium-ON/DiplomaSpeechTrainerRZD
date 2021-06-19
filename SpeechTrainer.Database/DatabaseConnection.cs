@@ -6,7 +6,7 @@ namespace SpeechTrainer.Database
     public sealed class DatabaseConnection
     {
         private readonly string connectionString =
-            @"Data Source=MSI;Initial Catalog=VKR_SpeechModule_TKSG;persist security info=True;Integrated Security=SSPI";
+            @"Data Source=MSI;Initial Catalog=VKR_SpeechModule_TKSG;persist security info=True;Integrated Security=SSPI;MultipleActiveResultSets=True";
 
         public SqlConnection Connection { get; }
 

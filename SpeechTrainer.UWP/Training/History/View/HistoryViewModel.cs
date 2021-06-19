@@ -28,11 +28,18 @@ namespace SpeechTrainer.UWP.Training.History.View
         public RelayCommand SendCommand { get; }
 
         private ObservableCollection<TrainingObservable> _trainings;
+        private bool _loadingEnded;
 
         public ObservableCollection<TrainingObservable> Trainings
         {
             get => _trainings;
             set => SetProperty(ref _trainings, value);
+        }
+
+        public bool LoadingEnded
+        {
+            get => _loadingEnded;
+            set => SetProperty(ref _loadingEnded, value);
         }
 
         public HistoryViewModel(TrainingHistoryOptions historyOptions)
@@ -41,7 +48,14 @@ namespace SpeechTrainer.UWP.Training.History.View
             SendCommand = new RelayCommand(SendTrainingMessage);
         }
 
-        public async Task GetTrainings()
+        public async Task InitializeProperties()
+        {
+            LoadingEnded = false;
+            await GetTrainings();
+            LoadingEnded = true;
+        }
+
+        private async Task GetTrainings()
         {
             try
             {

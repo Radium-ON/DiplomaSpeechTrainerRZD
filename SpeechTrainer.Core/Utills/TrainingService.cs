@@ -54,8 +54,8 @@ namespace SpeechTrainer.Core.Utills
         private async void SpeechServiceOnMediaPlaybackEnded(object sender, EventArgs e)
         {
             StepCompleted?.Invoke(this, _answerForms.Count);
-            IsTrainingEnd();
-            if (IsNextPhraseSynth(_answerForms))
+            
+            if (!IsTrainingEnd() && IsNextPhraseSynth(_answerForms))
             {
                 await DoSituationStepAsync(_answerForms);
             }

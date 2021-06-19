@@ -8,9 +8,11 @@
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:modelObservable="using:SpeechTrainer.Core.ModelObservable"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Loaded="{x:Bind ViewModel.InitializePropertiesAsync}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Loaded="{x:Bind ViewModel.InitializePropertiesAsync}" d:DesignWidth="1048.5" d:DesignHeight="545.5">
     <Page.Resources>
         <converters:BoolToObjectConverter x:Key="bool_to_object_converter" TrueValue="✔" FalseValue="❌"/>
+        <converters:BoolToVisibilityConverter x:Key="bool_to_visibility"/>
+        <converters:BoolNegationConverter x:Key="bool_negation"/>
         <DataTemplate x:Key="row_details_template" x:DataType="modelObservable:TrainingLineObservable">
             <StackPanel>
                 <Grid Margin="138,10" Padding="5">
@@ -25,37 +27,40 @@
         </DataTemplate>
     </Page.Resources>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <StackPanel Margin="40,0,0,0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <TextBlock Text="{x:Bind ViewModel.Training.Situation, Mode=OneWay}" Style="{StaticResource TitleTextBlockStyle}"/>
-            <TextBlock Text="{x:Bind ViewModel.Position, Mode=OneWay}" Style="{StaticResource SubtitleTextBlockStyle}"/>
-        </StackPanel>
-        <StackPanel Grid.Row="1" Margin="40,40,40,0">
-            <controls:DataGrid
-                IsReadOnly="True"
-                RowDetailsTemplate="{StaticResource row_details_template}"
-                RowDetailsVisibilityMode="VisibleWhenSelected"
-                HorizontalScrollBarVisibility="Visible"
-                VerticalScrollBarVisibility="Visible"
-                AlternatingRowBackground="Transparent"
-                AlternatingRowForeground="Gray"
-                AutoGenerateColumns="False"
-                CanUserSortColumns="False"
-                CanUserReorderColumns="False"
-                CanUserResizeColumns="True"
-                FrozenColumnCount="0"
-                GridLinesVisibility="All"
-                ItemsSource="{x:Bind ViewModel.TrainingLines, Mode=OneWay}">
-                <controls:DataGrid.Columns>
-                    <controls:DataGridTextColumn Header="Порядок фразы" Width="Auto" Binding="{Binding SituationOrderNum, Mode=OneWay}"/>
-                    <controls:DataGridTextColumn Header="Ваш ответ" Width="*" Binding="{Binding StudentAnswer, Mode=OneWay}"/>
-                    <controls:DataGridTextColumn Header="Правильный ответ" Width="*" Binding="{Binding CompleteForm, Mode=OneWay}"/>
-                    <controls:DataGridTextColumn Width="Auto" Binding="{Binding IsCorrect, Converter={StaticResource bool_to_object_converter}}"/>
-                </controls:DataGrid.Columns>
-            </controls:DataGrid>
-        </StackPanel>
+        <ProgressRing MinHeight="100" MinWidth="100" IsActive="{x:Bind ViewModel.LoadingEnded, Mode=OneWay, Converter={StaticResource bool_negation}}"/>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <StackPanel Margin="40,0,0,0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <TextBlock Text="{x:Bind ViewModel.Training.Situation, Mode=OneWay}" Style="{StaticResource TitleTextBlockStyle}"/>
+                <TextBlock Text="{x:Bind ViewModel.Position, Mode=OneWay}" Style="{StaticResource SubtitleTextBlockStyle}"/>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Margin="40,40,40,0" Visibility="{x:Bind ViewModel.LoadingEnded, Mode=OneWay, Converter={StaticResource bool_to_visibility}}">
+                <controls:DataGrid
+                                                                                                                                                                               IsReadOnly="True"
+                                                                                                                                                                               RowDetailsTemplate="{StaticResource row_details_template}"
+                                                                                                                                                                               RowDetailsVisibilityMode="VisibleWhenSelected"
+                                                                                                                                                                               HorizontalScrollBarVisibility="Visible"
+                                                                                                                                                                               VerticalScrollBarVisibility="Visible"
+                                                                                                                                                                               AlternatingRowBackground="Transparent"
+                                                                                                                                                                               AlternatingRowForeground="Gray"
+                                                                                                                                                                               AutoGenerateColumns="False"
+                                                                                                                                                                               CanUserSortColumns="False"
+                                                                                                                                                                               CanUserReorderColumns="False"
+                                                                                                                                                                               CanUserResizeColumns="True"
+                                                                                                                                                                               FrozenColumnCount="0"
+                                                                                                                                                                               GridLinesVisibility="All"
+                                                                                                                                                                               ItemsSource="{x:Bind ViewModel.TrainingLines, Mode=OneWay}">
+                    <controls:DataGrid.Columns>
+                        <controls:DataGridTextColumn Header="Порядок фразы" Width="Auto" Binding="{Binding SituationOrderNum, Mode=OneWay}"/>
+                        <controls:DataGridTextColumn Header="Ваш ответ" Width="*" Binding="{Binding StudentAnswer, Mode=OneWay}"/>
+                        <controls:DataGridTextColumn Header="Правильный ответ" Width="*" Binding="{Binding CompleteForm, Mode=OneWay}"/>
+                        <controls:DataGridTextColumn Width="Auto" Binding="{Binding IsCorrect, Converter={StaticResource bool_to_object_converter}}"/>
+                    </controls:DataGrid.Columns>
+                </controls:DataGrid>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Page>
