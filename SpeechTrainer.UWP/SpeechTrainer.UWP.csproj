@@ -171,6 +171,11 @@
       <DependentUpon>TrainingStart.xaml</DependentUpon>
     </Compile>
     <Compile Include="Training\TrainingStart\View\TrainingStartViewModel.cs" />
+    <Compile Include="User\Results\Data\IResultsDataSource.cs" />
+    <Compile Include="User\Results\Data\IResultsRepository.cs" />
+    <Compile Include="User\Results\Data\ResultsLocalDataSource.cs" />
+    <Compile Include="User\Results\Data\ResultsRepository.cs" />
+    <Compile Include="User\Results\Operation\ResultsOptions.cs" />
     <Compile Include="User\Results\View\Results.xaml.cs">
       <DependentUpon>Results.xaml</DependentUpon>
     </Compile>
@@ -335,8 +340,6 @@
     <Folder Include="Shell\NavigationPage\Operation\" />
     <Folder Include="Shell\Settings\Data\" />
     <Folder Include="Shell\Settings\Operation\" />
-    <Folder Include="User\Results\Data\" />
-    <Folder Include="User\Results\Operation\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SpeechTrainer.Core\SpeechTrainer.Core.csproj">

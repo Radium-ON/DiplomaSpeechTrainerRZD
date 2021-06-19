@@ -4,21 +4,22 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     mc:Ignorable="d"
-    
-    
-    
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" d:DesignWidth="510" d:DesignHeight="328"
+    Loaded="{x:Bind ViewModel.InitializeProperties}">
+
+    <Page.Resources>
+        <converters:BoolToVisibilityConverter x:Key="bool_to_visibility"/>
+        <converters:BoolNegationConverter x:Key="bool_negation"/>
+    </Page.Resources>
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <TextBlock Margin="20,60,0,0" Text="Обзор результатов" Style="{StaticResource HeaderTextBlockStyle}" Visibility="Collapsed"/>
-        <ScrollViewer Grid.Row="1" Margin="20,20,0,0">
+        <ProgressRing MinHeight="100" MinWidth="100" IsActive="{x:Bind ViewModel.LoadingEnded, Mode=OneWay, Converter={StaticResource bool_negation}}"/>
+        <ScrollViewer Margin="20,20,0,0" Visibility="{x:Bind ViewModel.LoadingEnded, Mode=OneWay, Converter={StaticResource bool_to_visibility}}">
             <Grid HorizontalAlignment="Left">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -32,11 +33,13 @@
                 <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,0,0,20" Text="Идеально:" Style="{StaticResource SubtitleTextBlockStyle}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                 <TextBlock Grid.Row="2" Grid.Column="0" Margin="0,0,0,20" Text="Можно лучше:" Style="{StaticResource SubtitleTextBlockStyle}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                 <TextBlock Grid.Row="3" Grid.Column="0" Margin="0,0,0,20" Text="Доля правильных ответов:" Style="{StaticResource SubtitleTextBlockStyle}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBlock Grid.Row="4" Grid.Column="0" Margin="0,0,0,20" Text="Проблемная ситуация:" Style="{StaticResource SubtitleTextBlockStyle}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
 
                 <TextBlock Grid.Row="0" Grid.Column="1" Margin="10,5,0,20" Text="10" Style="{StaticResource BaseTextBlockStyle}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                 <TextBlock Grid.Row="1" Grid.Column="1" Margin="10,5,0,20" Text="4" Style="{StaticResource BaseTextBlockStyle}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                 <TextBlock Grid.Row="2" Grid.Column="1" Margin="10,5,0,20" Text="6" Style="{StaticResource BaseTextBlockStyle}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                 <TextBlock Grid.Row="3" Grid.Column="1" Margin="10,5,0,20" Text="35%" Style="{StaticResource BaseTextBlockStyle}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBlock Grid.Row="4" Grid.Column="1" Margin="10,5,0,20" Text="Пропуск поезда" Style="{StaticResource BaseTextBlockStyle}" VerticalAlignment="Center"/>
             </Grid>
         </ScrollViewer>
     </Grid>

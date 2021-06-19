@@ -17,6 +17,8 @@ using SpeechTrainer.UWP.Training.TrainingRun.Operation;
 using SpeechTrainer.UWP.Training.TrainingRun.View;
 using SpeechTrainer.UWP.Training.TrainingStart.Operation;
 using SpeechTrainer.UWP.Training.TrainingStart.View;
+using SpeechTrainer.UWP.User.Results.Operation;
+using SpeechTrainer.UWP.User.Results.View;
 using SpeechTrainer.UWP.User.SignIn.Operation;
 using SpeechTrainer.UWP.User.SignIn.View;
 using SpeechTrainer.UWP.User.SignUp.Operation;
@@ -123,6 +125,7 @@ namespace SpeechTrainer.UWP
             var services = new ServiceCollection();
 
             services.AddSingleton<TrainingService, TrainingService>();
+            services.AddSingleton<AnalyticsService, AnalyticsService>();
             services.AddSingleton<IPlayer, MediaPlayerFoundation>();
             services.AddSingleton<ISpeechToText<RecognitionResult>, SpeechService>();
             services.AddSingleton<IPrivacySettings, PrivacySettingsEnabler>();
@@ -133,6 +136,7 @@ namespace SpeechTrainer.UWP
             services.AddSingleton<TrainingDetailsOptions, TrainingDetailsOptions>();
             services.AddSingleton<TrainingStartOptions, TrainingStartOptions>();
             services.AddSingleton<TrainingRunOptions, TrainingRunOptions>();
+            services.AddSingleton<ResultsOptions, ResultsOptions>();
 
             services.AddTransient<SignInViewModel>();
             services.AddTransient<SignUpViewModel>();
@@ -140,6 +144,7 @@ namespace SpeechTrainer.UWP
             services.AddTransient<HistoryDetailsViewModel>();
             services.AddTransient<TrainingStartViewModel>();
             services.AddTransient<TrainingRunViewModel>();
+            services.AddTransient<ResultsViewModel>();
 
             return services.BuildServiceProvider();
         }

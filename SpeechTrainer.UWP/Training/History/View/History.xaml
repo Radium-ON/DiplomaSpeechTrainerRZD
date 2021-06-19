@@ -9,7 +9,7 @@
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Loaded="{x:Bind ViewModel.GetTrainings}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Loaded="{x:Bind ViewModel.GetTrainings}" d:DesignWidth="650" d:DesignHeight="462">
     <Page.Resources>
         <converters:StringFormatConverter x:Key="string_format_converter"/>
     </Page.Resources>
