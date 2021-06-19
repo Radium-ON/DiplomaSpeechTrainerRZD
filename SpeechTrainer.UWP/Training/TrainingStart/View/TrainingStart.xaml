@@ -7,7 +7,7 @@
     mc:Ignorable="d"
 
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    Loaded="{x:Bind ViewModel.GetSituationsAsync}">
+    Loaded="{x:Bind ViewModel.GetSituationsAsync}" d:DesignWidth="808.4" d:DesignHeight="358">
 
     <Grid>
         <Grid.RowDefinitions>
