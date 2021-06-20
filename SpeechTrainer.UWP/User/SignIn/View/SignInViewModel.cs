@@ -16,6 +16,8 @@ namespace SpeechTrainer.UWP.User.SignIn.View
         private readonly GetStudentsOption _getStudentsOption;
         private ObservableCollection<StudentObservable> _students;
         private StudentObservable _student;
+        private string _errorMessage;
+        private bool _openInfo;
 
         public StudentObservable Student
         {
@@ -25,6 +27,34 @@ namespace SpeechTrainer.UWP.User.SignIn.View
                 SetProperty(ref _student, value);
                 OnPropertyChanged(nameof(SignInCommand));
             }
+        }
+
+        public string ErrorMessage
+        {
+            get => _errorMessage;
+            set
+            {
+                SetProperty(ref _errorMessage, value);
+                ShowError(_errorMessage);
+            }
+        }
+
+        public void ShowError(string msg)
+        {
+            if (string.IsNullOrEmpty(msg))
+            {
+                OpenInfo = false;
+            }
+            else
+            {
+                OpenInfo = true;
+            }
+        }
+
+        public bool OpenInfo
+        {
+            get => _openInfo;
+            set => SetProperty(ref _openInfo, value);
         }
 
         public RelayCommand<StudentObservable> SignInCommand => new RelayCommand<StudentObservable>(SignIn, d => Student != null);
@@ -49,8 +79,8 @@ namespace SpeechTrainer.UWP.User.SignIn.View
             }
             else
             {
-                var errorMessage = (response as Error)?.Message;
-                Debug.WriteLine("[SignInViewModel.GetAllStudentsAsync()] Error: " + errorMessage);
+                ErrorMessage = (response as Error)?.Message;
+                Debug.WriteLine("[SignInViewModel.GetAllStudentsAsync()] Error: " + ErrorMessage);
             }
         }
 

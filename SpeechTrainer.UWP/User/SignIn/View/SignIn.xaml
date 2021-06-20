@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Loaded="{x:Bind ViewModel.GetAllStudentsAsync}">
 
@@ -20,7 +21,9 @@
                         Click="SignIn_OnClick"
                         Command="{x:Bind ViewModel.SignInCommand, Mode=OneWay}"
                         CommandParameter="{Binding Student, UpdateSourceTrigger=PropertyChanged}"/>
+
         </StackPanel>
+        <controls:InfoBar IsOpen="{x:Bind ViewModel.OpenInfo, Mode=OneWay}" Severity="Error" Title="Ошибка подключения" Message="{x:Bind ViewModel.ErrorMessage, Mode=OneWay}" />
         <StackPanel Orientation="Horizontal" 
                     HorizontalAlignment="Center"
                     VerticalAlignment="Bottom"

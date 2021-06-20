@@ -17,6 +17,11 @@ namespace SpeechTrainer.Database.Database
             _client = DatabaseConnection.Source;
         }
 
+        public Exception GetRootException()
+        {
+            return _client.RootException;
+        }
+
         #region Implementation of IDatabase<StudentDto,bool>
 
         public async Task<List<StudentDto>> SelectAllAsync(bool includeNestedData)
@@ -61,6 +66,7 @@ namespace SpeechTrainer.Database.Database
             catch (Exception exception)
             {
                 Debug.WriteLine("[DatabaseStudent.SelectAllAsync()] Error: " + exception.Message);
+                _client.RootException = exception;
                 _client.CloseConnection();
                 return null;
             }

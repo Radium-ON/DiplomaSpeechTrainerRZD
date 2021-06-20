@@ -27,8 +27,10 @@ namespace SpeechTrainer.UWP.User.SignIn.Data
             }
             catch (Exception e)
             {
-                Debug.WriteLine("[SignInRepository.GetAllStudents()] Error: " + e.Message);
-                return new Error(e.Message);
+                var ex = (_localDataSource as SignInLocalDataSource)?.DbException;
+                var combMessage = e.Message + "\r\n" + ex?.Message;
+                Debug.WriteLine("[SignInRepository.GetAllStudents()] Error: " + combMessage);
+                return new Error(combMessage);
             }
         }
     }

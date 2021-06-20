@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using SpeechTrainer.Database.Database;
 using SpeechTrainer.Database.Entities;
@@ -10,13 +11,17 @@ namespace SpeechTrainer.UWP.User.SignIn.Data
     {
         private readonly IDataBaseStudent<StudentDto, bool> _dataBase;
 
+        public Exception DbException { get; set; }
+
         public SignInLocalDataSource()
         {
             _dataBase = new DataBaseStudent();
         }
         public async Task<List<StudentDto>> GetAllStudents()
         {
-            return await _dataBase.SelectAllAsync();
+            var result = await _dataBase.SelectAllAsync();
+            DbException = (_dataBase as DataBaseStudent)?.GetRootException();
+            return result;
         }
     }
 }
