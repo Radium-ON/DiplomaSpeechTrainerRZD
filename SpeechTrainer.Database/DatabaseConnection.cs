@@ -5,20 +5,24 @@ namespace SpeechTrainer.Database
 {
     public sealed class DatabaseConnection
     {
+        // private readonly string connectionString =
+        //     @"Data Source=MSI;Initial Catalog=VKR_SpeechModule_TKSG;persist security info=True;Integrated Security=SSPI;MultipleActiveResultSets=True";
         private readonly string connectionString =
-            @"Data Source=MSI;Initial Catalog=Modelov_DiaryApp;persist security info=True;Integrated Security=SSPI";
+            @"Data Source=MSI;Initial Catalog=VKR_SpeechModule_TKSG;persist security info=True;Integrated Security=SSPI;MultipleActiveResultSets=True;User ID=ia_norm_patsan_8@mail.ru;Password=Otsosi_potom_prosi1";
 
         public SqlConnection Connection { get; }
+
+        public Exception RootException { get; set; }
 
         private DatabaseConnection()
         {
             Connection = new SqlConnection(connectionString);
         }
 
-        private static readonly Lazy<DatabaseConnection> lazy =
+        private static readonly Lazy<DatabaseConnection> _lazy =
             new Lazy<DatabaseConnection>(() => new DatabaseConnection());
 
-        public static DatabaseConnection Source => lazy.Value;
+        public static DatabaseConnection Source => _lazy.Value;
 
         public SqlConnection OpenConnection()
         {

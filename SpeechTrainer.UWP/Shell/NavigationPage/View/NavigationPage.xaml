@@ -6,8 +6,9 @@
     >
 
     <Grid>
-        <NavigationView x:Name="navigation_view" CompactPaneLength="48" SelectedItem="{x:Bind navigation_view_item_training}" Header="{Binding Path=Content.NavTitile, ElementName=main_frame}"
-                        SelectionChanged="NavigationView_OnSelectionChanged">
+        <NavigationView x:Name="navigation_view" SelectedItem="{x:Bind navigation_view_item_training}" Header="{Binding Path=Content.NavTitile, ElementName=main_frame}"
+                        IsBackEnabled="True"
+                        SelectionChanged="NavigationView_OnSelectionChanged" ItemInvoked="Navigation_view_OnItemInvoked">
 
             <NavigationView.HeaderTemplate>
                 <DataTemplate>

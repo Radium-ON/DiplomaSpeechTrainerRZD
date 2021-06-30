@@ -1,7 +1,7 @@
 ﻿
 namespace SpeechTrainer.Core.ResponseWrapper
 {
-    class Error : IResponseWrapper
+    public class Error : IResponseWrapper
     {
         public string Message { get; }
 

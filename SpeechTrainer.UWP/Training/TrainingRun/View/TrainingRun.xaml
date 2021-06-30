@@ -6,8 +6,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     xmlns:lottie="using:Microsoft.Toolkit.Uwp.UI.Lottie"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Loaded="{x:Bind ViewModel.InitializeProperties}">
+
+    <Page.Resources>
+        <converters:BoolToVisibilityConverter x:Key="visibility_converter"/>
+    </Page.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -17,22 +22,26 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <TextBlock Text="Тренировка" Margin="24,10,0,0" Style="{StaticResource HeaderTextBlockStyle}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-        <ScrollViewer Grid.Row="1" Margin="20,20,0,0" >
+        <ScrollViewer Grid.Row="1" Margin="24,20,0,0" >
             <StackPanel HorizontalAlignment="Left" MaxWidth="500">
-                <TextBlock Margin="0,0,0,20" Text="Роспуск вагонов" Style="{StaticResource TitleTextBlockStyle}"/>
-                <TextBlock Style="{StaticResource BodyTextBlockStyle}">До начала роспуска ДСП (ДСПГ) по парковой связи объявляет работникам разложение состава: характеристику, порядок следования отцепов, пути назначения.<LineBreak/>При приближении головы надвигаемого состава к горбу горки перед началом роспуска ДСП (ДСПГ) объявляет по парковой связи</TextBlock>
+                <TextBlock Margin="0,0,0,20" Text="{x:Bind ViewModel.Training.Situation.Name, Mode=OneWay}" Style="{StaticResource TitleTextBlockStyle}"/>
+                <TextBlock Text="{x:Bind ViewModel.Training.Situation.Description, Mode=OneWay}" Style="{StaticResource BodyTextBlockStyle}"/>
             </StackPanel>
         </ScrollViewer>
-        <StackPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <winui:AnimatedVisualPlayer MaxWidth="600" MaxHeight="400" Margin="100,40,100,20" x:Name="player" AutoPlay="true">
+        <StackPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{x:Bind ViewModel.PlayAnimation, Mode=OneWay, Converter={StaticResource visibility_converter}}">
+            <winui:AnimatedVisualPlayer MaxWidth="600" MaxHeight="400" Margin="100,40,100,20" AutoPlay="True">
                 <lottie:LottieVisualSource UriSource="ms-appx:///Assets/Lottie/audio_visual3.json" />
             </winui:AnimatedVisualPlayer>
-            <TextBlock Text="Идет запись" Style="{StaticResource CaptionTextBlockStyle}" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+            <TextBlock Text="Идет запись" Style="{StaticResource CaptionTextBlockStyle}" VerticalAlignment="Top" HorizontalAlignment="Center"
+                       Visibility="{x:Bind ViewModel.PlayAnimation, Converter={StaticResource visibility_converter}, Mode=OneWay}"/>
+            <TextBlock Text="{x:Bind ViewModel.RecognitionInProcess, Mode=OneWay}" Style="{StaticResource CaptionTextBlockStyle}" VerticalAlignment="Top" HorizontalAlignment="Center" Visibility="Collapsed"/>
+            <!--<TextBlock Text="Говорите!" FontSize="20" Foreground="Red" VerticalAlignment="Top" HorizontalAlignment="Center"
+                       Visibility="{x:Bind ViewModel.SpeakMessage, Converter={StaticResource visibility_converter}, Mode=OneWay}"/>-->
         </StackPanel>
-        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,60">
-            <Button Content="Выйти" MinWidth="80" Style="{StaticResource ButtonRevealStyle}" Click="NavigationPage_OnClick"/>
-            <Button Content="Ответить" MinWidth="80" Style="{StaticResource AccentButtonStyle}" Margin="100,0,100,0"/>
-            <Button Content="Пауза" MinWidth="80" Style="{StaticResource ButtonRevealStyle}"/>
-        </StackPanel>
+        <Grid Grid.Row="3" VerticalAlignment="Center" Margin="0,0,0,60">
+            <Button Content="Выйти" Margin="20,0,0,0" MinWidth="80" Style="{StaticResource ButtonRevealStyle}" Command="{x:Bind ViewModel.InterruptCommand}" HorizontalAlignment="Left"/>
+            <Button Content="Ответить" MinWidth="200" MinHeight="50" Style="{StaticResource AccentButtonStyle}" Command="{x:Bind ViewModel.AnswerCommand}" HorizontalAlignment="Center"/>
+            <!--<Button Content="Пауза" MinWidth="80" Style="{StaticResource ButtonRevealStyle}" Click="{x:Bind ViewModel.TrainingResume}"/>-->
+        </Grid>
     </Grid>
 </Page>

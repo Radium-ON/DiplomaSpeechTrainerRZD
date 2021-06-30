@@ -1,20 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.CognitiveServices.Speech;
+using Microsoft.Extensions.DependencyInjection;
+using SpeechTrainer.Core.Interfaces;
+using SpeechTrainer.Core.Utills;
+using SpeechTrainer.UWP.PlatformTools;
+using SpeechTrainer.UWP.Training.History.Operation;
+using SpeechTrainer.UWP.Training.History.View;
+using SpeechTrainer.UWP.Training.HistoryDetails.Operation;
+using SpeechTrainer.UWP.Training.HistoryDetails.View;
+using SpeechTrainer.UWP.Training.TrainingRun.Operation;
+using SpeechTrainer.UWP.Training.TrainingRun.View;
+using SpeechTrainer.UWP.Training.TrainingStart.Operation;
+using SpeechTrainer.UWP.Training.TrainingStart.View;
+using SpeechTrainer.UWP.User.Results.Operation;
+using SpeechTrainer.UWP.User.Results.View;
+using SpeechTrainer.UWP.User.SignIn.Operation;
 using SpeechTrainer.UWP.User.SignIn.View;
+using SpeechTrainer.UWP.User.SignUp.Operation;
+using SpeechTrainer.UWP.User.SignUp.View;
 
 namespace SpeechTrainer.UWP
 {
@@ -29,8 +37,9 @@ namespace SpeechTrainer.UWP
         /// </summary>
         public App()
         {
-            this.InitializeComponent();
-            this.Suspending += OnSuspending;
+            Services = ConfigureServices();
+            InitializeComponent();
+            Suspending += OnSuspending;
         }
 
         /// <summary>
@@ -96,6 +105,48 @@ namespace SpeechTrainer.UWP
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
+        }
+
+        /// <summary>
+        /// Gets the current <see cref="App"/> instance in use
+        /// </summary>
+        public new static App Current => (App)Application.Current;
+
+        /// <summary>
+        /// Gets the <see cref="IServiceProvider"/> instance to resolve application services.
+        /// </summary>
+        public IServiceProvider Services { get; }
+
+        /// <summary>
+        /// Configures the services for the application.
+        /// </summary>
+        private static IServiceProvider ConfigureServices()
+        {
+            var services = new ServiceCollection();
+
+            services.AddSingleton<TrainingService, TrainingService>();
+            services.AddSingleton<AnalyticsService, AnalyticsService>();
+            services.AddSingleton<IPlayer, MediaPlayerFoundation>();
+            services.AddSingleton<ISpeechToText<RecognitionResult>, SpeechService>();
+            services.AddSingleton<IPrivacySettings, PrivacySettingsEnabler>();
+
+            services.AddSingleton<GetStudentsOption, GetStudentsOption>();
+            services.AddSingleton<SignUpOptions, SignUpOptions>();
+            services.AddSingleton<TrainingHistoryOptions, TrainingHistoryOptions>();
+            services.AddSingleton<TrainingDetailsOptions, TrainingDetailsOptions>();
+            services.AddSingleton<TrainingStartOptions, TrainingStartOptions>();
+            services.AddSingleton<TrainingRunOptions, TrainingRunOptions>();
+            services.AddSingleton<ResultsOptions, ResultsOptions>();
+
+            services.AddTransient<SignInViewModel>();
+            services.AddTransient<SignUpViewModel>();
+            services.AddTransient<HistoryViewModel>();
+            services.AddTransient<HistoryDetailsViewModel>();
+            services.AddTransient<TrainingStartViewModel>();
+            services.AddTransient<TrainingRunViewModel>();
+            services.AddTransient<ResultsViewModel>();
+
+            return services.BuildServiceProvider();
         }
     }
 }

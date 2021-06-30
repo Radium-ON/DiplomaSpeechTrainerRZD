@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SpeechTrainer.UWP</RootNamespace>
     <AssemblyName>SpeechTrainer.UWP</AssemblyName>
-    <DefaultLanguage>en-US</DefaultLanguage>
+    <DefaultLanguage>ru-RU</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.19041.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
@@ -17,7 +17,16 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
-    <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
+    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+    <PackageCertificateThumbprint>A047FC9F0AD0FCB2529E213CEF4DC8EA1681C24F</PackageCertificateThumbprint>
+    <PackageCertificateKeyFile />
+    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
+    <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <GenerateTestArtifacts>True</GenerateTestArtifacts>
+    <AppxBundle>Always</AppxBundle>
+    <AppxBundlePlatforms>x64</AppxBundlePlatforms>
+    <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -99,6 +108,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>false</UseDotNetNativeToolchain>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -119,6 +129,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PlatformTools\MediaPlayerFoundation.cs" />
+    <Compile Include="PlatformTools\PrivacySettingsEnabler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shell\MainPage\View\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -132,30 +144,65 @@
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Shell\Settings\View\SettingsViewModel.cs" />
+    <Compile Include="Training\HistoryDetails\Data\IHistoryDetailsDataSource.cs" />
+    <Compile Include="Training\HistoryDetails\Data\IHistoryDetailsRepository.cs" />
+    <Compile Include="Training\HistoryDetails\Data\HistoryDetailsLocalDataSource.cs" />
+    <Compile Include="Training\HistoryDetails\Data\HistoryDetailsRepository.cs" />
+    <Compile Include="Training\HistoryDetails\Operation\TrainingDetailsOptions.cs" />
     <Compile Include="Training\HistoryDetails\View\HistoryDetails.xaml.cs">
       <DependentUpon>HistoryDetails.xaml</DependentUpon>
     </Compile>
     <Compile Include="Training\HistoryDetails\View\HistoryDetailsViewModel.cs" />
+    <Compile Include="Training\History\Data\ITrainingDataSource.cs" />
+    <Compile Include="Training\History\Data\ITrainingRepository.cs" />
+    <Compile Include="Training\History\Data\TrainingLocalDataSource.cs" />
+    <Compile Include="Training\History\Data\TrainingRepository.cs" />
+    <Compile Include="Training\History\Operation\TrainingHistoryOptions.cs" />
     <Compile Include="Training\History\View\History.xaml.cs">
       <DependentUpon>History.xaml</DependentUpon>
     </Compile>
     <Compile Include="Training\History\View\HistoryViewModel.cs" />
+    <Compile Include="Training\TrainingRun\Data\ITrainingRunDataSource.cs" />
+    <Compile Include="Training\TrainingRun\Data\ITrainingRunRepository.cs" />
+    <Compile Include="Training\TrainingRun\Data\TrainingRunLocalDataSource.cs" />
+    <Compile Include="Training\TrainingRun\Data\TrainingRunRepository.cs" />
+    <Compile Include="Training\TrainingRun\Operation\TrainingRunOptions.cs" />
     <Compile Include="Training\TrainingRun\View\TrainingRun.xaml.cs">
       <DependentUpon>TrainingRun.xaml</DependentUpon>
     </Compile>
     <Compile Include="Training\TrainingRun\View\TrainingRunViewModel.cs" />
+    <Compile Include="Training\TrainingStart\Data\TrainingStartLocalDataSource.cs" />
+    <Compile Include="Training\TrainingStart\Data\TrainingStartRepository.cs" />
+    <Compile Include="Training\TrainingStart\Data\ITrainingStartDataSource.cs" />
+    <Compile Include="Training\TrainingStart\Data\ITrainingStartRepository.cs" />
+    <Compile Include="Training\TrainingStart\Operation\TrainingStartOptions.cs" />
     <Compile Include="Training\TrainingStart\View\TrainingStart.xaml.cs">
       <DependentUpon>TrainingStart.xaml</DependentUpon>
     </Compile>
     <Compile Include="Training\TrainingStart\View\TrainingStartViewModel.cs" />
+    <Compile Include="User\Results\Data\IResultsDataSource.cs" />
+    <Compile Include="User\Results\Data\IResultsRepository.cs" />
+    <Compile Include="User\Results\Data\ResultsLocalDataSource.cs" />
+    <Compile Include="User\Results\Data\ResultsRepository.cs" />
+    <Compile Include="User\Results\Operation\ResultsOptions.cs" />
     <Compile Include="User\Results\View\Results.xaml.cs">
       <DependentUpon>Results.xaml</DependentUpon>
     </Compile>
     <Compile Include="User\Results\View\ResultsViewModel.cs" />
+    <Compile Include="User\SignIn\Data\ISignInDataSource.cs" />
+    <Compile Include="User\SignIn\Data\ISignInRepository.cs" />
+    <Compile Include="User\SignIn\Data\SignInLocalDataSource.cs" />
+    <Compile Include="User\SignIn\Data\SignInRepository.cs" />
+    <Compile Include="User\SignIn\Operation\GetStudentsOption.cs" />
     <Compile Include="User\SignIn\View\SignIn.xaml.cs">
       <DependentUpon>SignIn.xaml</DependentUpon>
     </Compile>
     <Compile Include="User\SignIn\View\SignInViewModel.cs" />
+    <Compile Include="User\SignUp\Data\ISignUpDataSource.cs" />
+    <Compile Include="User\SignUp\Data\ISignUpRepository.cs" />
+    <Compile Include="User\SignUp\Data\SignUpLocalDataSource.cs" />
+    <Compile Include="User\SignUp\Data\SignUpRepository.cs" />
+    <Compile Include="User\SignUp\Operation\SignUpOptions.cs" />
     <Compile Include="User\SignUp\View\SignUp.xaml.cs">
       <DependentUpon>SignUp.xaml</DependentUpon>
     </Compile>
@@ -167,13 +214,57 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\LargeTile.scale-100.png" />
+    <Content Include="Assets\LargeTile.scale-125.png" />
+    <Content Include="Assets\LargeTile.scale-150.png" />
+    <Content Include="Assets\LargeTile.scale-200.png" />
+    <Content Include="Assets\LargeTile.scale-400.png" />
+    <Content Include="Assets\SmallTile.scale-100.png" />
+    <Content Include="Assets\SmallTile.scale-125.png" />
+    <Content Include="Assets\SmallTile.scale-150.png" />
+    <Content Include="Assets\SmallTile.scale-200.png" />
+    <Content Include="Assets\SmallTile.scale-400.png" />
+    <Content Include="Assets\SplashScreen.scale-100.png" />
+    <Content Include="Assets\SplashScreen.scale-125.png" />
+    <Content Include="Assets\SplashScreen.scale-150.png" />
+    <Content Include="Assets\SplashScreen.scale-400.png" />
+    <Content Include="Assets\Square150x150Logo.scale-100.png" />
+    <Content Include="Assets\Square150x150Logo.scale-125.png" />
+    <Content Include="Assets\Square150x150Logo.scale-150.png" />
+    <Content Include="Assets\Square150x150Logo.scale-400.png" />
+    <Content Include="Assets\Square44x44Logo.altform-lightunplated_targetsize-16.png" />
+    <Content Include="Assets\Square44x44Logo.altform-lightunplated_targetsize-24.png" />
+    <Content Include="Assets\Square44x44Logo.altform-lightunplated_targetsize-256.png" />
+    <Content Include="Assets\Square44x44Logo.altform-lightunplated_targetsize-32.png" />
+    <Content Include="Assets\Square44x44Logo.altform-lightunplated_targetsize-48.png" />
+    <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-16.png" />
+    <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-256.png" />
+    <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-32.png" />
+    <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-48.png" />
+    <Content Include="Assets\Square44x44Logo.scale-100.png" />
+    <Content Include="Assets\Square44x44Logo.scale-125.png" />
+    <Content Include="Assets\Square44x44Logo.scale-150.png" />
+    <Content Include="Assets\Square44x44Logo.scale-400.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-16.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-24.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-256.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-32.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-48.png" />
+    <Content Include="Assets\StoreLogo.scale-100.png" />
+    <Content Include="Assets\StoreLogo.scale-125.png" />
+    <Content Include="Assets\StoreLogo.scale-150.png" />
+    <Content Include="Assets\StoreLogo.scale-200.png" />
+    <Content Include="Assets\StoreLogo.scale-400.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-100.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-125.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-150.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-400.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
     <Content Include="Assets\Square150x150Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
   <ItemGroup>
@@ -223,8 +314,14 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection">
+      <Version>5.0.1</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.12</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI">
+      <Version>6.1.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls.DataGrid">
       <Version>6.1.1</Version>
@@ -252,29 +349,22 @@
     <Folder Include="Shell\NavigationPage\Operation\" />
     <Folder Include="Shell\Settings\Data\" />
     <Folder Include="Shell\Settings\Operation\" />
-    <Folder Include="Training\HistoryDetails\Data\" />
-    <Folder Include="Training\HistoryDetails\Operation\" />
-    <Folder Include="Training\History\Data\" />
-    <Folder Include="Training\History\Operation\" />
-    <Folder Include="Training\TrainingRun\Data\" />
-    <Folder Include="Training\TrainingRun\Operation\" />
-    <Folder Include="Training\TrainingStart\Data\" />
-    <Folder Include="Training\TrainingStart\Operation\" />
-    <Folder Include="User\Results\Data\" />
-    <Folder Include="User\Results\Operation\" />
-    <Folder Include="User\SignIn\Data\" />
-    <Folder Include="User\SignIn\Operation\" />
-    <Folder Include="User\SignUp\Data\" />
-    <Folder Include="User\SignUp\Operation\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SpeechTrainer.Core\SpeechTrainer.Core.csproj">
       <Project>{fc3d961a-dc50-462e-a75e-8b18cc0ed28d}</Project>
       <Name>SpeechTrainer.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SpeechTrainer.Database\SpeechTrainer.Database.csproj">
+      <Project>{75C80753-85D3-4506-9EA8-DC55B19E8711}</Project>
+      <Name>SpeechTrainer.Database</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Lottie\audio_visual3.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SpeechTrainer.UWP_TemporaryKey.pfx" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

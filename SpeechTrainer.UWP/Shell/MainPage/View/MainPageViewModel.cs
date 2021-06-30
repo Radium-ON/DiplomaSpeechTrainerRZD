@@ -1,18 +1,8 @@
-﻿using SpeechTrainer.Core;
-using SpeechTrainer.Core.Utills;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace SpeechTrainer.UWP.Shell.MainPage.View
 {
-	public class MainPageViewModel : ViewModelBase
+	public class MainPageViewModel : ObservableObject
 	{
-       
-
-        public MainPageViewModel()
-        {
-            
-
-        }
-
-        
-	}
+    }
 }
